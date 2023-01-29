@@ -9,7 +9,7 @@ describe("Tokenizer test", () => {
         const filter = "[Level1]!";
 
         const tokens = tokenize(filter);
-        
+
         assert.equal(tokens.length, 2);
 
         const categoryToken = tokens[0] as FormattedToken;
@@ -20,7 +20,7 @@ describe("Tokenizer test", () => {
         assert.equal(tokens[1].type, "use-exact");
     });
 
-    it ('must tokenize simple condition', () => {
+    it('must tokenize simple condition', () => {
         const filter = "[Walls].[Subcategory].[Property] <= 57";
 
         const tokens = tokenize(filter);
@@ -73,13 +73,13 @@ describe("Tokenizer test", () => {
         assert.equal(valueToken.formatted, "test");
     });
 
-    it ('must fail tokenizing non-closed property tag', () => {
+    it('must fail tokenizing non-closed property tag', () => {
         const filter = "[Category].[Property";
 
         assert.throws(() => tokenize(filter), TokenizationFailureException, 'Missing enclosing "]"');
     });
 
-    it ('must fail tokenizing non-closed string', () => {
+    it('must fail tokenizing non-closed string', () => {
         const filter = '[Category].[Property] = "aa';
 
         assert.throws(() => tokenize(filter), TokenizationFailureException, "Missing enclosing quote");
