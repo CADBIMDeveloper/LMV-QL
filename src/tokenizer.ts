@@ -29,7 +29,12 @@ export const tokenize = (filter: string): Token[] => {
                 currentToken = null;
         } else if (currentToken?.type === "number") {
             if (currentSymbol === " ")
-                currentToken = null
+                currentToken = null;
+            else if (currentSymbol === ")") {
+                currentToken = null;
+
+                tokens.push({ type: ")", raw: ")", startPosition: position });
+            }
             else if (48 <= currentSymbol.charCodeAt(0) && currentSymbol.charCodeAt(0) <= 57) {
                 currentToken.raw += currentSymbol;
                 currentToken.formatted += currentSymbol;

@@ -73,6 +73,16 @@ describe("Tokenizer test", () => {
         assert.equal(valueToken.formatted, "test");
     });
 
+    it('must tokenize numbers with following brackets', () => {
+        const filter = "([Category].[Property] >= 57)";
+
+        const tokens = tokenize(filter);
+
+        const lastToken = tokens[tokens.length - 1];
+
+        assert.equal(lastToken.type, ")");
+    });
+
     it('must fail tokenizing non-closed property tag', () => {
         const filter = "[Category].[Property";
 
