@@ -8,6 +8,8 @@ export const tokenize = (filter: string): Token[] => {
 
     let currentToken: Token | null = null;
 
+    const upperCaseFilter = filter.toUpperCase();
+
     while (position < filter.length) {
         const currentSymbol = filter[position];
 
@@ -64,12 +66,12 @@ export const tokenize = (filter: string): Token[] => {
 
                 tokens.push(currentToken);
             }
-            else if (filter.indexOf("OR", position) === position) {
+            else if (upperCaseFilter.indexOf("OR", position) === position) {
                 tokens.push({ type: "or", raw: "OR", startPosition: position });
 
                 position += 2;
                 continue;
-            } else if (filter.indexOf("AND", position) === position) {
+            } else if (upperCaseFilter.indexOf("AND", position) === position) {
                 tokens.push({ type: "and", raw: "AND", startPosition: position });
 
                 position += 3;
