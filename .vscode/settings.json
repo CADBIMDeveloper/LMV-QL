@@ -1,0 +1,7 @@
+{
+    "files.exclude": {
+        "node_modules": true,
+        "*.tgz": true,
+        "build.bat": true
+    }
+}
