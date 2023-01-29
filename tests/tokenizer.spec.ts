@@ -71,7 +71,19 @@ describe("Tokenizer test", () => {
         const valueToken = tokens[4] as FormattedToken;
 
         assert.equal(valueToken.formatted, "test");
-    })
+    });
+
+    it ('must fail tokenizing non-closed property tag', () => {
+        const filter = "[Category].[Property";
+
+        assert.throws(() => tokenize(filter), TokenizationFailureException, 'Missing enclosing "]"');
+    });
+
+    it ('must fail tokenizing non-closed string', () => {
+        const filter = '[Category].[Property] = "aa';
+
+        assert.throws(() => tokenize(filter), TokenizationFailureException, "Missing enclosing quote");
+    });
 
     it('must fail to tokenize property/category name with "[" symbol', () => {
         const filter = "[Walls].[Ca[tegory].Property = 5"

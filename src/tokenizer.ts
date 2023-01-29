@@ -102,5 +102,13 @@ export const tokenize = (filter: string): Token[] => {
     if (tokens.length === 0)
         throw new TokenizationFailureException(filter, "Filter string is empty", filter.length);
 
+    const lastToken = tokens[tokens.length - 1];
+
+    if (lastToken.type === "category-or-property" && lastToken.raw[lastToken.raw.length - 1] !== "]")
+        throw new TokenizationFailureException(filter, "Missing enclosing \"]\"", lastToken.startPosition + lastToken.raw.length);
+
+    if (lastToken.type === "string" && lastToken.raw[lastToken.raw.length - 1] !== '"')
+        throw new TokenizationFailureException(filter, "Missing enclosing quote", lastToken.startPosition + lastToken.raw.length);
+
     return tokens;
 }
