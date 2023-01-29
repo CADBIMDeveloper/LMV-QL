@@ -89,6 +89,47 @@ describe("Tokenizer test", () => {
         assert.throws(() => tokenize(filter), TokenizationFailureException, 'Missing enclosing "]"');
     });
 
+    it('must tokenize complex condition', () => {
+        const filter = '([C1].[Property] >= 1) AND ([C2].[Property1] = "T" OR [C2].[Property2] = 7 OR [C3].*)';
+
+        const tokens = tokenize(filter);
+
+        const validTokens = [
+            { raw: "(", type: "(" },
+            { raw: "[C1]", type: "category-or-property" },
+            { raw: ".", type: "." },
+            { raw: "[Property]", type: "category-or-property" },
+            { raw: ">=", type: ">=" },
+            { raw: "1", type: "number" },
+            { raw: ")", type: ")" },
+            { raw: 'AND', type: "and" },
+            { raw: "(", type: "(" },
+            { raw: "[C2]", type: "category-or-property" },
+            { raw: ".", type: "." },
+            { raw: "[Property1]", type: "category-or-property" },
+            { raw: '=', type: '=' },
+            { raw: '"T"', type: "string" },
+            { raw: 'OR', type: 'or' },
+            { raw: "[C2]", type: "category-or-property" },
+            { raw: ".", type: "." },
+            { raw: "[Property2]", type: "category-or-property" },
+            { raw: '=', type: '=' },
+            { raw: '7', type: "number" },
+            { raw: 'OR', type: 'or' },
+            { raw: "[C3]", type: "category-or-property" },
+            { raw: ".", type: "." },
+            { raw: '*', type: "allow-any" },
+            { raw: ")", type: ")" },
+        ];
+
+        assert.equal(tokens.length, validTokens.length);
+
+        for (let i = 0; i < tokens.length; ++i) {
+            assert.equal(tokens[i].type, validTokens[i].type);
+            assert.equal(tokens[i].raw, validTokens[i].raw);
+        }
+    });
+
     it('must fail tokenizing non-closed string', () => {
         const filter = '[Category].[Property] = "aa';
 

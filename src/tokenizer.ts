@@ -44,7 +44,7 @@ export const tokenize = (filter: string): Token[] => {
             if (currentSymbol === "(")
                 tokens.push({ type: "(", raw: "(", startPosition: position });
             else if (currentSymbol === ")")
-                tokens.push({ type: "(", raw: "(", startPosition: position });
+                tokens.push({ type: ")", raw: ")", startPosition: position });
             else if (currentSymbol === ".")
                 tokens.push({ type: ".", raw: ".", startPosition: position });
             else if (currentSymbol === "*")
