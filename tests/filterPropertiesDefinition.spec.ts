@@ -50,4 +50,24 @@ describe("Filter properties definitions", () => {
         assert.equal(propertyDefinition.categories[0], "Category");
         assert.equal(propertyDefinition.categories[1], "Subcategory");
     });
+
+    it("must get exact subcategory definition 3 leveled", () => {
+        const match = grammar.match("Category.Subcategory.[Deep Category]!", "exactElement");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isCategory = isExactCategoryDefinition(propertyDefinition);
+
+        assert.isTrue(isCategory);
+
+        if (!isCategory)
+            return;
+
+        assert.equal(propertyDefinition.categories.length, 3);
+        assert.equal(propertyDefinition.categories[0], "Category");
+        assert.equal(propertyDefinition.categories[1], "Subcategory");
+        assert.equal(propertyDefinition.categories[2], "Deep Category");
+    })
 });
