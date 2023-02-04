@@ -44,8 +44,8 @@ Filter {
         | categoryOrProperty "!" --ofCategory
     
     categoryOrProperty (element category or property)
-        = "[" identificator "]" --b 
-        | alnum+ --s
+        = "[" identificator "]" --inBrackets 
+        | alnum+
         
     andOperation = andWord | "&&" | "&"
 
