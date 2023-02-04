@@ -1,0 +1,111 @@
+<!-- Example on consuming the library as global script. -->
+<!-- Open the .html file in a web browser to test. -->
+
+<!DOCTYPE html>
+
+Open console (Ctrl+Shift+I) to see the output.
+
+<!-- Import as a global 'dotnet' object via script tag. -->
+<script src="https://unpkg.com/ohm-js/dist/ohm.min.js"></script>
+
+<script>
+    const grammarSource = String.raw`
+Filter {
+    Exp = BoolOr
+    
+    BoolOr
+        = PriExp orOperation Exp -- or
+        | BoolAnd
+
+    BoolAnd 
+        = PriExp andOperation Exp  --and
+        | PriExp
+        
+    PriExp 
+        = "(" Exp ")" -- paren
+        | ComparisonExp
+
+    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | exactElement
+
+    EqualityExpr = propertySequence "=" expressionConst
+    
+    LessThanExpr = propertySequence "<" expressionConst
+    
+    MoreThanExpr = propertySequence ">" expressionConst
+    
+    LessThanOrEqualExpr = propertySequence "<=" expressionConst
+    
+    MoreThanOrEqualExpr = propertySequence ">=" expressionConst
+
+    propertySequence = property | directProperty | exactElement
+                    
+    property 
+        =  propertySequence "." categoryOrProperty 
+        | propertySequence "." anyProperty
+                    
+    directProperty 
+        = categoryOrProperty "." categoryOrProperty
+        | categoryOrProperty "." anyProperty
+        
+    exactElement = propertySequence "!"
+        | categoryOrProperty "!"
+    
+    categoryOrProperty (element category or property)
+        = "[" identificator "]" --b 
+        | alnum+ --s
+        
+    andOperation = andWord | "&&" | "&"
+
+    andWord = ("A" | "a")("N" | "n")("D" | "d")
+    
+    orOperation = orWord | "||" | "|"
+
+    orWord = ("O" | "o")("R" | "r")
+    
+    anyProperty = "*"
+    
+    identificator = (~"]" ~"[" any)+
+    
+    expressionConst = textConst | number
+    
+    textConst (target text value)
+        = "\"" textValue "\""
+        
+    textValue = textChar*
+    
+    textChar
+        = "\\\""
+        | (~"\"" any)
+        
+    number
+      = positiveNumber
+      | negativeNumber
+      
+    negativeNumber = "-" positiveNumber
+    
+    positiveNumber = realNumber | integerNumber
+      
+    integerNumber = digit+
+    
+    realNumber = digit* "." digit+
+}`
+    const grammar = ohm.grammar(grammarSource);
+    const semantics = grammar.createSemantics();
+
+    semantics.addOperation("interpret", {
+
+    });
+
+    window.onload = function () {
+        const filterString = "c1.e1.p1.value = 5.7";
+        
+        const m = grammar.match(filterString);
+        if (!m.succeeded())
+            throw new Error("failed to parse");
+
+        const node = semantics(m);
+        console.log(node);
+        debugger;
+    };
+
+</script>
