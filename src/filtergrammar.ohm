@@ -28,12 +28,17 @@ Filter {
     propertySequence = property | directProperty
                     
     property 
-        = propertySequence "." categoryOrProperty 
-        | propertySequence "." anyProperty
+        =  propertySequence "." categoryOrProperty
+        | directAnyPropertySequence "." categoryOrProperty
+        | directAnyProperty "." categoryOrProperty
                     
     directProperty 
-        = categoryOrProperty "." categoryOrProperty
-        | categoryOrProperty "." anyProperty
+        = categoryOrProperty "." categoryOrProperty 
+        | anyProperty "." categoryOrProperty
+        
+    directAnyPropertySequence = propertySequence "." anyProperty
+        
+    directAnyProperty = directAnyProperty "." anyProperty | categoryOrProperty "." anyProperty | anyProperty "." anyProperty
         
     exactElement = propertySequence "!"
         | categoryOrProperty "!"

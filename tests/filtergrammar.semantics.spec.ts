@@ -13,6 +13,8 @@ describe("Filter grammar semantics tests", () => {
     it("entire category can't participate in comparison", () => {
         assertIsInvalidFilterString("Cat! = 5");
         assertIsInvalidFilterString("Cat.Subcat! > 7")
+        assertIsInvalidFilterString("Cat.*! > 7")
+        assertIsInvalidFilterString("Cat.Subcat.*! > 7")
     })
 
     it("string property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = \"test\""));
@@ -44,6 +46,24 @@ describe("Filter grammar semantics tests", () => {
     it("negative number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < -5.7"));
 
     it("negative number property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= -5.7"));
+
+    it("can replace category with an asterisk", () => {
+        assertIsValidFilterString("cat.*.prop = 5.7");
+        assertIsValidFilterString("cat.subcat.*.prop = 5.7");
+    });
+
+    it("can replace top category with an asterisk", () => assertIsValidFilterString("*.p = 5.7"));
+
+    it("can replace multiple categories with an asterisk", () => {
+        assertIsValidFilterString("*.*.prop = 5.7");
+        assertIsValidFilterString("*.s.*.p = 5.7");
+    });
+
+    it("prop can't be an asterisk", () => {
+        assertIsInvalidFilterString("cat.* = 5.7");
+        assertIsInvalidFilterString("cat.subcat.* = 5.7");
+        assertIsInvalidFilterString("*.* = 5.7");
+    });
 
     it("grouped single expression filter", () => assertIsValidFilterString("(c1.sc1.v >= -57)"));
 
