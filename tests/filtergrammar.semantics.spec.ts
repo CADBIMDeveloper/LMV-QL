@@ -4,10 +4,16 @@ import grammar from "../src/filtergrammar.ohm-bundle";
 
 describe("Filter grammar semantics tests", () => {
     const assertIsValidFilterString = (filterString: string) => assert.isTrue(grammar.match(filterString).succeeded());
+    const assertIsInvalidFilterString = (filterString: string) => assert.isTrue(grammar.match(filterString).failed());
 
     it("entire top category filter", () => assertIsValidFilterString("Cat!"));
 
     it("entire sub category filter", () => assertIsValidFilterString("[Cat].[Subcat]!"));
+
+    it("entire category can't participate in comparison", () => {
+        assertIsInvalidFilterString("Cat! = 5");
+        assertIsInvalidFilterString("Cat.Subcat! > 7")
+    })
 
     it("string property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = \"test\""));
 

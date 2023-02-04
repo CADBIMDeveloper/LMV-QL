@@ -37,7 +37,7 @@ Filter {
     
     MoreThanOrEqualExpr = propertySequence ">=" expressionConst
 
-    propertySequence = property | directProperty | exactElement
+    propertySequence = property | directProperty
                     
     property 
         =  propertySequence "." categoryOrProperty 
@@ -92,7 +92,7 @@ Filter {
     const grammar = ohm.grammar(grammarSource);
     const semantics = grammar.createSemantics();
 
-    semantics.addOperation("interpret", {
+    semantics.addOperation("compille", {
 
     });
 
@@ -105,6 +105,7 @@ Filter {
 
         const node = semantics(m);
         console.log(node);
+        
         debugger;
     };
 
