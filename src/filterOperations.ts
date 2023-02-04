@@ -14,10 +14,12 @@ type Property = {
     categories: string[];
 }
 
+export type PropertyDefinition = Category | Property;
+
 export const compile: FilterActionDict<Filter> = {
 
 }
 
-export const getPropertyDefinition: FilterActionDict<Category | Property> = {
+export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
 }
