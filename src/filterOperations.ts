@@ -3,18 +3,23 @@ import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 
 export type Filter = (element: IFilterableElement) => boolean;
 
-type Category = {
+export type Category = {
     type: "exact-category";
     categories: string[];
 }
 
-type Property = {
+export type Property = {
     type: "property-value";
     propertyName: string;
     categories: string[];
 }
 
-export type PropertyDefinition = Category | Property;
+export type SimpleValue = {
+    type: "simple",
+    value: string;
+}
+
+export type PropertyDefinition = Category | Property | SimpleValue;
 
 export const compile: FilterActionDict<Filter> = {
 
@@ -22,6 +27,18 @@ export const compile: FilterActionDict<Filter> = {
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
     exactElement_ofCategory: (parent, _) => {
-        return parent.getPropertyDefinition();
+        const category: SimpleValue = parent.getPropertyDefinition();
+
+        return {
+            type: "exact-category",
+            categories: [category.value]
+        };
     },
+
+    categoryOrProperty_inBrackets: (_, value, _1) => {
+        return {
+            type: "simple",
+            value: value.sourceString
+        }
+    }
 }
