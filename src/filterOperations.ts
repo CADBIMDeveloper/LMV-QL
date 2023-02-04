@@ -21,5 +21,7 @@ export const compile: FilterActionDict<Filter> = {
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
-
+    exactElement_ofCategory: (parent, _) => {
+        return parent.getPropertyDefinition();
+    },
 }
