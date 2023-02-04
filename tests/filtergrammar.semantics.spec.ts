@@ -1,0 +1,76 @@
+import 'mocha';
+import { assert } from 'chai';
+import grammar from "../src/filtergrammar.ohm-bundle";
+
+describe("Filter grammar semantics tests", () => {
+    const assertIsValidFilterString = (filterString: string) => assert.isTrue(grammar.match(filterString).succeeded());
+
+    it("entire top category filter", () => assertIsValidFilterString("Cat!"));
+
+    it("entire sub category filter", () => assertIsValidFilterString("[Cat].[Subcat]!"));
+
+    it("string property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = \"test\""));
+
+    it("string property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > \"test\""));
+    
+    it("string property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= \"test\""));
+    
+    it("string property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < \"test\""));
+
+    it("string property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= \"test\""));
+
+    it("number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = 5.7"));
+    
+    it("number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > 5.7"));
+    
+    it("number property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= 5.7"));
+
+    it("number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < 5.7"));
+
+    it("number property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= 5.7"));
+
+    it("negative number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = -5.7"));
+
+    it("negative number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > -5.7"));
+    
+    it("negative number property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= -5.7"));
+
+    it("negative number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < -5.7"));
+
+    it("negative number property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= -5.7"));
+
+    it("grouped single expression filter", () => assertIsValidFilterString("(c1.sc1.v >= -57)"));
+
+    it("simple logical and filter", () => {
+        assertIsValidFilterString("c1.e3 = 5.7 and c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 And c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 AND c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 & c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 && c1.e4 = 87");
+    });
+
+    it("simple logical or filter", () => {
+        assertIsValidFilterString("c1.e3 = 5.7 or c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 Or c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 OR c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 | c1.e4 = 87");
+        assertIsValidFilterString("c1.e3 = 5.7 || c1.e4 = 87");
+    });
+
+    it("multiple logical filters combinations", () => {
+        assertIsValidFilterString("c1.e2 = \"ss\" and c1.e3 = 5.7 and c1.e4 = 87");
+        assertIsValidFilterString("c1.e2 = \"ss\" or c1.e3 = 5.7 or c1.e4 = 87");
+        assertIsValidFilterString("c1.e2 = \"ss\" and c1.e3 = 5.7 or c1.e4 = 87");
+        assertIsValidFilterString("c1.e2 = \"ss\" or c1.e3 = 5.7 and c1.e4 = 87");
+    });
+
+    it("grouped filters", () => {
+        assertIsValidFilterString("c1.el1.prop = 57 and (c2.el2.prop >= 57 or c1.el1.prop1 > 0)");
+        assertIsValidFilterString("(c1.el1.prop = 57 or c2.el2.prop >= 57) and c1.el1.prop = 57");
+    });
+
+    it("nested grouped filters", () => {
+        assertIsValidFilterString("((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3)) or x.c = 1");
+        assertIsValidFilterString("x.c = 1 or ((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3))");
+    })
+});
