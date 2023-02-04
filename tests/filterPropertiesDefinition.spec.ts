@@ -12,7 +12,7 @@ describe("Filter properties definitions", () => {
         return propertyDefinition.type === "exact-category";
     }
 
-    it("must get exact get top category property definition", () => {
+    it("must get exact get top category definition", () => {
         const match = grammar.match("[Category1]!", "exactElement");
 
         assert.isTrue(match.succeeded());
@@ -32,7 +32,7 @@ describe("Filter properties definitions", () => {
         assert.equal(propertyDefinition.categories[0], "Category1");
     });
 
-    it("must get exact subcategory property definition", () => {
+    it("must get exact subcategory definition", () => {
         const match = grammar.match("Category.Subcategory!", "exactElement");
 
         const node = semantics(match);
