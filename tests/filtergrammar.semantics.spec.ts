@@ -63,6 +63,8 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("c1.e3 = 5.7 || c1.e4 = 87");
     });
 
+    it("category filter can be a part of logical filter", () => assertIsValidFilterString("c1! || c2.subc2! && c3.elem.prop = 5.7"));
+
     it("multiple logical filters combinations", () => {
         assertIsValidFilterString("c1.e2 = \"ss\" and c1.e3 = 5.7 and c1.e4 = 87");
         assertIsValidFilterString("c1.e2 = \"ss\" or c1.e3 = 5.7 or c1.e4 = 87");
