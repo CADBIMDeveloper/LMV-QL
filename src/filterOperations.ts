@@ -19,15 +19,20 @@ export type SimpleValue = {
     value: string;
 }
 
-export type PropertyDefinition = Category | Property | SimpleValue;
+export type ArrayValue = {
+    type: "array",
+    value: "string";
+}
+
+export type PropertyDefinition = Category | Property | SimpleValue | ArrayValue;
 
 export const compile: FilterActionDict<Filter> = {
 
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
-    exactElement_ofCategory: (parent, _) => {
-        const category: SimpleValue = parent.getPropertyDefinition();
+    exactElement_ofCategory: (parentNode, _) => {
+        const category: SimpleValue = parentNode.getPropertyDefinition();
 
         return {
             type: "exact-category",
@@ -35,10 +40,31 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         };
     },
 
-    categoryOrProperty_inBrackets: (_, value, _1) => {
+    categoryOrProperty_inBrackets: (_, valueNode, _1) => {
         return {
             type: "simple",
-            value: value.sourceString
+            value: valueNode.sourceString
+        }
+    },
+
+    categoryOrProperty_value: (valueNode) => {
+        return {
+            type: "simple",
+            value: valueNode.sourceString
+        }
+    },
+
+    exactElement_ofPropertySequence: (value, _) => {
+        return value.getPropertyDefinition();
+    },
+
+    directProperty_ofCategory: (categoriesNode, _, propertyNode) => {
+        const category: SimpleValue = categoriesNode.getPropertyDefinition();
+        const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+        return {
+            type: "exact-category",
+            categories: [category.value, property.value]
         }
     }
 }
