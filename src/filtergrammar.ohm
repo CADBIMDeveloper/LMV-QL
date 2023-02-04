@@ -40,8 +40,8 @@ Filter {
         
     directAnyProperty = directAnyProperty "." anyProperty | categoryOrProperty "." anyProperty | anyProperty "." anyProperty
         
-    exactElement = propertySequence "!"
-        | categoryOrProperty "!"
+    exactElement = propertySequence "!" --ofPropertySequence
+        | categoryOrProperty "!" --ofCategory
     
     categoryOrProperty (element category or property)
         = "[" identificator "]" --b 
