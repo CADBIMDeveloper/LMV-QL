@@ -1,3 +1,4 @@
+import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 
@@ -27,7 +28,11 @@ export type ArrayValue = {
 export type PropertyDefinition = Category | Property | SimpleValue | ArrayValue;
 
 export const compile: FilterActionDict<Filter> = {
+    exactElement: (node) => {
+        const propertyDefinition: Category = node.getPropertyDefinition();
 
+        return (element) => compareCategories(element.categoriesList, propertyDefinition.categories);
+    }
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
