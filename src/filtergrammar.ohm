@@ -28,7 +28,7 @@ Filter {
     propertySequence = property | directProperty
                     
     property 
-        =  propertySequence "." categoryOrProperty 
+        = propertySequence "." categoryOrProperty 
         | propertySequence "." anyProperty
                     
     directProperty 
