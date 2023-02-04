@@ -1,16 +1,12 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { IFilterableElement } from "./filterableElement";
+import { compile, Filter } from "./filterOperations";
 import { ParsingError } from "./parsingError";
-
-type Filter = (element: IFilterableElement) => boolean;
 
 export class FilterFactory {
     private readonly semantics = grammar.createSemantics();
 
     constructor() {
-        this.semantics.addOperation<Filter>("compile", {
-
-        });
+        this.semantics.addOperation<Filter>("compile", compile);
     }
     
     createFilter(filterString: string): Filter {
