@@ -18,17 +18,17 @@ describe("Filter grammar semantics tests", () => {
     it("string property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = \"test\""));
 
     it("string property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > \"test\""));
-    
+
     it("string property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= \"test\""));
-    
+
     it("string property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < \"test\""));
 
     it("string property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= \"test\""));
 
     it("number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = 5.7"));
-    
+
     it("number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > 5.7"));
-    
+
     it("number property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= 5.7"));
 
     it("number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < 5.7"));
@@ -38,7 +38,7 @@ describe("Filter grammar semantics tests", () => {
     it("negative number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = -5.7"));
 
     it("negative number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > -5.7"));
-    
+
     it("negative number property greater or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value >= -5.7"));
 
     it("negative number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < -5.7"));
@@ -80,5 +80,5 @@ describe("Filter grammar semantics tests", () => {
     it("nested grouped filters", () => {
         assertIsValidFilterString("((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3)) or x.c = 1");
         assertIsValidFilterString("x.c = 1 or ((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3))");
-    })
+    });
 });
