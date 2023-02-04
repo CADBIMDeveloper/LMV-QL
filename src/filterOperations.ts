@@ -54,8 +54,36 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         }
     },
 
-    exactElement_ofPropertySequence: (value, _) => {
-        return value.getPropertyDefinition();
+    exactElement_ofPropertySequence: (valueNode, _) => {
+        const value: Category | Property = valueNode.getPropertyDefinition();
+
+        if (value.type === "exact-category")
+            return value;
+
+        const categories = [...value.categories];
+
+        categories.push(value.propertyName);
+
+        return {
+            type: "exact-category",
+            categories
+        }
+    },
+
+    property_ofPropertySequence: (sequenceNode, _, propertyNode) => {
+        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+        const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+        const categories = [...sequence.categories];
+
+        if (sequence.type === "property-value")
+            categories.push(sequence.propertyName);
+
+        return {
+            type: "property-value",
+            propertyName: property.value,
+            categories
+        }
     },
 
     directProperty_ofCategory: (categoriesNode, _, propertyNode) => {

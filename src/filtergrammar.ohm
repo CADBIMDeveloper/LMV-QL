@@ -28,9 +28,9 @@ Filter {
     propertySequence = property | directProperty
                     
     property 
-        =  propertySequence "." categoryOrProperty
-        | directAnyPropertySequence "." categoryOrProperty
-        | directAnyProperty "." categoryOrProperty
+        =  propertySequence "." categoryOrProperty --ofPropertySequence
+        | directAnyPropertySequence "." categoryOrProperty --ofDirectAnyPropertySequence
+        | directAnyProperty "." categoryOrProperty --ofDirectAny
                     
     directProperty 
         = categoryOrProperty "." categoryOrProperty --ofCategory
