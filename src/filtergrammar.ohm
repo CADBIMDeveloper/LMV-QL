@@ -13,7 +13,7 @@ Filter {
         = "(" Exp ")" -- paren
         | ComparisonExp
 
-    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | exactElement
+    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | exactElement
 
     EqualityExpr = propertySequence "=" expressionConst
     
@@ -24,6 +24,8 @@ Filter {
     LessThanOrEqualExpr = propertySequence "<=" expressionConst
     
     MoreThanOrEqualExpr = propertySequence ">=" expressionConst
+
+    NonEqualityExpr = propertySequence nonEqualSign expressionConst
 
     propertySequence = property | directProperty
                     
@@ -46,6 +48,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    nonEqualSign = "<>" | "!="
         
     andOperation = andWord | "&&" | "&"
 

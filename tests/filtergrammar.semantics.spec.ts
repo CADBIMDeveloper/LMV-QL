@@ -27,6 +27,11 @@ describe("Filter grammar semantics tests", () => {
 
     it("string property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= \"test\""));
 
+    it("string property not equal comparison filter", () => {
+        assertIsValidFilterString("c1.e1.p1.value <> \"test\"")
+        assertIsValidFilterString("c1.e1.p1.value != \"test\"")
+    });
+
     it("number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = 5.7"));
 
     it("number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > 5.7"));
@@ -37,6 +42,11 @@ describe("Filter grammar semantics tests", () => {
 
     it("number property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= 5.7"));
 
+    it("number property non-equality comparison filter", () => {
+        assertIsValidFilterString("c1.e1.p1.value != 5.7");
+        assertIsValidFilterString("c1.e1.p1.value <> 5.7");
+    });
+
     it("negative number property equality comparison filter", () => assertIsValidFilterString("c1.e1.p1.value = -5.7"));
 
     it("negative number property greater comparison filter", () => assertIsValidFilterString("c1.e1.p1.value > -5.7"));
@@ -46,6 +56,11 @@ describe("Filter grammar semantics tests", () => {
     it("negative number property less comparison filter", () => assertIsValidFilterString("c1.e1.p1.value < -5.7"));
 
     it("negative number property less or equal comparison filter", () => assertIsValidFilterString("c1.e1.p1.value <= -5.7"));
+    
+    it("negative number non-equality comparison filter", () => {
+        assertIsValidFilterString("c1.e1.p1.value != -5.7");
+        assertIsValidFilterString("c1.e1.p1.value <> -5.7");
+    });
 
     it("can replace category with an asterisk", () => {
         assertIsValidFilterString("cat.*.prop = 5.7");

@@ -25,6 +25,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   MoreThanExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   LessThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   MoreThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   propertySequence?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   property_ofPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   property_ofDirectAnyPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
@@ -41,6 +42,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   categoryOrProperty_inBrackets?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   categoryOrProperty_value?: (this: NonterminalNode, arg0: IterationNode) => T;
   categoryOrProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  nonEqualSign?: (this: NonterminalNode, arg0: TerminalNode) => T;
   andOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   andWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode) => T;
   orOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
