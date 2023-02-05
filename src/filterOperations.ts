@@ -106,6 +106,9 @@ export const compile: FilterActionDict<Filter> = {
     MoreThanOrEqualExpr: createComparisonExpression(
         (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
         (elementPropertyValue, constraint) => elementPropertyValue >= constraint),
+
+    BoolAnd_and: (leftNode, _, rightNode) => (filterSettings, element) =>
+        leftNode.compile()(filterSettings, element) && rightNode.compile()(filterSettings, element),
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {

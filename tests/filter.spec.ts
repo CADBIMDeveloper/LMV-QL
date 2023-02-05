@@ -132,4 +132,14 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createFilter("Category.property > \"abb\"")(testElement));
         assert.isTrue(filterFactory.createFilter("Category.property >= \"abb\"")(testElement));
     });
+
+    it("must support logical and filter", () => {
+        const filter = filterFactory.createFilter("Category.property >= 1.3 && Category.property <= 5.7");
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 5 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
+    })
 });
