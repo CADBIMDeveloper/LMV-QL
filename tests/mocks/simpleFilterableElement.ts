@@ -9,7 +9,19 @@ export class SimpleFilterableElement implements IFilterableElement {
 
     }
 
-    getPropertyValue(propertyName: string, _categories: string[]): string | number | undefined {
+    getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
+        if (!this.compareCategories(categories))
+            return undefined;
+
         return this.values[propertyName];
+    }
+
+    private compareCategories(categories: string[]) {
+        for (let i = 0; i < categories.length; i++) {
+            if (this.categoriesList[i] !== categories[i])
+                return false;
+        }
+
+        return true;
     }
 }

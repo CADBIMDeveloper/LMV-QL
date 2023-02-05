@@ -1,6 +1,7 @@
 import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
+import { isAlmostEqual } from "./numbersComparison";
 
 export type FilterSettings = {
     tolerance: number;
@@ -38,11 +39,35 @@ export type ArrayValue = {
 
 export type PropertyDefinition = Category | Property | SimpleValue | SimpleNumberValue | ArrayValue;
 
+const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): propertyDefinition is SimpleNumberValue => {
+    return propertyDefinition.type === "number";
+}
+
 export const compile: FilterActionDict<Filter> = {
     exactElement: (node) => {
         const propertyDefinition: Category = node.getPropertyDefinition();
 
-        return (filterSettings, element) => compareCategories(element.categoriesList, propertyDefinition.categories);
+        return (_, element) => compareCategories(element.categoriesList, propertyDefinition.categories);
+    },
+
+    EqualityExpr: (propertyNode, _, valueNode) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+
+        if (isNumberValueDefinition(valueDefinition)) {
+            return (filterSettings, element) => {
+                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
+
+                if (typeof elementPropertyValue !== "number")
+                    return false;
+                
+                return isAlmostEqual(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
+            };
+        }
+
+        return (_, element) => {
+            throw new Error("Text comparison is under development");
+        };
     }
 }
 
@@ -98,6 +123,23 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         return {
             type: "property-value",
             propertyName: property.value,
+            categories
+        }
+    },
+
+    propertySequence: (node) => {
+        const definition: Property | Category = node.getPropertyDefinition();
+
+        if (definition.type === "property-value")
+            return definition;
+
+        const categories = [...definition.categories];
+
+        const propertyName = categories.pop()!;
+
+        return {
+            type: "property-value",
+            propertyName,
             categories
         }
     },

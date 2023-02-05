@@ -1,0 +1,1 @@
+export const isAlmostEqual = (x: number, y: number, tolerance: number = 1e-5) => Math.abs(x - y) < tolerance;
