@@ -6,6 +6,7 @@ import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLess
 
 export type FilterSettings = {
     tolerance: number;
+    stringCaseSensitive: boolean;
 }
 
 export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
