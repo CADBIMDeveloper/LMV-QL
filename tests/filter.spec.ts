@@ -2,6 +2,7 @@ import 'mocha';
 import { assert } from 'chai';
 import { SimpleFilterableElement } from './mocks/simpleFilterableElement';
 import { FilterFactory } from '../src/filterFactory';
+import { ComplexFilterableElements } from './mocks/complexFilterableElements';
 
 describe("Filter tests", () => {
     const sourceElements: SimpleFilterableElement[] = [
@@ -28,6 +29,7 @@ describe("Filter tests", () => {
     ];
 
     const filterFactory = new FilterFactory();
+    const complexElement = new ComplexFilterableElements({ name: "Top", props: {} }, { name: "Sub", props: { typeProperty: 1.3 } }, { name: "Element", props: { property: 5.7 } });
 
     it("must filter for top level category", () => {
         const filter = filterFactory.createFilter("[Category1]!");
@@ -162,6 +164,10 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
+
+        const complexFilter = filterFactory.createFilter("Top.Sub.typeProperty = 1.3 && Top.Sub.Element.property = 5.7");
+
+        assert.isTrue(complexFilter(complexElement));
     });
 
     it("must support logical or filter", () => {
@@ -203,5 +209,11 @@ describe("Filter tests", () => {
         assert.isTrue(complexFilter(new SimpleFilterableElement({ p1: 6, p2: 3 }, ["Category"])));
         assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 4, p2: 3 }, ["Category"])));
         assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 1, p2: 5 }, ["Category"])));
+    });
+
+    it("must filter with top wildcard", () => {
+        const filter = filterFactory.createFilter("*.property = 5.7");
+
+        assert.isTrue(filter(complexElement));
     });
 });
