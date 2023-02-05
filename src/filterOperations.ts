@@ -129,6 +129,29 @@ export const compile: FilterActionDict<Filter> = {
         (elementPropertyValue, constraint) => elementPropertyValue !== constraint)
 }
 
+const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
+    const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+    const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+    const categories = [...sequence.categories];
+
+    if (sequence.type === "property-value")
+        categories.push(sequence.propertyName);
+
+    return {
+        type: "property-value",
+        propertyName: property.value,
+        categories
+    }
+}
+
+const createSimpleValue = (valueNode: ohm.NonterminalNode): PropertyDefinition => {
+    return {
+        type: "simple",
+        value: valueNode.sourceString
+    }
+}
+
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
     exactElement_ofCategory: (parentNode, _) => {
         const category: SimpleValue = parentNode.getPropertyDefinition();
@@ -139,19 +162,9 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         };
     },
 
-    categoryOrProperty_inBrackets: (_, valueNode, _1) => {
-        return {
-            type: "simple",
-            value: valueNode.sourceString
-        }
-    },
+    categoryOrProperty_inBrackets: (_, valueNode, _1) => createSimpleValue(valueNode),
 
-    categoryOrProperty_value: (valueNode) => {
-        return {
-            type: "simple",
-            value: valueNode.sourceString
-        }
-    },
+    categoryOrProperty_value: (valueNode) => createSimpleValue(valueNode),
 
     exactElement_ofPropertySequence: (valueNode, _) => {
         const value: Category | Property = valueNode.getPropertyDefinition();
@@ -169,53 +182,11 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         }
     },
 
-    property_ofPropertySequence: (sequenceNode, _, propertyNode) => {
-        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
-        const property: SimpleValue = propertyNode.getPropertyDefinition();
+    property_ofPropertySequence: (sequenceNode, _, propertyNode) => appendPropertyToSequence(sequenceNode, propertyNode),
 
-        const categories = [...sequence.categories];
+    property_ofDirectAny: (sequenceNode, _, propertyNode) => appendPropertyToSequence(sequenceNode, propertyNode),
 
-        if (sequence.type === "property-value")
-            categories.push(sequence.propertyName);
-
-        return {
-            type: "property-value",
-            propertyName: property.value,
-            categories
-        }
-    },
-
-    property_ofDirectAny: (sequenceNode, _, propertyNode) => {
-        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
-        const property: SimpleValue = propertyNode.getPropertyDefinition();
-
-        const categories = [...sequence.categories];
-
-        if (sequence.type === "property-value")
-            categories.push(sequence.propertyName);
-
-        return {
-            type: "property-value",
-            propertyName: property.value,
-            categories
-        }
-    },
-
-    property_ofDirectAnyPropertySequence: (sequenceNode, _, propertyNode) => {
-        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
-        const property: SimpleValue = propertyNode.getPropertyDefinition();
-
-        const categories = [...sequence.categories];
-
-        if (sequence.type === "property-value")
-            categories.push(sequence.propertyName);
-
-        return {
-            type: "property-value",
-            propertyName: property.value,
-            categories
-        }
-    },
+    property_ofDirectAnyPropertySequence: (sequenceNode, _, propertyNode) => appendPropertyToSequence(sequenceNode, propertyNode),
 
     directAnyProperty_ofCategory: (sequenceNode, _1, _2) => {
         const category: SimpleValue = sequenceNode.getPropertyDefinition();
@@ -283,14 +254,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         }
     },
 
-    textConst: (_1, valueNode, _2) => {
-        return valueNode.getPropertyDefinition();
-    },
+    textConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
 
-    textValue: (valueNode) => {
-        return {
-            type: "simple",
-            value: valueNode.sourceString
-        }
-    }
+    textValue: (valueNode) => createSimpleValue(valueNode)
 }
