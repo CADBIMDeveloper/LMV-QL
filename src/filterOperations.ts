@@ -2,7 +2,7 @@ import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
-import { isAlmostEqual, isAlmostEqualOrLessThan, isLessThan, isMoreThan } from "./numbersComparison";
+import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
 export type FilterSettings = {
     tolerance: number;
@@ -91,7 +91,11 @@ export const compile: FilterActionDict<Filter> = {
 
     MoreThanExpr: createComparisonExpression(
         (elementPropertyValue, constraint, filterSettings) => isMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue > constraint)
+        (elementPropertyValue, constraint) => elementPropertyValue > constraint),
+
+    MoreThanOrEqualExpr: createComparisonExpression(
+        (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
+        (elementPropertyValue, constraint) => elementPropertyValue >= constraint),
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
