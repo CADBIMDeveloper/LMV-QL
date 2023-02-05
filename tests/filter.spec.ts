@@ -219,7 +219,9 @@ describe("Filter tests", () => {
 
     it("must filter with wildcards", () => {
         assert.isTrue(filterFactory.createFilter("Top.*.property = 5.7")(complexElement));
-        assert.isTrue(filterFactory.createFilter("Top.*.Element.property = 5.7")(complexElement))
-        assert.isTrue(filterFactory.createFilter("Top.Sub.*.property = 5.7")(complexElement))
+        assert.isTrue(filterFactory.createFilter("Top.*.Element.property = 5.7")(complexElement));
+        assert.isTrue(filterFactory.createFilter("Top.Sub.*.property = 5.7")(complexElement));
+        assert.isTrue(filterFactory.createFilter("Top.*.*.property = 5.7")(complexElement));
+        assert.isTrue(filterFactory.createFilter("*.Sub.*.property = 5.7")(complexElement));
     });
 });

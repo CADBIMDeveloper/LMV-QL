@@ -218,6 +218,19 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     directAnyPropertySequence: (sequenceNode, _1, _2) => convertToCategoriesNode(sequenceNode),
 
+    directAnyProperty_sequenced: (sequenceNode, _1, _2) => {
+        const sequence = convertToCategoriesNode(sequenceNode) as Category;
+        
+        const categories = [...sequence.categories];
+        
+        categories.push("*");
+
+        return {
+            type: "exact-category",
+            categories
+        }
+    },
+
     propertySequence: (node) => converToPropertiesNode(node),
 
     directProperty_ofCategory: (categoriesNode, _, propertyNode) => {
