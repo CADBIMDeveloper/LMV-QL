@@ -35,7 +35,10 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   directProperty_ofAnyProperty?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   directProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   directAnyPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
-  directAnyProperty?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  directAnyProperty_sequenced?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  directAnyProperty_ofCategory?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  directAnyProperty_ofAny?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  directAnyProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   exactElement_ofPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode) => T;
   exactElement_ofCategory?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode) => T;
   exactElement?: (this: NonterminalNode, arg0: NonterminalNode) => T;

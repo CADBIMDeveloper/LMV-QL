@@ -22,8 +22,6 @@ export class ComplexFilterableElements implements IFilterableElement {
     }
 
     getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
-        console.log({ propertyName, categories, cur: this.categories, value: this.categories[categories.length - 1] });
-
         if (!this.compareCategories(categories))
             return undefined;
 

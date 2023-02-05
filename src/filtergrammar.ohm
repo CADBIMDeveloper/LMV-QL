@@ -40,7 +40,9 @@ Filter {
         
     directAnyPropertySequence = propertySequence "." anyProperty
         
-    directAnyProperty = directAnyProperty "." anyProperty | categoryOrProperty "." anyProperty | anyProperty "." anyProperty
+    directAnyProperty = directAnyProperty "." anyProperty --sequenced
+        | categoryOrProperty "." anyProperty --ofCategory
+        | anyProperty "." anyProperty --ofAny
         
     exactElement = propertySequence "!" --ofPropertySequence
         | categoryOrProperty "!" --ofCategory

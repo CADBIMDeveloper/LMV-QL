@@ -83,7 +83,7 @@ const createComparisonExpression = (
             return categoryTemplates
                 .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
                 .filter(isString)
-                .map(x => filterSettings.stringCaseSensitive ? x: x.toLocaleLowerCase())
+                .map(x => filterSettings.stringCaseSensitive ? x : x.toLocaleLowerCase())
                 .reduce((acc, elem) => acc || textComparisonRule(elem, constraintTestValue), false);
         };
     }
@@ -183,6 +183,61 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
             propertyName: property.value,
             categories
         }
+    },
+
+    property_ofDirectAny: (sequenceNode, _, propertyNode) => {
+        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+        const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+        const categories = [...sequence.categories];
+
+        if (sequence.type === "property-value")
+            categories.push(sequence.propertyName);
+
+        return {
+            type: "property-value",
+            propertyName: property.value,
+            categories
+        }
+    },
+
+    property_ofDirectAnyPropertySequence: (sequenceNode, _, propertyNode) => {
+        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+        const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+        const categories = [...sequence.categories];
+
+        if (sequence.type === "property-value")
+            categories.push(sequence.propertyName);
+
+        return {
+            type: "property-value",
+            propertyName: property.value,
+            categories
+        }
+    },
+
+    directAnyProperty_ofCategory: (sequenceNode, _1, _2) => {
+        const category: SimpleValue = sequenceNode.getPropertyDefinition();
+
+        return {
+            type: "exact-category",
+            categories: [category.value, "*"]
+        }
+    },
+
+    directAnyPropertySequence: (sequenceNode, _1, _2) => {
+        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+
+        const categories = [...sequence.categories];
+
+        if (sequence.type === "property-value")
+            categories.push(sequence.propertyName);
+
+        return {
+            type: "exact-category",
+            categories
+        };
     },
 
     propertySequence: (node) => {
