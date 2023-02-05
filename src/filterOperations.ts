@@ -16,8 +16,13 @@ export type Property = {
 }
 
 export type SimpleValue = {
-    type: "simple",
+    type: "simple";
     value: string;
+}
+
+export type SimpleNumberValue = {
+    type: "number";
+    value: number;
 }
 
 export type ArrayValue = {
@@ -25,7 +30,7 @@ export type ArrayValue = {
     value: "string";
 }
 
-export type PropertyDefinition = Category | Property | SimpleValue | ArrayValue;
+export type PropertyDefinition = Category | Property | SimpleValue | SimpleNumberValue | ArrayValue;
 
 export const compile: FilterActionDict<Filter> = {
     exactElement: (node) => {
@@ -98,6 +103,13 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         return {
             type: "exact-category",
             categories: [category.value, property.value]
+        }
+    },
+
+    number: (node) => {
+        return {
+            type: "number",
+            value: parseFloat(node.sourceString)
         }
     }
 }
