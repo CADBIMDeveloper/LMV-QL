@@ -105,7 +105,17 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
-    it("must filter for test property equality", () => {
+    it("must filter for number property non-equality", () => {
+        const filter = filterFactory.createFilter("Category.property != 5.7");
+
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 1.3 }, ["Other Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+    });
+
+    it("must filter for string property equality", () => {
         const filter = filterFactory.createFilter("Category.property = \"test\"");
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
@@ -115,7 +125,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
-    it("must filter for test property equality [case insensitive]", () => {
+    it("must filter for string property equality [case insensitive]", () => {
         const caseInsensitiveFilterFactory = new FilterFactory({ tolerance: 1e-3, stringCaseSensitive: false });
 
         const filter = caseInsensitiveFilterFactory.createFilter("Category.property = \"test\"");
@@ -131,6 +141,17 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createFilter("Category.property <= \"abd\"")(testElement));
         assert.isTrue(filterFactory.createFilter("Category.property > \"abb\"")(testElement));
         assert.isTrue(filterFactory.createFilter("Category.property >= \"abb\"")(testElement));
+    });
+
+    it("must filter for string property non-equality", () => {
+        const filter = filterFactory.createFilter("Category.property != \"test\"");
+
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must support logical and filter", () => {
