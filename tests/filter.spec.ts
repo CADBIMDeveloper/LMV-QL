@@ -117,10 +117,19 @@ describe("Filter tests", () => {
 
     it("must filter for test property equality [case insensitive]", () => {
         const caseInsensitiveFilterFactory = new FilterFactory({ tolerance: 1e-3, stringCaseSensitive: false });
-        
+
         const filter = caseInsensitiveFilterFactory.createFilter("Category.property = \"test\"");
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
+    });
+
+    it("must filter for text comparison operators", () => {
+        const testElement = new SimpleFilterableElement({ property: "abc" }, ["Category"]);
+
+        assert.isTrue(filterFactory.createFilter("Category.property < \"abd\"")(testElement));
+        assert.isTrue(filterFactory.createFilter("Category.property <= \"abd\"")(testElement));
+        assert.isTrue(filterFactory.createFilter("Category.property > \"abb\"")(testElement));
+        assert.isTrue(filterFactory.createFilter("Category.property >= \"abb\"")(testElement));
     });
 });
