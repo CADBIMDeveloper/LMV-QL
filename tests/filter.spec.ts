@@ -29,7 +29,7 @@ describe("Filter tests", () => {
     ];
 
     const filterFactory = new FilterFactory();
-    const complexElement = new ComplexFilterableElements({ name: "Top", props: {} }, { name: "Sub", props: { typeProperty: 1.3 } }, { name: "Element", props: { property: 5.7 } });
+    const complexElement = new ComplexFilterableElements({ name: "Top", props: {} }, { name: "Sub", props: { typeProperty: 1.3 } }, { name: "Element", props: { property: 5.7, name: "test" } });
 
     it("must filter for top level category", () => {
         const filter = filterFactory.createFilter("[Category1]!");
@@ -223,5 +223,7 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createFilter("Top.Sub.*.property = 5.7")(complexElement));
         assert.isTrue(filterFactory.createFilter("Top.*.*.property = 5.7")(complexElement));
         assert.isTrue(filterFactory.createFilter("*.Sub.*.property = 5.7")(complexElement));
+        assert.isTrue(filterFactory.createFilter("*.typeProperty = 1.3")(complexElement));
+        assert.isTrue(filterFactory.createFilter("*.name = \"test\"")(complexElement));
     });
 });
