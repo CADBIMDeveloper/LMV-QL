@@ -129,4 +129,38 @@ describe("Filter properties definitions", () => {
 
         assert.equal(propertyDefinition.value, "test");
     });
+
+    it("must get text constant with quotes", () => {
+        const match = grammar.match("\"test \\\"quoted\\\" value\"", "textConst");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if (!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, "test \\\"quoted\\\" value");
+    });
+
+    it("must get text constant with slash", () => {
+        const match = grammar.match("\"test \\ (slash)\"", "textConst");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if (!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, "test \\ (slash)");
+    })
 });
