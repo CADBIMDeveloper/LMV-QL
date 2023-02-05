@@ -186,5 +186,16 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
             type: "number",
             value: parseFloat(node.sourceString)
         }
+    },
+
+    textConst: (_1, valueNode, _2) => {
+        return valueNode.getPropertyDefinition();
+    },
+
+    textValue: (valueNode) => {
+        return {
+            type: "simple",
+            value: valueNode.sourceString
+        }
     }
 }

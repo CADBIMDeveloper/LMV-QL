@@ -1,7 +1,7 @@
 import 'mocha';
 import { assert } from 'chai';
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { PropertyDefinition, getPropertyDefinition, Category, SimpleNumberValue } from '../src/filterOperations';
+import { PropertyDefinition, getPropertyDefinition, Category, SimpleNumberValue, SimpleValue } from '../src/filterOperations';
 
 describe("Filter properties definitions", () => {
     const semantics = grammar.createSemantics();
@@ -14,6 +14,10 @@ describe("Filter properties definitions", () => {
 
     const isSimpleNumberValueDefinition = (propertyDefinition: PropertyDefinition): propertyDefinition is SimpleNumberValue => {
         return propertyDefinition.type === "number";
+    }
+
+    const isSimpleValueDefinition = (propertyDefinition: PropertyDefinition): propertyDefinition is SimpleValue => {
+        return propertyDefinition.type === "simple";
     }
 
     it("must get exact get top category definition", () => {
@@ -75,7 +79,7 @@ describe("Filter properties definitions", () => {
         assert.equal(propertyDefinition.categories[2], "Deep Category");
     });
 
-    it("must get number property definition", () => {
+    it("must get number constant definition", () => {
         const match = grammar.match("5.7", "number");
 
         const node = semantics(match);
@@ -92,7 +96,7 @@ describe("Filter properties definitions", () => {
         assert.equal(propertyDefinition.value, 5.7);
     });
 
-    it ("must get negative number property definition", () => {
+    it ("must get negative number constant definition", () => {
         const match = grammar.match("-5.7", "number");
 
         const node = semantics(match);
@@ -107,5 +111,22 @@ describe("Filter properties definitions", () => {
             return;
 
         assert.equal(propertyDefinition.value, -5.7);
-    })
+    });
+
+    it("must get text constant definition", () => {
+        const match = grammar.match("\"test\"", "textConst");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if (!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, "test");
+    });
 });
