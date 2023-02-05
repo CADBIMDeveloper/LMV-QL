@@ -169,5 +169,18 @@ describe("Filter tests", () => {
 
         assert.isTrue(complexFilter(new SimpleFilterableElement({ property: 1 }, ["Category"])))
         assert.isTrue(complexFilter(new SimpleFilterableElement({ property: 6 }, ["Category"])))
-    })
+    });
+
+    it("must support brackets", () => {
+        const simpleFilter = filterFactory.createFilter("(Category.property = 5.7)");
+
+        assert.isTrue(simpleFilter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+
+        const complexFilter = filterFactory.createFilter("(Category.p1 <= 1.3 or Category.p1 >= 5.7) and Category.p2 = 3");
+
+        assert.isTrue(complexFilter(new SimpleFilterableElement({ p1: 1, p2: 3 }, ["Category"])));
+        assert.isTrue(complexFilter(new SimpleFilterableElement({ p1: 6, p2: 3 }, ["Category"])));
+        assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 4, p2: 3 }, ["Category"])));
+        assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 1, p2: 5 }, ["Category"])));
+    });
 });

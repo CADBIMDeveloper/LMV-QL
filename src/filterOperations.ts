@@ -112,6 +112,8 @@ export const compile: FilterActionDict<Filter> = {
 
     BoolOr_or: (leftNode, _, rightNode) => (filterSettings, element) =>
         leftNode.compile()(filterSettings, element) || rightNode.compile()(filterSettings, element),
+
+    PriExp_paren: (_1, node, _2) => (filterSettings, element) => node.compile()(filterSettings, element)
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
