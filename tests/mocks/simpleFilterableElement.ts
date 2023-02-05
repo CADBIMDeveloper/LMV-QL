@@ -9,7 +9,7 @@ export class SimpleFilterableElement implements IFilterableElement {
 
     }
 
-    getPropertyValue(propertyName: string): string | number | undefined {
+    getPropertyValue(propertyName: string, _categories: string[]): string | number | undefined {
         return this.values[propertyName];
     }
 }
