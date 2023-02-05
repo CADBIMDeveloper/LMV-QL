@@ -22,7 +22,8 @@
   "scripts": {
     "clean": "rimraf ./lib",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && move lib\\esm\\index.js lib\\esm\\index.mjs",
+    "build:esm": "tsc -p ./configs/tsconfig.esm.json && npm run build:esm-rename",
+    "build:esm-rename": "node -e \"require('fs').rename('lib/esm/index.js', 'lib/esm/index.mjs', function(err) { if (err) console.log(err); console.log('File successfully renamed!') })\"",
     "build:cjs": "tsc -p ./configs/tsconfig.cjs.json",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",
