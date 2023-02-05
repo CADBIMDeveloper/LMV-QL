@@ -1,5 +1,6 @@
 import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
+import { expandTemplateCategories } from "./expandedWildcategoriesFactory";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
@@ -45,6 +46,9 @@ const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): proper
     return propertyDefinition.type === "number";
 }
 
+const isNumber = (value: number | string | undefined): value is number => typeof value === "number";
+const isString = (value: number | string | undefined): value is string => typeof value === "string";
+
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
 
 const createComparisonExpression = (
@@ -57,25 +61,30 @@ const createComparisonExpression = (
 
         if (isNumberValueDefinition(valueDefinition))
             return (filterSettings, element) => {
-                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
-
-                if (typeof elementPropertyValue !== "number")
+                if (!compareCategories(element.categoriesList, propertyDefinition.categories))
                     return false;
 
-                return numberComparisonRule(elementPropertyValue, valueDefinition.value, filterSettings);
+                const categoryTemplates = expandTemplateCategories(propertyDefinition.categories, element.categoriesList.length);
+
+                return categoryTemplates
+                    .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                    .filter(isNumber)
+                    .reduce((acc, elem) => acc || numberComparisonRule(elem, valueDefinition.value, filterSettings), false);
             };
 
         return (filterSettings, element) => {
-            const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
-
-            if (typeof elementPropertyValue !== "string")
+            if (!compareCategories(element.categoriesList, propertyDefinition.categories))
                 return false;
 
-            const elementPropertyTestValue = filterSettings.stringCaseSensitive ? elementPropertyValue : elementPropertyValue.toLocaleLowerCase()
+            const categoryTemplates = expandTemplateCategories(propertyDefinition.categories, element.categoriesList.length);
 
             const constraintTestValue = filterSettings.stringCaseSensitive ? valueDefinition.value : valueDefinition.value.toLocaleLowerCase();
 
-            return textComparisonRule(elementPropertyTestValue, constraintTestValue);
+            return categoryTemplates
+                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                .filter(isString)
+                .map(x => filterSettings.stringCaseSensitive ? x: x.toLocaleLowerCase())
+                .reduce((acc, elem) => acc || textComparisonRule(elem, constraintTestValue), false);
         };
     }
 }
@@ -201,6 +210,15 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
             type: "exact-category",
             categories: [category.value, property.value]
         }
+    },
+
+    directProperty_ofAnyProperty: (_1, _2, propertyNode) => {
+        const property: SimpleValue = propertyNode.getPropertyDefinition();
+
+        return {
+            type: "exact-category",
+            categories: ["*", property.value]
+        };
     },
 
     number: (node) => {
