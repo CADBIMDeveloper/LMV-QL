@@ -2,7 +2,7 @@ import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
-import { isAlmostEqual, isLessThan } from "./numbersComparison";
+import { isAlmostEqual, isAlmostEqualOrLessThan, isLessThan } from "./numbersComparison";
 
 export type FilterSettings = {
     tolerance: number;
@@ -78,12 +78,16 @@ export const compile: FilterActionDict<Filter> = {
     },
 
     EqualityExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance), 
+        (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
         (elementPropertyValue, constraint) => elementPropertyValue === constraint),
 
     LessThanExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isLessThan(elementPropertyValue, constraint, filterSettings.tolerance), 
-        (elementPropertyValue, constraint) => elementPropertyValue < constraint)
+        (elementPropertyValue, constraint, filterSettings) => isLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
+        (elementPropertyValue, constraint) => elementPropertyValue < constraint),
+
+    LessThanOrEqualExpr: createComparisonExpression(
+        (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
+        (elementPropertyValue, constraint) => elementPropertyValue <= constraint)
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
