@@ -164,5 +164,10 @@ describe("Filter tests", () => {
         assert.isTrue(filterAndOr(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
         assert.isFalse(filterAndOr(new SimpleFilterableElement({ property: 1.5 }, ["Category"])));
         assert.isTrue(filterAndOr(new SimpleFilterableElement({ property: -1.5 }, ["Category"])));
+
+        const complexFilter = filterFactory.createFilter("Category.property >= 0 and Category.property <= 1.3 or Category.property>= 5.7 and Category.property <= 7");
+
+        assert.isTrue(complexFilter(new SimpleFilterableElement({ property: 1 }, ["Category"])))
+        assert.isTrue(complexFilter(new SimpleFilterableElement({ property: 6 }, ["Category"])))
     })
 });
