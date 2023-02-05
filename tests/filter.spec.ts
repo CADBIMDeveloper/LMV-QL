@@ -165,8 +165,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
 
-        // const complexFilter = filterFactory.createFilter("Top.Sub.typeProperty = 1.3 && Top.Sub.Element.property = 5.7");
-        const complexFilter = filterFactory.createFilter("Top.Sub.typeProperty = 1.3");
+        const complexFilter = filterFactory.createFilter("Top.Sub.typeProperty = 1.3 && Top.Sub.Element.property = 5.7");
 
         assert.isTrue(complexFilter(complexElement));
     });
@@ -212,11 +211,11 @@ describe("Filter tests", () => {
         assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 1, p2: 5 }, ["Category"])));
     });
 
-    // it("must filter with top wildcard", () => {
-    //     const filter = filterFactory.createFilter("*.property = 5.7");
+    it("must filter with top wildcard", () => {
+        const filter = filterFactory.createFilter("*.property = 5.7");
 
-    //     assert.isTrue(filter(complexElement));
-    // });
+        assert.isTrue(filter(complexElement));
+    });
 
     // Top.*.property = 5.7
     // Top.*.Element.property = 5.7

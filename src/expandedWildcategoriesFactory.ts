@@ -11,6 +11,15 @@ export const expandTemplateCategories = (templateCategories: Template, targetLen
     return templates;
 }
 
+export const expandTemplateCategoriesForValue = (templateCategories: Template, targetLength: number) => {
+    let templates: Template[] = [];
+
+    for (let i = templateCategories.length; i <= targetLength; i++)
+        templates = templates.concat(expandTemplateCategories(templateCategories, i));
+
+    return templates;
+}
+
 const expand = (templates: Template[], currentTemplate: Template, templateCategories: Template, currentIndex: number, targetLength: number) => {
     if (currentTemplate.length === targetLength) {
         if (currentIndex === templateCategories.length)

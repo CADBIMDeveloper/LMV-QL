@@ -11,5 +11,12 @@ describe("Categories comparer", () => {
         assert.isTrue(compareCategories(elemCategories, templateCategories));
     });
 
-    // TODO: wildcards
+    it("must perform compare with wildcards", () => {
+        const elemCategories = ["a", "b", "c", "d"];
+
+        assert.isTrue(compareCategories(elemCategories, ["*", "d"]));
+        assert.isTrue(compareCategories(elemCategories, ["a", "*", "d"]));
+        assert.isTrue(compareCategories(elemCategories, ["a", "b", "*"]));
+        assert.isTrue(compareCategories(elemCategories, ["*", "b", "*", "d"]));
+    });
 });

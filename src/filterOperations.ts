@@ -1,6 +1,6 @@
 import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
-import { expandTemplateCategories } from "./expandedWildcategoriesFactory";
+import { expandTemplateCategories, expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
@@ -64,7 +64,7 @@ const createComparisonExpression = (
                 if (!compareCategories(element.categoriesList, propertyDefinition.categories))
                     return false;
 
-                const categoryTemplates = expandTemplateCategories(propertyDefinition.categories, element.categoriesList.length);
+                const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
                 return categoryTemplates
                     .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
@@ -76,7 +76,7 @@ const createComparisonExpression = (
             if (!compareCategories(element.categoriesList, propertyDefinition.categories))
                 return false;
 
-            const categoryTemplates = expandTemplateCategories(propertyDefinition.categories, element.categoriesList.length);
+            const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
             const constraintTestValue = filterSettings.stringCaseSensitive ? valueDefinition.value : valueDefinition.value.toLocaleLowerCase();
 
