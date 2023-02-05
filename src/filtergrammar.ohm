@@ -2,11 +2,11 @@ Filter {
     Exp = BoolOr
     
     BoolOr
-        = PriExp orOperation Exp -- or
+        = BoolOr orOperation BoolAnd -- or
         | BoolAnd
 
     BoolAnd 
-        = PriExp andOperation Exp  --and
+        = BoolAnd andOperation PriExp  --and
         | PriExp
         
     PriExp 
