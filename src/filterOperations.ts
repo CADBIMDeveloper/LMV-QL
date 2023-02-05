@@ -2,7 +2,13 @@ import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 
-export type Filter = (element: IFilterableElement) => boolean;
+export type FilterSettings = {
+    tolerance: number;
+}
+
+export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
+
+export type ElementFilter = (element: IFilterableElement) => boolean;
 
 export type Category = {
     type: "exact-category";
@@ -36,7 +42,7 @@ export const compile: FilterActionDict<Filter> = {
     exactElement: (node) => {
         const propertyDefinition: Category = node.getPropertyDefinition();
 
-        return (element) => compareCategories(element.categoriesList, propertyDefinition.categories);
+        return (filterSettings, element) => compareCategories(element.categoriesList, propertyDefinition.categories);
     }
 }
 
