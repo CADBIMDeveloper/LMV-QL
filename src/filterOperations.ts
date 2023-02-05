@@ -49,14 +49,14 @@ type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalN
 
 const createComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: FilterSettings) => boolean,
-    _textComparisonRule: (elementPropertyValue: string, constraint: string, filterSettings: FilterSettings) => boolean): ComparisonExpression => {
+    textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
 
     return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
         const propertyDefinition: Property = propertyNode.getPropertyDefinition();
         const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
 
         if (isNumberValueDefinition(valueDefinition))
-            return (filterSettings: FilterSettings, element: IFilterableElement) => {
+            return (filterSettings, element) => {
                 const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
 
                 if (typeof elementPropertyValue !== "number")
@@ -65,8 +65,17 @@ const createComparisonExpression = (
                 return numberComparisonRule(elementPropertyValue, valueDefinition.value, filterSettings);
             };
 
-        return (_, element) => {
-            throw new Error("Text comparison is under development");
+        return (filterSettings, element) => {
+            const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
+
+            if (typeof elementPropertyValue !== "string")
+                return false;
+
+            const elementPropertyTestValue = filterSettings.stringCaseSensitive ? elementPropertyValue : elementPropertyValue.toLocaleLowerCase()
+
+            const constraintTestValue = filterSettings.stringCaseSensitive ? valueDefinition.value : valueDefinition.value.toLocaleLowerCase();
+
+            return textComparisonRule(elementPropertyTestValue, constraintTestValue);
         };
     }
 }
