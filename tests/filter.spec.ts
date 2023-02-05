@@ -151,5 +151,12 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
+    });
+
+    it("must support logical operators priorities", () => {
+        const filter = filterFactory.createFilter("Category.property = 1.3 or Category.property > -2 and Category.property < 0");
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: -1 }, ["Category"])));
     })
 });
