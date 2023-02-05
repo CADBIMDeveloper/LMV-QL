@@ -109,8 +109,18 @@ describe("Filter tests", () => {
         const filter = filterFactory.createFilter("Category.property = \"test\"");
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+    });
+
+    it("must filter for test property equality [case insensitive]", () => {
+        const caseInsensitiveFilterFactory = new FilterFactory({ tolerance: 1e-3, stringCaseSensitive: false });
+        
+        const filter = caseInsensitiveFilterFactory.createFilter("Category.property = \"test\"");
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
     });
 });
