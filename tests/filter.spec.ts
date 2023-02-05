@@ -55,7 +55,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(sourceElements[3]));
     });
 
-    it("must filter for property number equality", () => {
+    it("must filter for number property equality", () => {
         const filter = filterFactory.createFilter("Category.property = 5.7");
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
