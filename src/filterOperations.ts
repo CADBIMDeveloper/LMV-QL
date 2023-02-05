@@ -54,16 +54,15 @@ export const compile: FilterActionDict<Filter> = {
         const propertyDefinition: Property = propertyNode.getPropertyDefinition();
         const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
 
-        if (isNumberValueDefinition(valueDefinition)) {
+        if (isNumberValueDefinition(valueDefinition))
             return (filterSettings, element) => {
                 const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
 
                 if (typeof elementPropertyValue !== "number")
                     return false;
-                
+
                 return isAlmostEqual(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
             };
-        }
 
         return (_, element) => {
             throw new Error("Text comparison is under development");
