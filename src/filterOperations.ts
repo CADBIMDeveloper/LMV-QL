@@ -109,6 +109,9 @@ export const compile: FilterActionDict<Filter> = {
 
     BoolAnd_and: (leftNode, _, rightNode) => (filterSettings, element) =>
         leftNode.compile()(filterSettings, element) && rightNode.compile()(filterSettings, element),
+
+    BoolOr_or: (leftNode, _, rightNode) => (filterSettings, element) =>
+        leftNode.compile()(filterSettings, element) || rightNode.compile()(filterSettings, element),
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
