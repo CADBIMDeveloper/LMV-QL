@@ -61,6 +61,7 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Other Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
     });
 });
