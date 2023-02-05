@@ -1,3 +1,4 @@
+import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
@@ -43,6 +44,32 @@ const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): proper
     return propertyDefinition.type === "number";
 }
 
+type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
+
+const createComparisonExpression = (
+    numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: FilterSettings) => boolean,
+    _textComparisonRule: (elementPropertyValue: string, constraint: string, filterSettings: FilterSettings) => boolean): ComparisonExpression => {
+
+    return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+
+        if (isNumberValueDefinition(valueDefinition))
+            return (filterSettings: FilterSettings, element: IFilterableElement) => {
+                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
+
+                if (typeof elementPropertyValue !== "number")
+                    return false;
+
+                return numberComparisonRule(elementPropertyValue, valueDefinition.value, filterSettings);
+            };
+
+        return (_, element) => {
+            throw new Error("Text comparison is under development");
+        };
+    }
+}
+
 export const compile: FilterActionDict<Filter> = {
     exactElement: (node) => {
         const propertyDefinition: Category = node.getPropertyDefinition();
@@ -50,43 +77,13 @@ export const compile: FilterActionDict<Filter> = {
         return (_, element) => compareCategories(element.categoriesList, propertyDefinition.categories);
     },
 
-    EqualityExpr: (propertyNode, _, valueNode) => {
-        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
-        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+    EqualityExpr: createComparisonExpression(
+        (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance), 
+        (elementPropertyValue, constraint) => elementPropertyValue === constraint),
 
-        if (isNumberValueDefinition(valueDefinition))
-            return (filterSettings, element) => {
-                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
-
-                if (typeof elementPropertyValue !== "number")
-                    return false;
-
-                return isAlmostEqual(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
-            };
-
-        return (_, element) => {
-            throw new Error("Text comparison is under development");
-        };
-    },
-
-    LessThanExpr: (propertyNode, _, valueNode) => {
-        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
-        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
-
-        if (isNumberValueDefinition(valueDefinition))
-            return (filterSettings, element) => {
-                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
-
-                if (typeof elementPropertyValue !== "number")
-                    return false;
-
-                return isLessThan(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
-            };
-
-        return (_, element) => {
-            throw new Error("Text comparison is under development");
-        };
-    }
+    LessThanExpr: createComparisonExpression(
+        (elementPropertyValue, constraint, filterSettings) => isLessThan(elementPropertyValue, constraint, filterSettings.tolerance), 
+        (elementPropertyValue, constraint) => elementPropertyValue < constraint)
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
