@@ -90,13 +90,13 @@ describe("Filter properties definitions", () => {
 
         assert.isTrue(isSimpleValue);
 
-        if(!isSimpleValue)
+        if (!isSimpleValue)
             return;
 
         assert.equal(propertyDefinition.value, 5.7);
     });
 
-    it ("must get negative number constant definition", () => {
+    it("must get negative number constant definition", () => {
         const match = grammar.match("-5.7", "number");
 
         const node = semantics(match);
@@ -107,7 +107,7 @@ describe("Filter properties definitions", () => {
 
         assert.isTrue(isSimpleValue);
 
-        if(!isSimpleValue)
+        if (!isSimpleValue)
             return;
 
         assert.equal(propertyDefinition.value, -5.7);
