@@ -62,7 +62,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Other Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for number property which is less than specified value", () => {
@@ -72,7 +72,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for number property which is less or equal to specified value", () => {
@@ -82,7 +82,7 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 6 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for number property which is greater than specified value", () => {
@@ -92,7 +92,7 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 4 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for number property which is greater or equal than specified value", () => {
@@ -102,7 +102,7 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 4 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for test property equality", () => {
@@ -111,6 +111,6 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 });
