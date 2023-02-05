@@ -1,7 +1,7 @@
 import 'mocha';
 import { assert } from 'chai';
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { PropertyDefinition, getPropertyDefinition, Category } from '../src/filterOperations';
+import { PropertyDefinition, getPropertyDefinition, Category, SimpleNumberValue } from '../src/filterOperations';
 
 describe("Filter properties definitions", () => {
     const semantics = grammar.createSemantics();
@@ -10,6 +10,10 @@ describe("Filter properties definitions", () => {
 
     const isExactCategoryDefinition = (propertyDefinition: PropertyDefinition): propertyDefinition is Category => {
         return propertyDefinition.type === "exact-category";
+    }
+
+    const isSimpleNumberValueDefinition = (propertyDefinition: PropertyDefinition): propertyDefinition is SimpleNumberValue => {
+        return propertyDefinition.type === "number";
     }
 
     it("must get exact get top category definition", () => {
@@ -69,5 +73,39 @@ describe("Filter properties definitions", () => {
         assert.equal(propertyDefinition.categories[0], "Category");
         assert.equal(propertyDefinition.categories[1], "Subcategory");
         assert.equal(propertyDefinition.categories[2], "Deep Category");
+    });
+
+    it("must get number property definition", () => {
+        const match = grammar.match("5.7", "number");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleNumberValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if(!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, 5.7);
+    });
+
+    it ("must get negative number property definition", () => {
+        const match = grammar.match("-5.7", "number");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleNumberValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if(!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, -5.7);
     })
 });
