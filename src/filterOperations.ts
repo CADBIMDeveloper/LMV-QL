@@ -1,7 +1,7 @@
 import { compareCategories } from "./elementCategoriesComparer";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
-import { isAlmostEqual } from "./numbersComparison";
+import { isAlmostEqual, isLessThan } from "./numbersComparison";
 
 export type FilterSettings = {
     tolerance: number;
@@ -62,6 +62,25 @@ export const compile: FilterActionDict<Filter> = {
                     return false;
 
                 return isAlmostEqual(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
+            };
+
+        return (_, element) => {
+            throw new Error("Text comparison is under development");
+        };
+    },
+
+    LessThanExpr: (propertyNode, _, valueNode) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+
+        if (isNumberValueDefinition(valueDefinition))
+            return (filterSettings, element) => {
+                const elementPropertyValue = element.getPropertyValue(propertyDefinition.propertyName, propertyDefinition.categories);
+
+                if (typeof elementPropertyValue !== "number")
+                    return false;
+
+                return isLessThan(elementPropertyValue, valueDefinition.value, filterSettings.tolerance);
             };
 
         return (_, element) => {
