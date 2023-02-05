@@ -145,6 +145,39 @@ const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNod
     }
 }
 
+const convertToCategoriesNode = (sequenceNode: ohm.NonterminalNode): PropertyDefinition => {
+    const value: Category | Property = sequenceNode.getPropertyDefinition();
+
+    if (value.type === "exact-category")
+        return value;
+
+    const categories = [...value.categories];
+
+    categories.push(value.propertyName);
+
+    return {
+        type: "exact-category",
+        categories
+    }
+}
+
+const converToPropertiesNode = (sequenceNode: ohm.NonterminalNode): PropertyDefinition => {
+    const definition: Property | Category = sequenceNode.getPropertyDefinition();
+
+    if (definition.type === "property-value")
+        return definition;
+
+    const categories = [...definition.categories];
+
+    const propertyName = categories.pop()!;
+
+    return {
+        type: "property-value",
+        propertyName,
+        categories
+    }
+}
+
 const createSimpleValue = (valueNode: ohm.NonterminalNode): PropertyDefinition => {
     return {
         type: "simple",
@@ -166,21 +199,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     categoryOrProperty_value: (valueNode) => createSimpleValue(valueNode),
 
-    exactElement_ofPropertySequence: (valueNode, _) => {
-        const value: Category | Property = valueNode.getPropertyDefinition();
-
-        if (value.type === "exact-category")
-            return value;
-
-        const categories = [...value.categories];
-
-        categories.push(value.propertyName);
-
-        return {
-            type: "exact-category",
-            categories
-        }
-    },
+    exactElement_ofPropertySequence: (sequenceNode, _) => convertToCategoriesNode(sequenceNode),
 
     property_ofPropertySequence: (sequenceNode, _, propertyNode) => appendPropertyToSequence(sequenceNode, propertyNode),
 
@@ -197,36 +216,9 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         }
     },
 
-    directAnyPropertySequence: (sequenceNode, _1, _2) => {
-        const sequence: Category | Property = sequenceNode.getPropertyDefinition();
+    directAnyPropertySequence: (sequenceNode, _1, _2) => convertToCategoriesNode(sequenceNode),
 
-        const categories = [...sequence.categories];
-
-        if (sequence.type === "property-value")
-            categories.push(sequence.propertyName);
-
-        return {
-            type: "exact-category",
-            categories
-        };
-    },
-
-    propertySequence: (node) => {
-        const definition: Property | Category = node.getPropertyDefinition();
-
-        if (definition.type === "property-value")
-            return definition;
-
-        const categories = [...definition.categories];
-
-        const propertyName = categories.pop()!;
-
-        return {
-            type: "property-value",
-            propertyName,
-            categories
-        }
-    },
+    propertySequence: (node) => converToPropertiesNode(node),
 
     directProperty_ofCategory: (categoriesNode, _, propertyNode) => {
         const category: SimpleValue = categoriesNode.getPropertyDefinition();
