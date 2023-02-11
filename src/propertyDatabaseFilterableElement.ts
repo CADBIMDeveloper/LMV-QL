@@ -14,7 +14,23 @@ export class PropertyModelFilterableElement implements IFilterableElement {
     }
 
     getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
-        throw new Error("Method not implemented.");
+        if (!this.compareCategories(categories))
+            return undefined;
+
+        const dbId = this.categoryNodesDbIds[categories.length - 1];
+
+        return this.attributes.findAttributesIdsByName(propertyName)
+            .map(x => this.getNodePropertyValue(dbId, x))
+            .find(x => x !== undefined);
+    }
+
+    private compareCategories(categories: string[]) {
+        for (let i = 0; i < categories.length; i++) {
+            if (categories[i] !== "*" && this.categoriesList[i] !== categories[i])
+                return false;
+        }
+
+        return true;
     }
 
     private getNodePropertyValue(dbId: number, attributeId: number): string | number | undefined {

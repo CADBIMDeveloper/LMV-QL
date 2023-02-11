@@ -99,4 +99,16 @@ describe("Property database filterable element tests", () => {
 
         expect(root.categoriesList).to.eql([]);
     });
+
+    it("must get property values", () => {
+        const element = new PropertyModelFilterableElement(4, pdb, attributesCollection);
+
+        const elementPropertyValue = element.getPropertyValue("element property", ["Category", "SubCategory", "Element"]);
+
+        assert.equal(elementPropertyValue, 5.7);
+
+        const typePropertyValue = element.getPropertyValue("element type property", ["Category", "SubCategory"]);
+
+        assert.equal(typePropertyValue, 1.3);
+    });
 });
