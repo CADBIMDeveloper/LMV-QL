@@ -21,6 +21,9 @@ describe("Attributes collection tests", () => {
         },
         getAttrValue: function (_attrId: number, _attrValueId: number): string | number {
             throw new Error('Function not implemented.');
+        },
+        enumObjects: function (callBack: (dbId: number, fromId?: number | undefined, toId?: number | undefined) => void): void {
+            throw new Error('Function not implemented.');
         }
     }
 

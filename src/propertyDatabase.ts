@@ -6,6 +6,8 @@ export type PropertyDatabase = {
     enumObjectProperties(dbId: number, callBack: (attrId: number, attrValueId: number) => void): void;
 
     getAttrValue(attrId: number, attrValueId: number): string | number;
+
+    enumObjects(callBack: (dbId: number) => void): void;
 }
 
 export type AttributeDefinition = {

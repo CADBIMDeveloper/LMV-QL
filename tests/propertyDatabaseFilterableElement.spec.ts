@@ -47,7 +47,7 @@ describe("Property database filterable element tests", () => {
                     case 2:
                         return "Category";
                     case 3:
-                        return "SubCategory"
+                        return "SubCategory";
                     case 4:
                         return "Element";
 
@@ -62,6 +62,10 @@ describe("Property database filterable element tests", () => {
                 return 5.7;
 
             throw new Error('Values is not supported');
+        },
+        enumObjects: function (callBack: (dbId: number) => void): void {
+            for (let i = 1; i <= 4; ++i)
+                callBack(i);
         }
     }
 
