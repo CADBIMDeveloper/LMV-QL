@@ -3,12 +3,8 @@ import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
+import { FilterSettings } from "./filterSettings";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
-
-export type FilterSettings = {
-    tolerance: number;
-    stringCaseSensitive: boolean;
-}
 
 export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
 

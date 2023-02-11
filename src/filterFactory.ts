@@ -1,5 +1,6 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { compile, ElementFilter, Filter, FilterSettings, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
+import { compile, ElementFilter, Filter, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
+import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "./parsingError";
 
 export class FilterFactory {
