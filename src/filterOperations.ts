@@ -10,6 +10,8 @@ export type Filter = (settings: FilterSettings, element: IFilterableElement) => 
 
 export type ElementFilter = (element: IFilterableElement) => boolean;
 
+export type ElementPropertyValueQuery = (element: IFilterableElement) => number | string | undefined;
+
 export type Category = {
     type: "exact-category";
     categories: string[];
@@ -216,9 +218,9 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     directAnyProperty_sequenced: (sequenceNode, _1, _2) => {
         const sequence = convertToCategoriesNode(sequenceNode) as Category;
-        
+
         const categories = [...sequence.categories];
-        
+
         categories.push("*");
 
         return {
@@ -258,4 +260,21 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
     textConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
 
     textValue: (valueNode) => createSimpleValue(valueNode)
+}
+
+export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {
+    propertySequence: (node) => {
+        const propertyDefinition = convertToPropertiesNode(node) as Property;
+
+        return (element) => {
+            if (!compareCategories(element.categoriesList, propertyDefinition.categories))
+                return undefined;
+
+            const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
+
+            return categoryTemplates
+                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                .find(x => x !== undefined);
+        };
+    }
 }
