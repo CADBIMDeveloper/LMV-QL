@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { PropertyModelFilterableElement } from '../src/propertyDatabaseFilterableElement';
+import { PropertyDatabaseFilterableElement } from '../src/propertyDatabaseFilterableElement';
 import { PropertyDatabaseAttributesCollection } from '../src/propertyDatabaseAttributesCollection';
 import { pdb } from './mocks/propertyDatabaseMock';
 
@@ -8,25 +8,25 @@ describe("Property database filterable element tests", () => {
     const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, true);
 
     it("must get element categories", () => {
-        const element = new PropertyModelFilterableElement(4, pdb, attributesCollection);
+        const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection);
 
         expect(element.categoriesList).to.eql(["Category", "SubCategory", "Element"]);
 
-        const type = new PropertyModelFilterableElement(3, pdb, attributesCollection);
+        const type = new PropertyDatabaseFilterableElement(3, pdb, attributesCollection);
 
         expect(type.categoriesList).to.eql(["Category", "SubCategory"]);
 
-        const cat = new PropertyModelFilterableElement(2, pdb, attributesCollection);
+        const cat = new PropertyDatabaseFilterableElement(2, pdb, attributesCollection);
 
         expect(cat.categoriesList).to.eql(["Category"]);
 
-        const root = new PropertyModelFilterableElement(1, pdb, attributesCollection);
+        const root = new PropertyDatabaseFilterableElement(1, pdb, attributesCollection);
 
         expect(root.categoriesList).to.eql([]);
     });
 
     it("must get property values", () => {
-        const element = new PropertyModelFilterableElement(4, pdb, attributesCollection);
+        const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection);
 
         const elementPropertyValue = element.getPropertyValue("element property", ["Category", "SubCategory", "Element"]);
 

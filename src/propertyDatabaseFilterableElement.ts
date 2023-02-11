@@ -2,7 +2,7 @@ import { IFilterableElement } from "./filterableElement";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./propertyDatabaseAttributesCollection";
 
-export class PropertyModelFilterableElement implements IFilterableElement {
+export class PropertyDatabaseFilterableElement implements IFilterableElement {
     private readonly categoryNodesDbIds: number[];
 
     constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, private readonly attributes: PropertyDatabaseAttributesCollection) {
