@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { AttributeDefinition, ObjectProperties, PropertyDatabase, PropertyValue } from '../src/propertyDatabase';
+import { AttributeDefinition, PropertyDatabase } from '../src/propertyDatabase';
 import { PropertyDatabaseAttributesCollection } from '../src/propertyDatabaseAttributesCollection';
 
 describe("Attributes collection tests", () => {
@@ -13,29 +13,13 @@ describe("Attributes collection tests", () => {
             callBack(5, { name: "mult", category: "cat", dataType: 20, displayName: null });
             callBack(6, { name: "name", category: "__name__", dataType: 20, displayName: null });
         },
-
-        findRootNodes: function (): number[] {
-            throw new Error('Function not implemented.');
-        },
         findParent: function (_dbId: number): number | null {
-            throw new Error('Function not implemented.');
-        },
-        enumObjects: function (_callBack: (dbId: number, fromId?: number | undefined, toId?: number | undefined) => void): void {
             throw new Error('Function not implemented.');
         },
         enumObjectProperties: function (_dbId: number, _callBack: (attrId: number, attrValueId: number) => void): void {
             throw new Error('Function not implemented.');
         },
-        getNodeNameAndChildren: function (_query: { dbId: number; }): { dbId: number; parent: number; }[] {
-            throw new Error('Function not implemented.');
-        },
-        getObjectProperties: function (_dbId: number): ObjectProperties {
-            throw new Error('Function not implemented.');
-        },
         getAttrValue: function (_attrId: number, _attrValueId: number): string | number {
-            throw new Error('Function not implemented.');
-        },
-        _getObjectProperty: function (_attrId: number, _attrValueId: number): PropertyValue {
             throw new Error('Function not implemented.');
         }
     }
