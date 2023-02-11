@@ -11,6 +11,8 @@ export type PropertyDatabase = {
 
     getNodeNameAndChildren(query: { dbId: number }): { dbId: number, parent: number };
 
+    getObjectProperties(dbId: number): ObjectProperties;
+
     _getObjectProperty(attrId: number, attrValueId: number): PropertyValue;
 }
 
@@ -30,4 +32,11 @@ export type PropertyValue = {
     precision: number;
     type: number;
     units: string | null
+}
+
+export type ObjectProperties = {
+    dbId: number;
+    externalId: number;
+    name: string;
+    properties: PropertyValue[]
 }
