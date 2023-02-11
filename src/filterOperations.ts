@@ -157,7 +157,7 @@ const convertToCategoriesNode = (sequenceNode: ohm.NonterminalNode): PropertyDef
     }
 }
 
-const converToPropertiesNode = (sequenceNode: ohm.NonterminalNode): PropertyDefinition => {
+const convertToPropertiesNode = (sequenceNode: ohm.NonterminalNode): PropertyDefinition => {
     const definition: Property | Category = sequenceNode.getPropertyDefinition();
 
     if (definition.type === "property-value")
@@ -227,7 +227,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
         }
     },
 
-    propertySequence: (node) => converToPropertiesNode(node),
+    propertySequence: (node) => convertToPropertiesNode(node),
 
     directProperty_ofCategory: (categoriesNode, _, propertyNode) => {
         const category: SimpleValue = categoriesNode.getPropertyDefinition();
