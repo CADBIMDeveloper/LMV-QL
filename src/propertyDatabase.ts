@@ -8,6 +8,8 @@ export type PropertyDatabase = {
     getAttrValue(attrId: number, attrValueId: number): string | number;
 
     enumObjects(callBack: (dbId: number) => void): void;
+
+    getNodeNameAndChildren(query: { dbId: number }): { dbId: number, parent: number }[] | undefined;
 }
 
 export type AttributeDefinition = {

@@ -24,6 +24,9 @@ describe("Attributes collection tests", () => {
         },
         enumObjects: function (callBack: (dbId: number, fromId?: number | undefined, toId?: number | undefined) => void): void {
             throw new Error('Function not implemented.');
+        },
+        getNodeNameAndChildren: function (query: { dbId: number; }): { dbId: number; parent: number; }[] {
+            throw new Error('Function not implemented.');
         }
     }
 

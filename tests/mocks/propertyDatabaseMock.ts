@@ -53,5 +53,14 @@ export const pdb: PropertyDatabase = {
     enumObjects: function (callBack: (dbId: number) => void): void {
         for (let i = 1; i <= 4; ++i)
             callBack(i);
+    },
+    getNodeNameAndChildren: function (query: { dbId: number; }): { dbId: number; parent: number; }[] | undefined {
+        if (1 <= query.dbId && query.dbId <= 3) {
+            return [{
+                dbId: query.dbId + 1,
+                parent: query.dbId
+            }]
+        }
+        return undefined;
     }
 }
