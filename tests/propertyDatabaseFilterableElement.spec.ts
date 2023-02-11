@@ -85,15 +85,15 @@ describe("Property database filterable element tests", () => {
     it("must get element categories", () => {
         const element = new PropertyModelFilterableElement(4, pdb, attributesCollection);
 
-        expect(element.categoriesList).to.eql(["Category", "SubCategory"]);
+        expect(element.categoriesList).to.eql(["Category", "SubCategory", "Element"]);
 
         const type = new PropertyModelFilterableElement(3, pdb, attributesCollection);
 
-        expect(type.categoriesList).to.eql(["Category"]);
+        expect(type.categoriesList).to.eql(["Category", "SubCategory"]);
 
         const cat = new PropertyModelFilterableElement(2, pdb, attributesCollection);
 
-        expect(cat.categoriesList).to.eql([]);
+        expect(cat.categoriesList).to.eql(["Category"]);
 
         const root = new PropertyModelFilterableElement(1, pdb, attributesCollection);
 

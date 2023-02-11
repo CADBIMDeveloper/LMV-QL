@@ -32,7 +32,7 @@ export class PropertyModelFilterableElement implements IFilterableElement {
 const getCategories = (dbId: number, propertyDatabase: PropertyDatabase) => {
     const categories: number[] = [];
 
-    let currentNodeDbId = propertyDatabase.findParent(dbId);
+    let currentNodeDbId: number | null = dbId;
 
     while (currentNodeDbId !== null) {
         const parentDbId = propertyDatabase.findParent(currentNodeDbId);
