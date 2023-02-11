@@ -9,7 +9,7 @@ export type PropertyDatabase = {
 
     enumObjectProperties(dbId: number, callBack: (attrId: number, attrValueId: number) => void): void;
 
-    getNodeNameAndChildren(query: { dbId: number }): { dbId: number, parent: number };
+    getNodeNameAndChildren(query: { dbId: number }): { dbId: number, parent: number }[];
 
     getObjectProperties(dbId: number): ObjectProperties;
 
