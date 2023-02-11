@@ -5,5 +5,5 @@ export interface IModel {
 }
 
 export interface IPropertyDatabase {
-    executeUserFunction<T>(fn: (pdb: PropertyDatabase, tag?: any) => T): Promise<T>;
+    executeUserFunction<TResult, TOptions>(fn: (pdb: PropertyDatabase, tag?: TOptions) => TResult, tag?: TOptions): Promise<TResult>;
 }
