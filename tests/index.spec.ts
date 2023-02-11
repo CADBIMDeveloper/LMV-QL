@@ -36,4 +36,10 @@ describe('Query tests', () => {
         assert.isNull(elements.error);
         expect(elements.dbIds).to.eql([3, 4]);
     });
+
+    it("must fail on the incorrect query", async () => {
+        const results = await query(model, "*.[element property]", leafNodesOnlySettings); // missing comparison
+
+        assert.isNotNull(results.error);
+    });
 });
