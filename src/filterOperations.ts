@@ -1,4 +1,4 @@
-import ohm from "ohm-js";
+import * as ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement } from "./filterableElement";

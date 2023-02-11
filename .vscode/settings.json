@@ -3,5 +3,6 @@
         "node_modules": true,
         "*.tgz": true,
         "build.bat": true
-    }
+    },
+    "typescript.tsserver.experimental.enableProjectDiagnostics": true
 }
