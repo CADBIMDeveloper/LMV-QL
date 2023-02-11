@@ -10,7 +10,7 @@ export function helloWorld() {
   return message;
 }
 
-export type Settings = FilterSettings & { leafNodesOnly: boolean; }
+export type Settings = FilterSettings & { leafNodesOnly: boolean; attributesCaseSensitive: boolean }
 
 export type QueryResults = {
   dbIds: number[];
