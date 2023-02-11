@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { query, Settings } from '../index';
+import { computeExpressionValue, query, Settings } from '../index';
 import { model } from './mocks/modelMock';
 
 describe('Query tests', () => {
@@ -41,5 +41,17 @@ describe('Query tests', () => {
         const results = await query(model, "*.[element property]", leafNodesOnlySettings); // missing comparison
 
         assert.isNotNull(results.error);
+    });
+
+    it("must query property value", async () => {
+        const elementPropertiesQueryResults = await computeExpressionValue(model, 4, "*.[element property]");
+
+        assert.isNull(elementPropertiesQueryResults.error);
+        assert.equal(elementPropertiesQueryResults.result, 5.7);
+
+        const elementTypePropertiesQueryResults = await computeExpressionValue(model, 4, "*.[element type property]");
+
+        assert.isNull(elementTypePropertiesQueryResults.error);
+        assert.equal(elementTypePropertiesQueryResults.result, 1.3);
     });
 });

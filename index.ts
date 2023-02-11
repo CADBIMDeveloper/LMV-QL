@@ -1,3 +1,4 @@
+import { ElementPropertyValueQueryFactory } from "./src/elementPropertyValueQueryFactory";
 import { FilterFactory } from "./src/filterFactory";
 import { FilterSettings } from "./src/filterSettings";
 import { IModel } from "./src/model";
@@ -19,15 +20,26 @@ export type QueryResults = {
   error: ParsingError | Error | null;
 }
 
-type UserFunctionOptions = {
+export type ExpressionComputeResults = {
+  result: number | string | undefined;
+  error: ParsingError | Error | null;
+}
+
+type UserQueryOptions = {
   lmvQuery: string;
   lmvQueryOptions: Settings;
 }
 
-export async function query(model: IModel, query: string, options: Settings) {
+type UserComputeOptions = {
+  nodeId: number;
+  propertyQuery: string;
+  caseSensitive: boolean;
+}
+
+export async function query(model: IModel, query: string, options: Settings): Promise<QueryResults> {
   const propertyDatabase = model.getPropertyDb();
 
-  return propertyDatabase.executeUserFunction<QueryResults, UserFunctionOptions>(function (pdb, tag) {
+  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(function (pdb, tag) {
     try {
       const dbIds: number[] = [];
 
@@ -40,7 +52,7 @@ export async function query(model: IModel, query: string, options: Settings) {
       const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, lmvQueryOptions.attributesCaseSensitive);
 
       pdb.enumObjects(dbId => {
-        if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({dbId}) !== undefined)
+        if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
           return;
 
         const element = new PropertyDatabaseFilterableElement(dbId, pdb, attributesCollection);
@@ -61,4 +73,31 @@ export async function query(model: IModel, query: string, options: Settings) {
     }
 
   }, { lmvQuery: query, lmvQueryOptions: options });
+}
+
+export async function computeExpressionValue(model: IModel, dbId: number, query: string, attributesCaseSensitive: boolean = true): Promise<ExpressionComputeResults> {
+  const propertyDatabase = model.getPropertyDb();
+
+  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(function (pdb, tag) {
+    try {
+      const { nodeId, propertyQuery, caseSensitive } = tag!;
+
+      const factory = new ElementPropertyValueQueryFactory();
+
+      const query = factory.createPropertyQuery(propertyQuery);
+
+      const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, caseSensitive);
+
+      const element = new PropertyDatabaseFilterableElement(nodeId, pdb, attributesCollection);
+
+      const result = query(element);
+
+      return { result, error: null };
+    } catch (error: any) {
+      return {
+        result: undefined,
+        error
+      }
+    }
+  }, { nodeId: dbId, propertyQuery: query, caseSensitive: attributesCaseSensitive });
 }
