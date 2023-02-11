@@ -1,3 +1,4 @@
+import { FilterFactory } from "./src/filterFactory";
 import { FilterSettings } from "./src/filterSettings";
 import { IModel } from "./src/model";
 import { ParsingError } from "./src/parsingError";
@@ -27,6 +28,10 @@ export async function query(model: IModel, query: string, options: Settings) {
   return propertyDatabase.executeUserFunction<QueryResults, UserFunctionOptions>(function (pdb, tag) {
     try {
       const { lmvQuery, lmvQueryOptions } = tag!;
+
+      const filterFactory = new FilterFactory(lmvQueryOptions);
+
+      const elementFilter = filterFactory.createFilter(lmvQuery);
       
       return {
         dbIds: [],
