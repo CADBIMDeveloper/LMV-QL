@@ -13,6 +13,8 @@ export type PropertyDatabase = {
 
     getObjectProperties(dbId: number): ObjectProperties;
 
+    getAttrValue(attrId: number, attrValueId: number): string | number;
+
     _getObjectProperty(attrId: number, attrValueId: number): PropertyValue;
 }
 
