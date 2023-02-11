@@ -1,10 +1,39 @@
 import 'mocha';
-import { assert } from 'chai';
+import { assert, expect } from 'chai';
+import { query, Settings } from '../index';
+import { model } from './mocks/modelMock';
 
-import { helloWorld } from '../index';
+describe('Query tests', () => {
+    const leafNodesOnlySettings: Settings = {
+        attributesCaseSensitive: true,
+        leafNodesOnly: true,
+        stringCaseSensitive: true,
+        tolerance: 1e-5
+    }
 
-describe('Hello world!', () => {
-    it ('setup test', () => {
-        assert.equal(helloWorld(), "Hello World!");
-    })
+    const allElementsSetttings: Settings = {
+        attributesCaseSensitive: true,
+        leafNodesOnly: false,
+        stringCaseSensitive: true,
+        tolerance: 1e-5
+    }
+
+    it("must query leaf elements", async () => {
+        const element = await query(model, "*.[element property] = 5.7", leafNodesOnlySettings);
+
+        assert.isNull(element.error);
+        expect(element.dbIds).to.eql([4]);
+
+        const type = await query(model, "*.[element type property] = 1.3", leafNodesOnlySettings);
+
+        assert.isNull(type.error);
+        expect(type.dbIds).to.eql([4]);
+    });
+
+    it("must query elements from the tree", async () => {
+        const elements = await query(model, "*.[element type property] = 1.3", allElementsSetttings);
+
+        assert.isNull(elements.error);
+        expect(elements.dbIds).to.eql([3, 4]);
+    });
 });
