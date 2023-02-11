@@ -1,6 +1,6 @@
 import ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
-import { expandTemplateCategories, expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
+import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
