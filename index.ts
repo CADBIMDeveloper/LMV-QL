@@ -37,7 +37,7 @@ export async function query(model: IModel, query: string, options: Settings) {
         dbIds: [],
         error: new Error("This feature is under development")
       }
-    } catch (error) {
+    } catch (error: any) {
       return {
         dbIds: [],
         error: error
