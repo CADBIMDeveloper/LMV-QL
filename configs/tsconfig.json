@@ -11,7 +11,8 @@
         "allowSyntheticDefaultImports": true,
         "lib": [
             "ES6",
-            "DOM"
+            "DOM",
+            "WebWorker"
         ],
         "target": "ES6",
         "module": "esnext",

@@ -6,13 +6,6 @@ import { ParsingError } from "./src/parsingError";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
 import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
 
-export { FilterFactory } from "./src/filterFactory"
-
-export function helloWorld() {
-  const message = 'Hello World!';
-  return message;
-}
-
 export type Settings = FilterSettings & { leafNodesOnly: boolean; attributesCaseSensitive: boolean }
 
 export type QueryResults = {

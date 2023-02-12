@@ -5213,10 +5213,6 @@ var __awaiter = function(thisArg, _arguments, P, generator) {
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
 };
-function helloWorld() {
-  const message = "Hello World!";
-  return message;
-}
 function query(model, query2, options) {
   return __awaiter(this, void 0, void 0, function* () {
     const propertyDatabase = model.getPropertyDb();
@@ -5269,8 +5265,6 @@ function computeExpressionValue(model, dbId, query2, attributesCaseSensitive = t
   });
 }
 export {
-  FilterFactory,
   computeExpressionValue,
-  helloWorld,
   query
 };

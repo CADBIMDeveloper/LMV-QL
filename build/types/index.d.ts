@@ -1,8 +1,6 @@
 import { FilterSettings } from "./src/filterSettings";
 import { IModel } from "./src/model";
 import { ParsingError } from "./src/parsingError";
-export { FilterFactory } from "./src/filterFactory";
-export declare function helloWorld(): string;
 export type Settings = FilterSettings & {
     leafNodesOnly: boolean;
     attributesCaseSensitive: boolean;
