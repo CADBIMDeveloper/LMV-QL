@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "checkJs": true,
+        "allowJs": true,
+        "declaration": true,
+        "declarationMap": false,
+        "allowSyntheticDefaultImports": true,
+        "lib": [
+            "ES6",
+            "DOM"
+        ],
+        "target": "ES6",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+        "outDir": "../build/obj",
+        "declarationDir": "../build/types"
+    },
+    "files": [
+        "../index.ts"
+    ]
+}

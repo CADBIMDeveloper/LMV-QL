@@ -2,31 +2,19 @@
   "name": "@complete-cad/aps-viewer-filters",
   "version": "0.0.1-development",
   "description": "Smart filters for APS viewer",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./lib/esm/types/index.d.ts",
-        "default": "./lib/esm/index.mjs"
-      },
-      "require": {
-        "types": "./lib/cjs/types/index.d.ts",
-        "default": "./lib/cjs/index.js"
-      }
-    }
-  },
-  "types": "./lib/cjs/types/index.d.ts",
-  "main": "./lib/cjs/index.js",
+  "types": "./build/types/index.d.ts",
+  "main": "./build/index.js",
   "files": [
-    "lib/**/*"
+    "build/**/*"
   ],
   "scripts": {
-    "clean": "rimraf ./lib",
-    "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "build:esm": "tsc -p ./configs/tsconfig.esm.json && npm run build:esm-rename && npm run build:esm-copy-js",
-    "build:esm-rename": "move-file ./lib/esm/index.js ./lib/esm/index.mjs",
-    "build:esm-copy-js": "copyfiles ./src/*.js ./lib/cjs",
-    "build:cjs": "tsc -p ./configs/tsconfig.cjs.json && npm run build:cjs-copy-js",
-    "build:cjs-copy-js": "copyfiles ./src/*.js ./lib/esm",
+    "clean": "rimraf ./build",
+    "clean:obj": "rimraf ./build/obj",
+    "build": "npm run clean && npm run grammar && npm run compile && npm run bundle && npm run clean:obj",
+    "compile": "tsc -p ./configs/tsconfig.json && npm run compile:copy-missing-js && npm run compile:copy-missing-d-ts",
+    "compile:copy-missing-js": "copyfiles ./src/*.js ./build/obj",
+    "compile:copy-missing-d-ts": "copyfiles ./src/*.d.ts ./build/types",
+    "bundle": "esbuild ./build/obj/index.js --bundle --outfile=./build/index.js --external:./node_modules/*",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",
     "test": "mocha"
@@ -52,6 +40,7 @@
     "@types/mocha": "^10.0.1",
     "chai": "^4.3.7",
     "copyfiles": "^2.4.1",
+    "esbuild": "^0.17.7",
     "mocha": "^10.2.0",
     "move-file-cli": "^3.0.0",
     "rimraf": "^4.1.2",
