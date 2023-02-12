@@ -3,5 +3,5 @@ export interface IModel {
     getPropertyDb(): IPropertyDatabase;
 }
 export interface IPropertyDatabase {
-    executeUserFunction<TResult, TOptions>(fn: (pdb: PropertyDatabase, tag?: TOptions) => TResult, tag?: TOptions): Promise<TResult>;
+    executeUserFunction<TResult, TOptions>(code: ((pdb: PropertyDatabase, tag?: TOptions) => TResult) | string, tag?: TOptions): Promise<TResult>;
 }

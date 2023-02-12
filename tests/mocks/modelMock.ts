@@ -1,5 +1,5 @@
-import { IModel, IPropertyDatabase } from "../../src/model";
-import { PropertyDatabase } from "../../src/propertyDatabase";
+import { IModel, IPropertyDatabase } from "../../model";
+import { PropertyDatabase } from "../../propertyDatabase";
 import { pdb } from "./propertyDatabaseMock";
 
 const propertyDatabase: IPropertyDatabase = {

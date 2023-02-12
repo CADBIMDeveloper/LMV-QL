@@ -1,4 +1,4 @@
-import { PropertyDatabase, AttributeDefinition } from "../../src/propertyDatabase";
+import { PropertyDatabase, AttributeDefinition } from "../../propertyDatabase";
 
 export const pdb: PropertyDatabase = {
     findParent: function (dbId: number): number | null {

@@ -1,5 +1,5 @@
 import { IFilterableElement } from "./filterableElement";
-import { PropertyDatabase } from "./propertyDatabase";
+import { PropertyDatabase } from "../propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./propertyDatabaseAttributesCollection";
 
 export class PropertyDatabaseFilterableElement implements IFilterableElement {

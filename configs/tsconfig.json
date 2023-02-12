@@ -4,7 +4,7 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-        "checkJs": true,
+        "checkJs": false,
         "allowJs": true,
         "declaration": true,
         "declarationMap": false,
@@ -21,6 +21,7 @@
         "declarationDir": "../build/types"
     },
     "files": [
-        "../index.ts"
+        "../index.ts",
+        "../propertyDatabaseFunctions.ts"
     ]
 }

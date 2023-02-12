@@ -1,7 +1,7 @@
 import { UserComputeOptions, UserQueryOptions } from "./output";
 import { ElementPropertyValueQueryFactory } from "./src/elementPropertyValueQueryFactory";
 import { FilterFactory } from "./src/filterFactory";
-import { PropertyDatabase } from "./src/propertyDatabase";
+import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
 import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
 

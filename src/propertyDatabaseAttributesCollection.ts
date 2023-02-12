@@ -1,4 +1,4 @@
-import { PropertyDatabase } from "./propertyDatabase";
+import { PropertyDatabase } from "../propertyDatabase";
 
 export class PropertyDatabaseAttributesCollection {
     private readonly attributesIdsByName = new Map<string, number[]>();

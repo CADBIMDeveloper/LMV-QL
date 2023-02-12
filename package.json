@@ -10,11 +10,15 @@
   "scripts": {
     "clean": "rimraf ./build",
     "clean:obj": "rimraf ./build/obj",
-    "build": "npm run clean && npm run grammar && npm run compile && npm run bundle && npm run clean:obj",
+    "clean:types": "rimraf ./build/types/src",
+    "build": "npm run clean && npm run build-engine && npm run compile && npm run bundle && npm run clean:obj && npm run clean:types",
+    "build-engine": "npm run grammar && npm run compile && npm run bundle-functions && npm run transform-engine && npm run clean",
     "compile": "tsc -p ./configs/tsconfig.json && npm run compile:copy-missing-js && npm run compile:copy-missing-d-ts",
     "compile:copy-missing-js": "copyfiles ./src/*.js ./build/obj",
     "compile:copy-missing-d-ts": "copyfiles ./src/*.d.ts ./build/types",
     "bundle": "esbuild ./build/obj/index.js --bundle --outfile=./build/index.js --platform=browser --format=esm",
+    "bundle-functions": "esbuild ./build/obj/propertyDatabaseFunctions.js --bundle --outfile=./build/obj/engine.js --platform=browser --format=iife --global-name=engine",
+    "transform-engine": "node ./tools/convertEngineModule.js",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",
     "test": "mocha"
