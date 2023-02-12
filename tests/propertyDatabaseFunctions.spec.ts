@@ -1,10 +1,10 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { computeExpressionValue, query } from '../index';
-import { model } from './mocks/modelMock';
 import { Settings } from '../output';
+import { computeExpression, filterElements } from '../propertyDatabaseFunctions';
+import { pdb } from './mocks/propertyDatabaseMock';
 
-describe('Query tests', () => {
+describe('Query functions tests', () => {
     const leafNodesOnlySettings: Settings = {
         attributesCaseSensitive: true,
         leafNodesOnly: true,
@@ -19,38 +19,58 @@ describe('Query tests', () => {
         tolerance: 1e-5
     }
 
-    it("must query leaf elements", async () => {
-        const element = await query(model, "*.[element property] = 5.7", leafNodesOnlySettings);
+    it("must query leaf elements", () => {
+        const element = filterElements(pdb, {
+            lmvQuery: "*.[element property] = 5.7",
+            lmvQueryOptions: leafNodesOnlySettings
+        });
 
         assert.isNull(element.error);
         expect(element.dbIds).to.eql([4]);
 
-        const type = await query(model, "*.[element type property] = 1.3", leafNodesOnlySettings);
+        const type = filterElements(pdb, {
+            lmvQuery: "*.[element type property] = 1.3",
+            lmvQueryOptions: leafNodesOnlySettings
+        });
 
         assert.isNull(type.error);
         expect(type.dbIds).to.eql([4]);
     });
 
-    it("must query elements from the tree", async () => {
-        const elements = await query(model, "*.[element type property] = 1.3", allElementsSetttings);
+    it("must query elements from the tree", () => {
+        const elements = filterElements(pdb, {
+            lmvQuery: "*.[element type property] = 1.3",
+            lmvQueryOptions: allElementsSetttings
+        });
 
         assert.isNull(elements.error);
         expect(elements.dbIds).to.eql([3, 4]);
     });
 
-    it("must fail on the incorrect query", async () => {
-        const results = await query(model, "*.[element property]", leafNodesOnlySettings); // missing comparison
+    it("must fail on the incorrect query", () => {
+        const results = filterElements(pdb, {
+            lmvQuery: "*.[element property]",
+            lmvQueryOptions: leafNodesOnlySettings
+        });
 
         assert.isNotNull(results.error);
     });
 
-    it("must query property value", async () => {
-        const elementPropertiesQueryResults = await computeExpressionValue(model, 4, "*.[element property]");
+    it("must query property value", () => {
+        const elementPropertiesQueryResults = computeExpression(pdb, {
+            nodeId: 4, 
+            caseSensitive: true,
+            propertyQuery: "*.[element property]"
+        });
 
         assert.isNull(elementPropertiesQueryResults.error);
         assert.equal(elementPropertiesQueryResults.result, 5.7);
 
-        const elementTypePropertiesQueryResults = await computeExpressionValue(model, 4, "*.[element type property]");
+        const elementTypePropertiesQueryResults = computeExpression(pdb, {
+            nodeId: 4, 
+            caseSensitive: true,
+            propertyQuery: "*.[element type property]"
+        });
 
         assert.isNull(elementTypePropertiesQueryResults.error);
         assert.equal(elementTypePropertiesQueryResults.result, 1.3);
