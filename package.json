@@ -1,5 +1,5 @@
 {
-  "name": "@complete-cad/aps-viewer-filters",
+  "name": "lmv-ql",
   "version": "0.0.1-development",
   "description": "Smart filters for APS viewer",
   "types": "./build/types/index.d.ts",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CADBIMDeveloper/APS-viewer-filters.git"
+    "url": "git+https://github.com/CADBIMDeveloper/LMV-QL.git"
   },
   "keywords": [
     "Autodesk Platform Services viewer",
@@ -31,9 +31,9 @@
   "author": "Alex Ignatovich",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CADBIMDeveloper/APS-viewer-filters/issues"
+    "url": "https://github.com/CADBIMDeveloper/LMV-QL/issues"
   },
-  "homepage": "https://github.com/CADBIMDeveloper/APS-viewer-filters#readme",
+  "homepage": "https://github.com/CADBIMDeveloper/LMV-QL#readme",
   "devDependencies": {
     "@ohm-js/cli": "^1.1.0",
     "@types/chai": "^4.3.4",
