@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { AttributeDefinition, PropertyDatabase } from '../src/propertyDatabase';
+import { AttributeDefinition, PropertyDatabase } from '../propertyDatabase';
 import { PropertyDatabaseAttributesCollection } from '../src/propertyDatabaseAttributesCollection';
 
 describe("Attributes collection tests", () => {
