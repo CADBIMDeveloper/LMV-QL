@@ -14,7 +14,7 @@
             "DOM"
         ],
         "target": "ES6",
-        "module": "CommonJS",
+        "module": "esnext",
         "moduleResolution": "Node",
         "outDir": "../build/obj",
         "declarationDir": "../build/types"

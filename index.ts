@@ -39,7 +39,7 @@ type UserComputeOptions = {
 export async function query(model: IModel, query: string, options: Settings): Promise<QueryResults> {
   const propertyDatabase = model.getPropertyDb();
 
-  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(function (pdb, tag) {
+  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(function userFunction(pdb, tag) {
     try {
       const dbIds: number[] = [];
 
@@ -78,7 +78,7 @@ export async function query(model: IModel, query: string, options: Settings): Pr
 export async function computeExpressionValue(model: IModel, dbId: number, query: string, attributesCaseSensitive: boolean = true): Promise<ExpressionComputeResults> {
   const propertyDatabase = model.getPropertyDb();
 
-  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(function (pdb, tag) {
+  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(function userFunction(pdb, tag) {
     try {
       const { nodeId, propertyQuery, caseSensitive } = tag!;
 
