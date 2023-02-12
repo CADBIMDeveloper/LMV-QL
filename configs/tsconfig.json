@@ -14,7 +14,7 @@
             "DOM",
             "WebWorker"
         ],
-        "target": "ES6",
+        "target": "esnext",
         "module": "esnext",
         "moduleResolution": "Node",
         "outDir": "../build/obj",
