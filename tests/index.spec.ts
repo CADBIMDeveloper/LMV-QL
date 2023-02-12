@@ -1,7 +1,8 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { computeExpressionValue, query, Settings } from '../index';
+import { computeExpressionValue, query } from '../index';
 import { model } from './mocks/modelMock';
+import { Settings } from '../output';
 
 describe('Query tests', () => {
     const leafNodesOnlySettings: Settings = {
