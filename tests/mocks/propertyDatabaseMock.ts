@@ -8,6 +8,8 @@ export const pdb: PropertyDatabase = {
         callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null });
         callBack(2, { name: "element type property", category: "props", dataType: 20, displayName: null });
         callBack(3, { name: "element property", category: "props", dataType: 20, displayName: null });
+        callBack(4, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null });
+        callBack(5, { name: "instance property", category: "props", dataType: 20, displayName: null });
     },
     enumObjectProperties: function (dbId: number, callBack: (attrId: number, attrValueId: number) => void): void {
         if (dbId === 1) // root
@@ -19,11 +21,17 @@ export const pdb: PropertyDatabase = {
         if (dbId === 3) { // SubCategory
             callBack(1, 3);
             callBack(2, 5);
+            callBack(4, 7);
         }
 
         if (dbId === 4) { // Element
             callBack(1, 4);
             callBack(3, 6);
+            callBack(4, 7);
+        }
+
+        if (dbId === 5) { // Instance (common for element and subcategory)
+            callBack(5, 8);
         }
     },
     getAttrValue: function (attrId: number, attrValueId: number): string | number {
@@ -47,6 +55,12 @@ export const pdb: PropertyDatabase = {
 
         if (attrId === 3 && attrValueId === 6)
             return 5.7;
+
+        if (attrId === 4 && attrValueId === 7)
+            return 5;
+
+        if (attrId === 5 && attrValueId === 8)
+            return "instance property value"
 
         throw new Error('Values is not supported');
     },

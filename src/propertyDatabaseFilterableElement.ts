@@ -39,6 +39,13 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
         this.propertyDatabase.enumObjectProperties(dbId, (attrId, attrValueId) => {
             if (attrId === attributeId)
                 value = this.propertyDatabase.getAttrValue(attrId, attrValueId);
+
+            if (value === undefined && attrId === this.attributes.instanceOfAttributeId) {
+                const instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
+
+                if (typeof instanceDbId === "number")
+                    value = this.getNodePropertyValue(instanceDbId, attributeId);
+            }
         });
 
         return value;

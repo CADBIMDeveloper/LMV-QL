@@ -47,6 +47,16 @@ describe('Query functions tests', () => {
         expect(elements.dbIds).to.eql([3, 4]);
     });
 
+    it("must query instance-of properties", () => {
+        const elements = filterElements(pdb, {
+            lmvQuery: "*.[instance property] = \"instance property value\"",
+            lmvQueryOptions: allElementsSetttings
+        });
+
+        assert.isNull(elements.error);
+        expect(elements.dbIds).to.eql([3, 4]);
+    });
+
     it("must fail on the incorrect query", () => {
         const results = filterElements(pdb, {
             lmvQuery: "*.[element property]",
