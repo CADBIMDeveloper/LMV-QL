@@ -13,6 +13,7 @@ describe("Attributes collection tests", () => {
             callBack(5, { name: "mult", category: "cat", dataType: 20, displayName: null });
             callBack(6, { name: "name", category: "__name__", dataType: 20, displayName: null });
             callBack(7, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null });
+            callBack(8, { name: "Level", category: "__internalref__", dataType: 11, displayName: null });
         },
         findParent: function (_dbId: number): number | null {
             throw new Error('Function not implemented.');
@@ -51,10 +52,11 @@ describe("Attributes collection tests", () => {
         expect(attributesCollection.findAttributesIdsByName("a")).to.eql([1, 2]);
     });
 
-    it("must setup nameAttributeId", () => {
+    it("must setup attributes collection", () => {
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, true);
 
         assert.equal(attributesCollection.nameAttributeId, 6);
         assert.equal(attributesCollection.instanceOfAttributeId, 7);
-    })
+        assert.isTrue(attributesCollection.isInternalRefAttribute(8));
+    });
 });

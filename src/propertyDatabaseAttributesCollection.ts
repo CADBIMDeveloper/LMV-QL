@@ -2,6 +2,7 @@ import { PropertyDatabase } from "../propertyDatabase";
 
 export class PropertyDatabaseAttributesCollection {
     private readonly attributesIdsByName = new Map<string, number[]>();
+    private readonly internalRefsAttributes = new Set<number>();
 
     constructor(propertyDatabase: PropertyDatabase, private readonly attributesCaseSensitive: boolean) {
         let nameAttributeId = -1;
@@ -22,6 +23,9 @@ export class PropertyDatabaseAttributesCollection {
 
             if (attrDef.name === "instanceof_objid" && attrDef.category === "__instanceof__" && attrDef.dataType === 11)
                 instanceOfAttributeId = attrId;
+            
+            if (attrDef.category === "__internalref__" && attrDef.dataType === 11)
+                this.internalRefsAttributes.add(attrId);
         });
 
         this.nameAttributeId = nameAttributeId;
@@ -38,5 +42,9 @@ export class PropertyDatabaseAttributesCollection {
             : name.toLocaleLowerCase();
 
         return this.attributesIdsByName.get(attributeName) || [];
+    }
+
+    isInternalRefAttribute(attrId: number): boolean {
+        return this.internalRefsAttributes.has(attrId);
     }
 }
