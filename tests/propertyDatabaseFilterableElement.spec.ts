@@ -44,4 +44,12 @@ describe("Property database filterable element tests", () => {
 
         assert.equal(elementPropertyValue, "instance property value");
     });
+
+    it("must get internal ref property value", () => {
+        const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection);
+
+        const levelPropertyValue = element.getPropertyValue("Level", ["Category", "SubCategory", "Element"]);
+
+        assert.equal(levelPropertyValue, "Level 1");
+    });
 });
