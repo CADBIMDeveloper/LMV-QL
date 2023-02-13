@@ -1,7 +1,7 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
 import { compile, ElementFilter, Filter, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
 import { FilterSettings } from "./filterSettings";
-import { ParsingError } from "./parsingError";
+import { ParsingError } from "../parsingError";
 
 export class FilterFactory {
     private readonly semantics = grammar.createSemantics();

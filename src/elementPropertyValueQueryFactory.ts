@@ -1,6 +1,6 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
 import { ElementPropertyValueQuery, getPropertyDefinition, getPropertyValue, PropertyDefinition } from "./filterOperations";
-import { ParsingError } from "./parsingError";
+import { ParsingError } from "../parsingError";
 
 export class ElementPropertyValueQueryFactory {
     private readonly semantics = grammar.createSemantics();

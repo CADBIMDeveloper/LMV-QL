@@ -1,6 +1,7 @@
-import { FilterSettings } from "./src/filterSettings";
-import { ParsingError } from "./src/parsingError";
-export type Settings = FilterSettings & {
+import { ParsingError } from "./parsingError";
+export type Settings = {
+    tolerance: number;
+    stringCaseSensitive: boolean;
     leafNodesOnly: boolean;
     attributesCaseSensitive: boolean;
 };

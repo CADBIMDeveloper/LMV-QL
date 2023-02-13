@@ -1,7 +1,10 @@
-import { FilterSettings } from "./src/filterSettings";
-import { ParsingError } from "./src/parsingError";
+import { ParsingError } from "./parsingError";
 
-export type Settings = FilterSettings & { leafNodesOnly: boolean; attributesCaseSensitive: boolean }
+export type Settings = { 
+    tolerance: number;
+    stringCaseSensitive: boolean;
+    leafNodesOnly: boolean; 
+    attributesCaseSensitive: boolean }
 
 export type QueryResults = {
     dbIds: number[];
