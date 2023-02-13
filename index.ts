@@ -7,13 +7,9 @@ export async function query(model: IModel, query: string, options: Settings): Pr
 
   const engineModule = engine.toString();
 
-  type Options = UserQueryOptions & { engineModule: string }
+  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().filterElements(pdb, tag); }`;
 
-  return propertyDatabase.executeUserFunction<QueryResults, Options>(function userFunction(pdb, tag) {
-    const engine = eval(tag!.engineModule)();
-
-    return engine.filterElements(pdb, tag);
-  }, { lmvQuery: query, lmvQueryOptions: options, engineModule });
+  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions: options });
 }
 
 export async function computeExpressionValue(model: IModel, dbId: number, query: string, attributesCaseSensitive: boolean = true): Promise<ExpressionComputeResults> {
@@ -21,11 +17,7 @@ export async function computeExpressionValue(model: IModel, dbId: number, query:
 
   const engineModule = engine.toString();
 
-  type Options = UserComputeOptions & { engineModule: string }
+  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().computeExpression(pdb, tag); }`;
 
-  return propertyDatabase.executeUserFunction<ExpressionComputeResults, Options>(function userFunction(pdb, tag) {
-    const engine = eval(tag!.engineModule)();
-
-    return engine.computeExpression(pdb, tag);
-  }, { nodeId: dbId, propertyQuery: query, caseSensitive: attributesCaseSensitive, engineModule });
+  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(code, { nodeId: dbId, propertyQuery: query, caseSensitive: attributesCaseSensitive });
 }

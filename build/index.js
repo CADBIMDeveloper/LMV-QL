@@ -27,8 +27,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // build/obj/engine.js
 var require_engine = __commonJS({
   "build/obj/engine.js"(exports, module) {
-    "use strict";
-    var engine3 = () => {
+    var engine2 = () => {
       var qr = Object.create;
       var _e = Object.defineProperty;
       var Lr = Object.getOwnPropertyDescriptor;
@@ -3119,29 +3118,25 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       };
       return Mr(ts);
     };
-    module.exports = { engine: engine3 };
+    module.exports = { engine: engine2 };
   }
 });
 
 // build/obj/index.js
 var import_engine = __toESM(require_engine());
-async function query2(model, query, options) {
+async function query(model, query2, options) {
   const propertyDatabase = model.getPropertyDb();
   const engineModule = import_engine.engine.toString();
-  return propertyDatabase.executeUserFunction(function userFunction(pdb, tag) {
-    const engine = eval(tag.engineModule)();
-    return engine.filterElements(pdb, tag);
-  }, { lmvQuery: query, lmvQueryOptions: options, engineModule });
+  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().filterElements(pdb, tag); }`;
+  return propertyDatabase.executeUserFunction(code, { lmvQuery: query2, lmvQueryOptions: options });
 }
-async function computeExpressionValue(model, dbId, query, attributesCaseSensitive = true) {
+async function computeExpressionValue(model, dbId, query2, attributesCaseSensitive = true) {
   const propertyDatabase = model.getPropertyDb();
   const engineModule = import_engine.engine.toString();
-  return propertyDatabase.executeUserFunction(function userFunction(pdb, tag) {
-    const engine = eval(tag.engineModule)();
-    return engine.computeExpression(pdb, tag);
-  }, { nodeId: dbId, propertyQuery: query, caseSensitive: attributesCaseSensitive, engineModule });
+  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().computeExpression(pdb, tag); }`;
+  return propertyDatabase.executeUserFunction(code, { nodeId: dbId, propertyQuery: query2, caseSensitive: attributesCaseSensitive });
 }
 export {
   computeExpressionValue,
-  query2 as query
+  query
 };
