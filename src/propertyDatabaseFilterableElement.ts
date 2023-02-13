@@ -46,6 +46,13 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
                 instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
         });
 
+        if (attributeId !== this.attributes.nameAttributeId && this.attributes.isInternalRefAttribute(attributeId)) {
+            if (typeof value === "number")
+                return this.getNodePropertyValue(value, this.attributes.nameAttributeId);
+            else
+                return undefined;
+        }
+
         if (value === undefined && typeof instanceDbId === "number")
             value = this.getNodePropertyValue(instanceDbId, attributeId);
 

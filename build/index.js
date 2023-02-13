@@ -3045,12 +3045,13 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       var Se = class {
         attributesCaseSensitive;
         attributesIdsByName = /* @__PURE__ */ new Map();
+        internalRefsAttributes = /* @__PURE__ */ new Set();
         constructor(t, u) {
           this.attributesCaseSensitive = u;
           let r = -1, n = -1;
           t.enumAttributes((i, s) => {
             let l = u ? s.name : s.name.toLocaleLowerCase(), c = this.attributesIdsByName.get(l) || [];
-            c.push(i), this.attributesIdsByName.set(l, c), s.name === "name" && s.category === "__name__" && (r = i), s.name === "instanceof_objid" && s.category === "__instanceof__" && s.dataType === 11 && (n = i);
+            c.push(i), this.attributesIdsByName.set(l, c), s.name === "name" && s.category === "__name__" && (r = i), s.name === "instanceof_objid" && s.category === "__instanceof__" && s.dataType === 11 && (n = i), s.category === "__internalref__" && s.dataType === 11 && this.internalRefsAttributes.add(i);
           }), this.nameAttributeId = r, this.instanceOfAttributeId = n;
         }
         nameAttributeId;
@@ -3058,6 +3059,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         findAttributesIdsByName(t) {
           let u = this.attributesCaseSensitive ? t : t.toLocaleLowerCase();
           return this.attributesIdsByName.get(u) || [];
+        }
+        isInternalRefAttribute(t) {
+          return this.internalRefsAttributes.has(t);
         }
       };
       var be = class {
@@ -3087,7 +3091,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let r, n;
           return this.propertyDatabase.enumObjectProperties(t, (i, s) => {
             i === u && (r = this.propertyDatabase.getAttrValue(i, s)), r === void 0 && i === this.attributes.instanceOfAttributeId && (n = this.propertyDatabase.getAttrValue(i, s));
-          }), r === void 0 && typeof n == "number" && (r = this.getNodePropertyValue(n, u)), r;
+          }), u !== this.attributes.nameAttributeId && this.attributes.isInternalRefAttribute(u) ? typeof r == "number" ? this.getNodePropertyValue(r, this.attributes.nameAttributeId) : void 0 : (r === void 0 && typeof n == "number" && (r = this.getNodePropertyValue(n, u)), r);
         }
       }, Yi = (e, t) => {
         let u = [], r = e;
