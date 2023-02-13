@@ -349,16 +349,16 @@ var require_engine = __commonJS({
           constructor(t) {
             super(), this.index = t;
           }
-        }, Ee = class extends y {
+        }, fe = class extends y {
           constructor(t) {
             super(), this.terms = t;
           }
-        }, Ye = class extends Ee {
+        }, Ye = class extends fe {
           constructor(t, u, r) {
             let n = t.rules[u].body;
             super([r, n]), this.superGrammar = t, this.name = u, this.body = r;
           }
-        }, Xe = class extends Ee {
+        }, Xe = class extends fe {
           constructor(t, u, r, n) {
             let i = t.rules[u].body;
             super([...r, i, ...n]), this.superGrammar = t, this.ruleName = u, this.expansionPos = r.length;
@@ -417,7 +417,7 @@ var require_engine = __commonJS({
         F.Terminal = Je;
         F.Range = Ze;
         F.Param = Qe;
-        F.Alt = Ee;
+        F.Alt = fe;
         F.Extend = Ye;
         F.Splice = Xe;
         F.Seq = et;
@@ -537,7 +537,7 @@ var require_engine = __commonJS({
           let u = e.children.slice(1, -1).map((n) => n.source), r = u[0].coverageWith(...u.slice(1));
           return d(`U+${r.contents} is not a valid Unicode code point`, r);
         }
-        function En(e, t) {
+        function fn(e, t) {
           let u = t.length > 0 ? t[t.length - 1].args : [], n = "Nullable expression " + e.expr.substituteParams(u) + " is not allowed inside '" + e.operator + "' (possible infinite loop)";
           if (t.length > 0) {
             let i = t.map((s) => new Jr.Apply(s.ruleName, s.args)).join(`
@@ -548,7 +548,7 @@ Application stack (most recent application last):
           }
           return d(n, e.expr.source);
         }
-        function fn(e, t, u, r) {
+        function En(e, t, u, r) {
           return d("Rule " + e + " involves an alternation which has inconsistent arity (expected " + t + ", got " + u + ")", r.source);
         }
         function dn(e) {
@@ -563,9 +563,9 @@ Application stack (most recent application last):
 - `), e[0].interval);
         }
         function gn(e, t, u, r) {
-          let n = r.slice(0, -1).map((l) => {
-            let D = "  " + l[0].name + " > " + l[1];
-            return l.length === 3 ? D + " for '" + l[2] + "'" : D;
+          let n = r.slice(0, -1).map((c) => {
+            let D = "  " + c[0].name + " > " + c[1];
+            return c.length === 3 ? D + " for '" + c[2] + "'" : D;
           }).join(`
 `);
           n += `
@@ -575,10 +575,10 @@ Application stack (most recent application last):
 NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `, "  https://ohmjs.org/d/dsa for details."].join(`
 `));
           let s = [`Missing semantic action for '${e}' in ${u} '${t}'.${i}`, "Action stack (most recent call last):", n].join(`
-`), c = d(s);
-          return c.name = "missingSemanticAction", c;
+`), l = d(s);
+          return l.name = "missingSemanticAction", l;
         }
-        Wt.exports = { applicationOfSyntacticRuleFromLexicalContext: ln, applySyntacticWithLexicalRuleApplication: pn, cannotExtendUndeclaredRule: un, cannotOverrideUndeclaredRule: tn, duplicateGrammarDeclaration: Xr, duplicateParameterNames: on, duplicatePropertyNames: dn, duplicateRuleDeclaration: rn, inconsistentArity: fn, incorrectArgumentType: hn, intervalSourcesDontMatch: Zr, invalidCodePoint: mn, invalidConstructorCall: Cn, invalidParameter: an, grammarSyntaxError: Qr, kleeneExprHasNullableOperand: En, missingSemanticAction: gn, multipleSuperSplices: An, undeclaredGrammar: Yr, undeclaredRule: en, unnecessaryExperimentalApplySyntactic: Dn, wrongNumberOfArguments: sn, wrongNumberOfParameters: nn, throwErrors(e) {
+        Wt.exports = { applicationOfSyntacticRuleFromLexicalContext: ln, applySyntacticWithLexicalRuleApplication: pn, cannotExtendUndeclaredRule: un, cannotOverrideUndeclaredRule: tn, duplicateGrammarDeclaration: Xr, duplicateParameterNames: on, duplicatePropertyNames: dn, duplicateRuleDeclaration: rn, inconsistentArity: En, incorrectArgumentType: hn, intervalSourcesDontMatch: Zr, invalidCodePoint: mn, invalidConstructorCall: Cn, invalidParameter: an, grammarSyntaxError: Qr, kleeneExprHasNullableOperand: fn, missingSemanticAction: gn, multipleSuperSplices: An, undeclaredGrammar: Yr, undeclaredRule: en, unnecessaryExperimentalApplySyntactic: Dn, wrongNumberOfArguments: sn, wrongNumberOfParameters: nn, throwErrors(e) {
           if (e.length === 1)
             throw e[0];
           if (e.length > 1)
@@ -608,15 +608,15 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
 `);
           };
           t.prevLine != null && s(0, t.prevLine, "  "), s(1, t.line, "> ");
-          let c = t.line.length, l = r(" ", c + 1);
+          let l = t.line.length, c = r(" ", l + 1);
           for (let a = 0; a < e.length; ++a) {
             let o = e[a][0], p = e[a][1];
             Pe.assert(o >= 0 && o <= p, "range start must be >= 0 and <= end");
             let A = u - t.colNum + 1;
-            o = Math.max(0, o - A), p = Math.min(p - A, c), l = $t(l, r("~", p - o), o);
+            o = Math.max(0, o - A), p = Math.min(p - A, l), c = $t(c, r("~", p - o), o);
           }
           let D = 2 + i[1].length + 3;
-          return n.append(r(" ", D)), l = $t(l, "^", t.colNum - 1), n.append(l.replace(/ +$/, "") + `
+          return n.append(r(" ", D)), c = $t(c, "^", t.colNum - 1), n.append(c.replace(/ +$/, "") + `
 `), t.nextLine != null && s(2, t.nextLine, "  "), n.contents();
         }
         var ot = [];
@@ -629,11 +629,11 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           }), ot = null;
         };
         re.getLineAndColumn = (e, t) => {
-          let u = 1, r = 1, n = 0, i = 0, s = null, c = null, l = -1;
+          let u = 1, r = 1, n = 0, i = 0, s = null, l = null, c = -1;
           for (; n < t; ) {
             let o = e.charAt(n++);
             o === `
-` ? (u++, r = 1, l = i, i = n) : o !== "\r" && r++;
+` ? (u++, r = 1, c = i, i = n) : o !== "\r" && r++;
           }
           let D = e.indexOf(`
 `, i);
@@ -644,9 +644,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
 `, D + 1);
             s = o === -1 ? e.slice(D) : e.slice(D, o), s = s.replace(/^\r?\n/, "").replace(/\r$/, "");
           }
-          l >= 0 && (c = e.slice(l, i).replace(/\r?\n$/, ""));
+          c >= 0 && (l = e.slice(c, i).replace(/\r?\n$/, ""));
           let a = e.slice(i, D).replace(/\r$/, "");
-          return { offset: t, lineNum: u, colNum: r, line: a, prevLine: c, nextLine: s, toString: Bn };
+          return { offset: t, lineNum: u, colNum: r, line: a, prevLine: l, nextLine: s, toString: Bn };
         };
         re.getLineAndColumnMessage = function(e, t, ...u) {
           return re.getLineAndColumn(e, t).toString(...u);
@@ -658,9 +658,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       });
       var Jt = h(() => {
         "use strict";
-        var { abstract: vn, isSyntactic: at } = m(), Q = $(), x = I(), In = Z(), fe;
+        var { abstract: vn, isSyntactic: at } = m(), Q = $(), x = I(), In = Z(), Ee;
         In.awaitBuiltInRules((e) => {
-          fe = e;
+          Ee = e;
         });
         var Oe;
         x.PExpr.prototype.assertAllApplicationsAreValid = function(e, t) {
@@ -692,10 +692,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let i = this.args.length, s = r.formals.length;
           if (i !== s)
             throw Q.wrongNumberOfArguments(this.ruleName, s, i, this.source);
-          let c = fe && r === fe.rules.applySyntactic;
-          if (fe && r === fe.rules.caseInsensitive && !(this.args[0] instanceof x.Terminal))
+          let l = Ee && r === Ee.rules.applySyntactic;
+          if (Ee && r === Ee.rules.caseInsensitive && !(this.args[0] instanceof x.Terminal))
             throw Q.incorrectArgumentType('a Terminal (e.g. "abc")', this.args[0]);
-          if (c) {
+          if (l) {
             let D = this.args[0];
             if (!(D instanceof x.Apply))
               throw Q.incorrectArgumentType("a syntactic rule application", D);
@@ -705,7 +705,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
               throw Q.unnecessaryExperimentalApplySyntactic(this);
           }
           this.args.forEach((D) => {
-            if (D._assertAllApplicationsAreValid(e, t, c), D.getArity() !== 1)
+            if (D._assertAllApplicationsAreValid(e, t, l), D.getArity() !== 1)
               throw Q.invalidParameter(this.ruleName, D);
           });
         };
@@ -865,9 +865,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let u = e;
           typeof u == "function" && (u = { enter: u });
           function r(n, i, s) {
-            let c = true;
-            u.enter && u.enter.call(t, n, i, s) === z.prototype.SKIP && (c = false), c && (n.children.forEach((l) => {
-              r(l, n, s + 1);
+            let l = true;
+            u.enter && u.enter.call(t, n, i, s) === z.prototype.SKIP && (l = false), l && (n.children.forEach((c) => {
+              r(c, n, s + 1);
             }), u.exit && u.exit.call(t, n, i, s));
           }
           this.isRootNode ? this.children.forEach((n) => {
@@ -937,25 +937,25 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let { inputStream: t } = e, u = t.pos, r = this.getArity(), n = [], i = [];
           for (; n.length < r; )
             n.push([]), i.push([]);
-          let s = 0, c = u, l;
+          let s = 0, l = u, c;
           for (; s < this.maxNumMatches && e.eval(this.expr); ) {
-            if (t.pos === c)
+            if (t.pos === l)
               throw Gn.kleeneExprHasNullableOperand(this, e._applicationStack);
-            c = t.pos, s++;
+            l = t.pos, s++;
             let p = e._bindings.splice(e._bindings.length - r, r), A = e._bindingOffsets.splice(e._bindingOffsets.length - r, r);
-            for (l = 0; l < p.length; l++)
-              n[l].push(p[l]), i[l].push(A[l]);
+            for (c = 0; c < p.length; c++)
+              n[c].push(p[c]), i[c].push(A[c]);
           }
           if (s < this.minNumMatches)
             return false;
           let D = e.posToOffset(u), a = 0;
           if (s > 0) {
-            let p = n[r - 1], A = i[r - 1], E = A[A.length - 1] + p[p.length - 1].matchLength;
-            D = i[0][0], a = E - D;
+            let p = n[r - 1], A = i[r - 1], f = A[A.length - 1] + p[p.length - 1].matchLength;
+            D = i[0][0], a = f - D;
           }
           let o = this instanceof g.Opt;
-          for (l = 0; l < n.length; l++)
-            e._bindings.push(new Vn(n[l], i[l], a, o)), e._bindingOffsets.push(D);
+          for (c = 0; c < n.length; c++)
+            e._bindings.push(new Vn(n[c], i[c], a, o)), e._bindingOffsets.push(D);
           return true;
         };
         g.Not.prototype.eval = function(e) {
@@ -987,22 +987,22 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         g.Apply.prototype.reallyEval = function(e) {
           let { inputStream: t } = e, u = t.pos, r = e.getCurrentPosInfo(), n = e.grammar.rules[this.ruleName], { body: i } = n, { description: s } = n;
           e.enterApplication(r, this), s && e.pushFailuresInfo();
-          let c = t.examinedLength;
+          let l = t.examinedLength;
           t.examinedLength = 0;
-          let l = this.evalOnce(i, e), D = r.currentLeftRecursion, a = this.toMemoKey(), o = D && D.headApplication.toMemoKey() === a, p;
-          o ? (l = this.growSeedResult(i, e, u, D, l), r.endLeftRecursion(), p = D, p.examinedLength = t.examinedLength - u, p.rightmostFailureOffset = e._getRightmostFailureOffset(), r.memoize(a, p)) : (!D || !D.isInvolved(a)) && (p = r.memoize(a, { matchLength: t.pos - u, examinedLength: t.examinedLength - u, value: l, failuresAtRightmostPosition: e.cloneRecordedFailures(), rightmostFailureOffset: e._getRightmostFailureOffset() }));
-          let A = !!l;
+          let c = this.evalOnce(i, e), D = r.currentLeftRecursion, a = this.toMemoKey(), o = D && D.headApplication.toMemoKey() === a, p;
+          o ? (c = this.growSeedResult(i, e, u, D, c), r.endLeftRecursion(), p = D, p.examinedLength = t.examinedLength - u, p.rightmostFailureOffset = e._getRightmostFailureOffset(), r.memoize(a, p)) : (!D || !D.isInvolved(a)) && (p = r.memoize(a, { matchLength: t.pos - u, examinedLength: t.examinedLength - u, value: c, failuresAtRightmostPosition: e.cloneRecordedFailures(), rightmostFailureOffset: e._getRightmostFailureOffset() }));
+          let A = !!c;
           if (s && (e.popFailuresInfo(), A || e.processFailure(u, this), p && (p.failuresAtRightmostPosition = e.cloneRecordedFailures())), e.isTracing() && p) {
-            let E = e.getTraceEntry(u, this, A, A ? [l] : []);
-            o && (ru.assert(E.terminatingLREntry != null || !A), E.isHeadOfLeftRecursion = true), p.traceEntry = E;
+            let f = e.getTraceEntry(u, this, A, A ? [c] : []);
+            o && (ru.assert(f.terminatingLREntry != null || !A), f.isHeadOfLeftRecursion = true), p.traceEntry = f;
           }
-          return t.examinedLength = Math.max(t.examinedLength, c), e.exitApplication(r, l), A;
+          return t.examinedLength = Math.max(t.examinedLength, l), e.exitApplication(r, c), A;
         };
         g.Apply.prototype.evalOnce = function(e, t) {
           let { inputStream: u } = t, r = u.pos;
           if (t.eval(e)) {
-            let n = e.getArity(), i = t._bindings.splice(t._bindings.length - n, n), s = t._bindingOffsets.splice(t._bindingOffsets.length - n, n), c = u.pos - r;
-            return new Un(this.ruleName, i, s, c);
+            let n = e.getArity(), i = t._bindings.splice(t._bindings.length - n, n), s = t._bindingOffsets.splice(t._bindingOffsets.length - n, n), l = u.pos - r;
+            return new Un(this.ruleName, i, s, l);
           } else
             return false;
         };
@@ -1236,10 +1236,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let u = this.terms.map((i) => i.toArgumentNameList(e, true)), r = [], n = u[0].length;
           for (let i = 0; i < n; i++) {
             let s = [];
-            for (let l = 0; l < this.terms.length; l++)
-              s.push(u[l][i]);
-            let c = Jn(s);
-            r.push(c.join("_or_"));
+            for (let c = 0; c < this.terms.length; c++)
+              s.push(u[c][i]);
+            let l = Jn(s);
+            r.push(l.join("_or_"));
           }
           return t || At(r), r;
         };
@@ -1385,9 +1385,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           return "\\p{" + this.category + "}";
         };
       });
-      var Y = h((Gs, Eu) => {
+      var Y = h((Gs, fu) => {
         "use strict";
-        Eu.exports = I();
+        fu.exports = I();
         Kt();
         Jt();
         Qt();
@@ -1403,7 +1403,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         Au();
         mu();
       });
-      var du = h((Us, fu) => {
+      var du = h((Us, Eu) => {
         "use strict";
         var Xn = ze(), { TerminalNode: ei } = we(), { assert: ti } = m(), { PExpr: ui, Terminal: ri } = Y(), Ce = class extends ui {
           constructor(t) {
@@ -1436,7 +1436,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
             return this.obj._isNullable(t, u);
           }
         };
-        fu.exports = Ce;
+        Eu.exports = Ce;
       });
       var qe = h((Vs, Fu) => {
         "use strict";
@@ -1477,16 +1477,16 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         } };
         Fu.exports = Cu;
       });
-      var Et = h((zs, yu) => {
+      var ft = h((zs, yu) => {
         "use strict";
         var mt = m(), gu = Z(), ii = Ne();
         function X(e, t, u, r, n, i, s) {
           this.matcher = e, this.input = t, this.startExpr = u, this._cst = r, this._cstOffset = n, this._rightmostFailurePosition = i, this._rightmostFailures = s, this.failed() && (mt.defineLazyProperty(this, "message", function() {
-            let c = "Expected " + this.getExpectedText();
-            return gu.getLineAndColumnMessage(this.input, this.getRightmostFailurePosition()) + c;
+            let l = "Expected " + this.getExpectedText();
+            return gu.getLineAndColumnMessage(this.input, this.getRightmostFailurePosition()) + l;
           }), mt.defineLazyProperty(this, "shortMessage", function() {
-            let c = "expected " + this.getExpectedText(), l = gu.getLineAndColumn(this.input, this.getRightmostFailurePosition());
-            return "Line " + l.lineNum + ", col " + l.colNum + ": " + c;
+            let l = "expected " + this.getExpectedText(), c = gu.getLineAndColumn(this.input, this.getRightmostFailurePosition());
+            return "Line " + c.lineNum + ", col " + c.colNum + ": " + l;
           }));
         }
         X.prototype.succeeded = function() {
@@ -1573,11 +1573,11 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       });
       var _u = h((Hs, bu) => {
         "use strict";
-        var si = qe(), oi = Et(), ai = Iu(), ci = Dt(), dt = Y(), li = Z(), xu;
+        var si = qe(), oi = ft(), ai = Iu(), ci = Dt(), dt = Y(), li = Z(), xu;
         li.awaitBuiltInRules((e) => {
           xu = e.rules.applySyntactic.body;
         });
-        var ft = new dt.Apply("spaces");
+        var Et = new dt.Apply("spaces");
         function Su(e, t, u) {
           this.matcher = e, this.startExpr = t, this.grammar = e.grammar, this.input = e.input, this.inputStream = new si(e.input), this.memoTable = e.memoTable, this._bindings = [], this._bindingOffsets = [], this._applicationStack = [], this._posStack = [0], this.inLexifiedContextStack = [false], this.rightmostFailurePosition = -1, this._rightmostFailurePositionStack = [], this._recordedFailuresStack = [], u !== void 0 && (this.positionToRecordFailures = u, this.recordedFailures = /* @__PURE__ */ Object.create(null));
         }
@@ -1600,11 +1600,11 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         }, inLexifiedContext() {
           return this.inLexifiedContextStack[this.inLexifiedContextStack.length - 1];
         }, skipSpaces() {
-          return this.pushFailuresInfo(), this.eval(ft), this.popBinding(), this.popFailuresInfo(), this.inputStream.pos;
+          return this.pushFailuresInfo(), this.eval(Et), this.popBinding(), this.popFailuresInfo(), this.inputStream.pos;
         }, skipSpacesIfInSyntacticContext() {
           return this.inSyntacticContext() ? this.skipSpaces() : this.inputStream.pos;
         }, maybeSkipSpacesBefore(e) {
-          return e.allowsSkippingPrecedingSpace() && e !== ft ? this.skipSpacesIfInSyntacticContext() : this.inputStream.pos;
+          return e.allowsSkippingPrecedingSpace() && e !== Et ? this.skipSpacesIfInSyntacticContext() : this.inputStream.pos;
         }, pushBinding(e, t) {
           this._bindings.push(e), this._bindingOffsets.push(this.posToOffset(t));
         }, popBinding() {
@@ -1671,14 +1671,14 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           this.recordedFailures && (r = this.recordedFailures, this.recordedFailures = /* @__PURE__ */ Object.create(null));
           let n = t.pos, i = this.maybeSkipSpacesBefore(e), s;
           this.trace && (s = this.trace, this.trace = []);
-          let c = e.eval(this);
+          let l = e.eval(this);
           if (this.trace) {
-            let l = this._bindings.slice(u), D = this.getTraceEntry(i, e, c, l);
-            D.isImplicitSpaces = e === ft, D.isRootNode = e === this.startExpr, s.push(D), this.trace = s;
+            let c = this._bindings.slice(u), D = this.getTraceEntry(i, e, l, c);
+            D.isImplicitSpaces = e === Et, D.isRootNode = e === this.startExpr, s.push(D), this.trace = s;
           }
-          return c ? this.recordedFailures && t.pos === this.positionToRecordFailures && Object.keys(this.recordedFailures).forEach((l) => {
-            this.recordedFailures[l].makeFluffy();
-          }) : (t.pos = n, this.truncateBindings(u)), this.recordedFailures && this.recordFailures(r, false), e === xu && this.skipSpaces(), c;
+          return l ? this.recordedFailures && t.pos === this.positionToRecordFailures && Object.keys(this.recordedFailures).forEach((c) => {
+            this.recordedFailures[c].makeFluffy();
+          }) : (t.pos = n, this.truncateBindings(u)), this.recordedFailures && this.recordFailures(r, false), e === xu && this.skipSpaces(), l;
         }, getMatchResult() {
           this.eval(this.startExpr);
           let e;
@@ -1747,7 +1747,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       });
       var gt = h(($s, Lu) => {
         "use strict";
-        var Di = qe(), { IterationNode: hi } = we(), Ai = Et(), Ct = m(), mi = $(), Nu = Z(), Fe = [], Ft = (e, t) => Object.prototype.hasOwnProperty.call(e, t), Le = class {
+        var Di = qe(), { IterationNode: hi } = we(), Ai = ft(), Ct = m(), mi = $(), Nu = Z(), Fe = [], Ft = (e, t) => Object.prototype.hasOwnProperty.call(e, t), Le = class {
           constructor(t, u, r) {
             this._node = t, this.source = u, this._baseInterval = r, t.isNonterminal() && Ct.assert(u === r), this._childWrappers = [];
           }
@@ -1858,14 +1858,14 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           return ["Operation", "Attribute"].forEach((r) => {
             let n = this[r.toLowerCase() + "s"];
             Object.keys(n).forEach((i) => {
-              let { actionDict: s, formals: c, builtInDefault: l } = n[i], D = i;
-              c.length > 0 && (D += "(" + c.join(", ") + ")");
+              let { actionDict: s, formals: l, builtInDefault: c } = n[i], D = i;
+              l.length > 0 && (D += "(" + l.join(", ") + ")");
               let a;
               t(this) && this.super[r.toLowerCase() + "s"][i] ? a = "extend" + r : a = "add" + r, u += `
     .` + a + "(" + JSON.stringify(D) + ", {";
               let o = [];
               Object.keys(s).forEach((p) => {
-                if (s[p] !== l) {
+                if (s[p] !== c) {
                   let A = s[p].toString().trim();
                   A = A.replace(/^.*\(/, "function("), o.push(`
       ` + JSON.stringify(p) + ": " + A);
@@ -1889,7 +1889,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
             throw new Error(u.message);
           return w.prototypeGrammarSemantics(u).parse();
         }
-        function Ei(e, t, u) {
+        function fi(e, t, u) {
           return function(...r) {
             let i = (this._semantics.operations[t] || this._semantics.attributes[t]).formals.map((s) => this.args[s]);
             if (!this.isIteration() && r.length === 1)
@@ -1900,11 +1900,11 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         w.prototype.addOperationOrAttribute = function(e, t, u) {
           let r = e + "s", n = qu(t, e), { name: i } = n, { formals: s } = n;
           this.assertNewName(i, e);
-          let c = Ei(e, i, a), l = { _default: c };
+          let l = fi(e, i, a), c = { _default: l };
           Object.keys(u).forEach((o) => {
-            l[o] = u[o];
+            c[o] = u[o];
           });
-          let D = e === "operation" ? new ne(i, s, l, c) : new ge(i, l, c);
+          let D = e === "operation" ? new ne(i, s, c, l) : new ge(i, c, l);
           D.checkActionDict(this.grammar), this[r][i] = D;
           function a(...o) {
             let p = this._semantics[r][i];
@@ -1915,10 +1915,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
               let me = p.formals[v];
               A[me] = ue;
             }
-            let E = this.args;
+            let f = this.args;
             this.args = A;
             let _ = p.execute(this._semantics, this);
-            return this.args = E, _;
+            return this.args = f, _;
           }
           e === "operation" ? (this.Wrapper.prototype[i] = a, this.Wrapper.prototype[i].toString = function() {
             return "[" + i + " operation]";
@@ -1931,8 +1931,8 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           if (Ft(this[r], t))
             throw new Error("Cannot extend " + e + " '" + t + "' again");
           let n = this[r][t].formals, i = this[r][t].actionDict, s = Object.create(i);
-          Object.keys(u).forEach((c) => {
-            s[c] = u[c];
+          Object.keys(u).forEach((l) => {
+            s[l] = u[l];
           }), this[r][t] = e === "operation" ? new ne(t, n, s) : new ge(t, s), this[r][t].checkActionDict(this.grammar);
         };
         w.prototype.assertNewName = function(e, t) {
@@ -1956,8 +1956,8 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
             let s = i._cst;
             if (s.grammar !== e)
               throw new Error("Cannot use a MatchResult from grammar '" + s.grammar.name + "' with a semantics for '" + e.name + "'");
-            let c = new Di(i.input);
-            return u.wrap(s, c.interval(i._cstOffset, i.input.length));
+            let l = new Di(i.input);
+            return u.wrap(s, l.interval(i._cstOffset, i.input.length));
           };
           return r.addOperation = function(n, i) {
             return u.addOperationOrAttribute("operation", n, i), r;
@@ -2018,7 +2018,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       });
       var ye = h((Zs, Vu) => {
         "use strict";
-        var fi = du(), di = Ou(), Ru = gt(), Tu = m(), ku = $(), H = Y(), ju = ["_iter", "_terminal", "_nonterminal", "_default"];
+        var Ei = du(), di = Ou(), Ru = gt(), Tu = m(), ku = $(), H = Y(), ju = ["_iter", "_terminal", "_nonterminal", "_default"];
         function Mu(e) {
           return Object.keys(e.rules).sort().map((t) => e.rules[t]);
         }
@@ -2067,10 +2067,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
               r.push(`'${n}' must be a function in an action dictionary for '${this.name}'`);
               continue;
             }
-            let c = i.length, l = this._topDownActionArity(n);
-            if (c !== l) {
+            let l = i.length, c = this._topDownActionArity(n);
+            if (l !== c) {
               let D;
-              n === "_iter" || n === "_nonterminal" ? D = `it should use a rest parameter, e.g. \`${n}(...children) {}\`. NOTE: this is new in Ohm v16 \u2014 see https://ohmjs.org/d/ati for details.` : D = `expected ${l}, got ${c}`, r.push(`Semantic action '${n}' has the wrong arity: ${D}`);
+              n === "_iter" || n === "_nonterminal" ? D = `it should use a rest parameter, e.g. \`${n}(...children) {}\`. NOTE: this is new in Ohm v16 \u2014 see https://ohmjs.org/d/ati for details.` : D = `expected ${c}, got ${l}`, r.push(`Semantic action '${n}' has the wrong arity: ${D}`);
             }
           }
           if (r.length > 0) {
@@ -2095,15 +2095,15 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           this.defaultStartRule && (u = this.defaultStartRule);
           let r = {};
           Object.keys(this.rules).forEach((s) => {
-            let c = this.rules[s], { body: l } = c, D = !this.superGrammar || !this.superGrammar.rules[s], a;
-            D ? a = "define" : a = l instanceof H.Extend ? "extend" : "override";
+            let l = this.rules[s], { body: c } = l, D = !this.superGrammar || !this.superGrammar.rules[s], a;
+            D ? a = "define" : a = c instanceof H.Extend ? "extend" : "override";
             let o = {};
-            if (c.source && this.source) {
-              let E = c.source.relativeTo(this.source);
-              o.sourceInterval = [E.startIdx, E.endIdx];
+            if (l.source && this.source) {
+              let f = l.source.relativeTo(this.source);
+              o.sourceInterval = [f.startIdx, f.endIdx];
             }
-            let p = D ? c.description : null, A = l.outputRecipe(c.formals, this.source);
-            r[s] = [a, o, p, c.formals, A];
+            let p = D ? l.description : null, A = c.outputRecipe(l.formals, this.source);
+            r[s] = [a, o, p, l.formals, A];
           });
           let n = "null";
           e ? n = e : this.superGrammar && !this.superGrammar.isBuiltIn() && (n = this.superGrammar.toRecipe());
@@ -2146,7 +2146,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           }
           return t;
         } };
-        ie.ProtoBuiltInRules = new ie("ProtoBuiltInRules", void 0, { any: { body: H.any, formals: [], description: "any character", primitive: true }, end: { body: H.end, formals: [], description: "end of input", primitive: true }, caseInsensitive: { body: new fi(new H.Param(0)), formals: ["str"], primitive: true }, lower: { body: new H.UnicodeChar("Ll"), formals: [], description: "a lowercase letter", primitive: true }, upper: { body: new H.UnicodeChar("Lu"), formals: [], description: "an uppercase letter", primitive: true }, unicodeLtmo: { body: new H.UnicodeChar("Ltmo"), formals: [], description: "a Unicode character in Lt, Lm, or Lo", primitive: true }, spaces: { body: new H.Star(new H.Apply("space")), formals: [] }, space: { body: new H.Range("\0", " "), formals: [], description: "a space" } });
+        ie.ProtoBuiltInRules = new ie("ProtoBuiltInRules", void 0, { any: { body: H.any, formals: [], description: "any character", primitive: true }, end: { body: H.end, formals: [], description: "end of input", primitive: true }, caseInsensitive: { body: new Ei(new H.Param(0)), formals: ["str"], primitive: true }, lower: { body: new H.UnicodeChar("Ll"), formals: [], description: "a lowercase letter", primitive: true }, upper: { body: new H.UnicodeChar("Lu"), formals: [], description: "an uppercase letter", primitive: true }, unicodeLtmo: { body: new H.UnicodeChar("Ltmo"), formals: [], description: "a Unicode character in Lt, Lm, or Lo", primitive: true }, spaces: { body: new H.Star(new H.Apply("space")), formals: [] }, space: { body: new H.Range("\0", " "), formals: [], description: "a space" } });
         Vu.exports = ie;
       });
       var Hu = h((Qs, Ku) => {
@@ -2171,9 +2171,9 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let n = zu.getDuplicates(t);
           if (n.length > 0)
             throw te.duplicateParameterNames(e, n, r);
-          let i = this.ensureSuperGrammar().rules[e], s = i.formals, c = s ? s.length : 0;
-          if (t.length !== c)
-            throw te.wrongNumberOfParameters(e, c, t.length, r);
+          let i = this.ensureSuperGrammar().rules[e], s = i.formals, l = s ? s.length : 0;
+          if (t.length !== l)
+            throw te.wrongNumberOfParameters(e, l, t.length, r);
           return this.install(e, t, u, i.description, r);
         };
         V.prototype.install = function(e, t, u, r, n) {
@@ -2236,7 +2236,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       });
       var Bt = h((Ys, Ju) => {
         "use strict";
-        var yi = ye(), Wu = Hu(), f = Y();
+        var yi = ye(), Wu = Hu(), E = Y();
         function $u() {
         }
         $u.prototype = { currentDecl: null, currentRuleName: null, newGrammar(e) {
@@ -2245,45 +2245,45 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           let i = new Wu(t);
           return u && i.withSuperGrammar(u instanceof yi ? u : this.fromRecipe(u)), r && i.withDefaultStartRule(r), e && e.source && i.withSource(e.source), this.currentDecl = i, Object.keys(n).forEach((s) => {
             this.currentRuleName = s;
-            let c = n[s], l = c[0], D = c[1], a = c[2], o = c[3], p = this.fromRecipe(c[4]), A;
-            i.source && D && D.sourceInterval && (A = i.source.subInterval(D.sourceInterval[0], D.sourceInterval[1] - D.sourceInterval[0])), i[l](s, o, p, a, A);
+            let l = n[s], c = l[0], D = l[1], a = l[2], o = l[3], p = this.fromRecipe(l[4]), A;
+            i.source && D && D.sourceInterval && (A = i.source.subInterval(D.sourceInterval[0], D.sourceInterval[1] - D.sourceInterval[0])), i[c](s, o, p, a, A);
           }), this.currentRuleName = this.currentDecl = null, i.build();
         }, terminal(e) {
-          return new f.Terminal(e);
+          return new E.Terminal(e);
         }, range(e, t) {
-          return new f.Range(e, t);
+          return new E.Range(e, t);
         }, param(e) {
-          return new f.Param(e);
+          return new E.Param(e);
         }, alt(...e) {
           let t = [];
           for (let u of e)
-            u instanceof f.PExpr || (u = this.fromRecipe(u)), u instanceof f.Alt ? t = t.concat(u.terms) : t.push(u);
-          return t.length === 1 ? t[0] : new f.Alt(t);
+            u instanceof E.PExpr || (u = this.fromRecipe(u)), u instanceof E.Alt ? t = t.concat(u.terms) : t.push(u);
+          return t.length === 1 ? t[0] : new E.Alt(t);
         }, seq(...e) {
           let t = [];
           for (let u of e)
-            u instanceof f.PExpr || (u = this.fromRecipe(u)), u instanceof f.Seq ? t = t.concat(u.factors) : t.push(u);
-          return t.length === 1 ? t[0] : new f.Seq(t);
+            u instanceof E.PExpr || (u = this.fromRecipe(u)), u instanceof E.Seq ? t = t.concat(u.factors) : t.push(u);
+          return t.length === 1 ? t[0] : new E.Seq(t);
         }, star(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Star(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Star(e);
         }, plus(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Plus(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Plus(e);
         }, opt(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Opt(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Opt(e);
         }, not(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Not(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Not(e);
         }, la(e) {
           return this.lookahead(e);
         }, lookahead(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Lookahead(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Lookahead(e);
         }, lex(e) {
-          return e instanceof f.PExpr || (e = this.fromRecipe(e)), new f.Lex(e);
+          return e instanceof E.PExpr || (e = this.fromRecipe(e)), new E.Lex(e);
         }, app(e, t) {
           return t && t.length > 0 && (t = t.map(function(u) {
-            return u instanceof f.PExpr ? u : this.fromRecipe(u);
-          }, this)), new f.Apply(e, t);
+            return u instanceof E.PExpr ? u : this.fromRecipe(u);
+          }, this)), new E.Apply(e, t);
         }, splice(e, t) {
-          return new f.Splice(this.currentDecl.superGrammar, this.currentRuleName, e.map((u) => this.fromRecipe(u)), t.map((u) => this.fromRecipe(u)));
+          return new E.Splice(this.currentDecl.superGrammar, this.currentRuleName, e.map((u) => this.fromRecipe(u)), t.map((u) => this.fromRecipe(u)));
         }, fromRecipe(e) {
           let t = e[0] === "grammar" ? e.slice(1) : e.slice(2), u = this[e[0]](...t), r = e[1];
           return r && r.sourceInterval && this.currentDecl && u.withSource(this.currentDecl.sourceInterval(...r.sourceInterval)), u;
@@ -2550,10 +2550,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         "use strict";
         var Oi = Bt(), xt = ye(), It = st(), lr = m(), ve = $(), St = Y(), bt = Z(), Ni = Yu(), { makeRecipe: qi } = Be(), Te, vt = Object.create(St.PExpr.prototype), Li = (e) => !!e.constructor && typeof e.constructor.isBuffer == "function" && e.constructor.isBuffer(e);
         function _t(e, t, u) {
-          let r = new Oi(), n, i, s, c = false;
+          let r = new Oi(), n, i, s, l = false;
           return (u || Te).createSemantics().addOperation("visit", { Grammars(a) {
             return a.children.map((o) => o.visit());
-          }, Grammar(a, o, p, A, E) {
+          }, Grammar(a, o, p, A, f) {
             let _ = a.visit();
             n = r.newGrammar(_, t), o.child(0) && o.child(0).visit(), A.children.map((ue) => ue.visit());
             let v = n.build();
@@ -2569,30 +2569,30 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
                 throw ve.undeclaredGrammar(p, t, o.source);
               n.withSuperGrammar(t[p]);
             }
-          }, Rule_define(a, o, p, A, E) {
+          }, Rule_define(a, o, p, A, f) {
             i = a.visit(), s = o.children.map((me) => me.visit())[0] || [], !n.defaultStartRule && n.ensureSuperGrammar() !== xt.ProtoBuiltInRules && n.withDefaultStartRule(i);
-            let _ = E.visit(), v = p.children.map((me) => me.visit())[0], ue = this.source.trimmed();
+            let _ = f.visit(), v = p.children.map((me) => me.visit())[0], ue = this.source.trimmed();
             return n.define(i, s, _, v, ue);
           }, Rule_override(a, o, p, A) {
             i = a.visit(), s = o.children.map((v) => v.visit())[0] || [];
-            let E = this.source.trimmed();
-            n.ensureSuperGrammarRuleForOverriding(i, E), c = true;
+            let f = this.source.trimmed();
+            n.ensureSuperGrammarRuleForOverriding(i, f), l = true;
             let _ = A.visit();
-            return c = false, n.override(i, s, _, null, E);
+            return l = false, n.override(i, s, _, null, f);
           }, Rule_extend(a, o, p, A) {
             i = a.visit(), s = o.children.map((v) => v.visit())[0] || [];
-            let E = A.visit(), _ = this.source.trimmed();
-            return n.extend(i, s, E, null, _);
+            let f = A.visit(), _ = this.source.trimmed();
+            return n.extend(i, s, f, null, _);
           }, RuleBody(a, o) {
             return r.alt(...o.visit()).withSource(this.source);
           }, OverrideRuleBody(a, o) {
             let p = o.visit(), A = p.indexOf(vt);
             if (A >= 0) {
-              let E = p.slice(0, A), _ = p.slice(A + 1);
+              let f = p.slice(0, A), _ = p.slice(A + 1);
               return _.forEach((v) => {
                 if (v === vt)
                   throw ve.multipleSuperSplices(v);
-              }), new St.Splice(n.superGrammar, i, E, _).withSource(this.source);
+              }), new St.Splice(n.superGrammar, i, f, _).withSource(this.source);
             } else
               return r.alt(...p).withSource(this.source);
           }, Formals(a, o, p) {
@@ -2602,8 +2602,8 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           }, Alt(a) {
             return r.alt(...a.visit()).withSource(this.source);
           }, TopLevelTerm_inline(a, o) {
-            let p = i + "_" + o.visit(), A = a.visit(), E = this.source.trimmed(), _ = !(n.superGrammar && n.superGrammar.rules[p]);
-            c && !_ ? n.override(p, s, A, null, E) : n.define(p, s, A, null, E);
+            let p = i + "_" + o.visit(), A = a.visit(), f = this.source.trimmed(), _ = !(n.superGrammar && n.superGrammar.rules[p]);
+            l && !_ ? n.override(p, s, A, null, f) : n.define(p, s, A, null, f);
             let v = s.map((ue) => r.app(ue));
             return r.app(p, v).withSource(A.source);
           }, OverrideTopLevelTerm_superSplice(a) {
@@ -2635,7 +2635,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
             return o.visit();
           }, ruleDescrText(a) {
             return this.sourceString.trim();
-          }, caseName(a, o, p, A, E) {
+          }, caseName(a, o, p, A, f) {
             return p.visit();
           }, name(a, o) {
             return this.sourceString;
@@ -2697,7 +2697,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         ke.exports.ohmGrammar = Te = cr();
         xt.initApplicationParser(Te, _t);
       });
-      var dr = h((Do, fr) => {
+      var dr = h((Do, Er) => {
         "use strict";
         var { assert: se } = m();
         function Mi(e, t, u) {
@@ -2719,14 +2719,14 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         function mr(e) {
           return /^[a-zA-Z_][0-9a-zA-Z_]*$/.test(e);
         }
-        function Er(e) {
+        function fr(e) {
           return e.trim();
         }
         function Vi(e) {
-          let t = e.split(/[()]/).map(Er);
+          let t = e.split(/[()]/).map(fr);
           if (t.length === 3 && t[2] === "") {
             let u = t[0], r = [];
-            if (t[1].length > 0 && (r = t[1].split(",").map(Er)), mr(u) && r.every(mr))
+            if (t[1].length > 0 && (r = t[1].split(",").map(fr)), mr(u) && r.every(mr))
               return { name: u, formals: r };
           }
           throw new Error("Invalid operation signature: " + e);
@@ -2761,16 +2761,16 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           return this.Adapter.prototype[r] = function(...i) {
             let s = n._getTag(this._adaptee);
             se(s in n._getChildren, "getTag returned unrecognized tag '" + s + "'"), se(s in t, "No action for '" + s + "' in operation '" + r + "'");
-            let c = /* @__PURE__ */ Object.create(null);
+            let l = /* @__PURE__ */ Object.create(null);
             for (let [a, o] of Object.entries(i))
-              c[u.formals[a]] = o;
-            let l = this.args;
-            this.args = c;
+              l[u.formals[a]] = o;
+            let c = this.args;
+            this.args = l;
             let D = t[s].apply(this, n._getChildren[s](this._adaptee, n._wrap));
-            return this.args = l, D;
+            return this.args = c, D;
           }, this;
         };
-        fr.exports = je;
+        Er.exports = je;
       });
       var wt = h((ho, Fr) => {
         "use strict";
@@ -2828,7 +2828,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         Br.extras = yr();
         vr.exports = Br;
       });
-      var Pt = h((Eo, xr) => {
+      var Pt = h((fo, xr) => {
         "use strict";
         var Hi = Ir(), Wi = Hi.makeRecipe(["grammar", { source: `Filter {\r
     Exp = BoolOr\r
@@ -2951,10 +2951,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         if (u[r] === "*") {
           let i = n - t.length;
           for (let s = 2; s < i; ++s) {
-            let c = [...t];
-            for (let l = 0; l < s; ++l)
-              c.push("*");
-            Ie(e, c, u, r + 1, n);
+            let l = [...t];
+            for (let c = 0; c < s; ++c)
+              l.push("*");
+            Ie(e, l, u, r + 1, n);
           }
           t.push("*"), Ie(e, t, u, r + 1, n);
         }
@@ -2976,11 +2976,11 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       var oe = (e, t, u = 1e-5) => Math.abs(e - t) < u, Sr = (e, t, u = 1e-5) => e < t && !oe(e, t, u), br = (e, t, u = 1e-5) => e > t && !oe(e, t, u), _r = (e, t, u = 1e-5) => e < t || oe(e, t, u), wr = (e, t, u = 1e-5) => e > t || oe(e, t, u);
       var Ji = (e) => e.type === "number", Zi = (e) => typeof e == "number", Qi = (e) => typeof e == "string", he = (e, t) => (u, r, n) => {
         let i = u.getPropertyDefinition(), s = n.getPropertyDefinition();
-        return Ji(s) ? (c, l) => xe(l.categoriesList, i.categories) ? Me(i.categories, l.categoriesList.length).map((a) => l.getPropertyValue(i.propertyName, a)).filter(Zi).reduce((a, o) => a || e(o, s.value, c), false) : false : (c, l) => {
-          if (!xe(l.categoriesList, i.categories))
+        return Ji(s) ? (l, c) => xe(c.categoriesList, i.categories) ? Me(i.categories, c.categoriesList.length).map((a) => c.getPropertyValue(i.propertyName, a)).filter(Zi).reduce((a, o) => a || e(o, s.value, l), false) : false : (l, c) => {
+          if (!xe(c.categoriesList, i.categories))
             return false;
-          let D = Me(i.categories, l.categoriesList.length), a = c.stringCaseSensitive ? s.value : s.value.toLocaleLowerCase();
-          return D.map((o) => l.getPropertyValue(i.propertyName, o)).filter(Qi).map((o) => c.stringCaseSensitive ? o : o.toLocaleLowerCase()).reduce((o, p) => o || t(p, a), false);
+          let D = Me(i.categories, c.categoriesList.length), a = l.stringCaseSensitive ? s.value : s.value.toLocaleLowerCase();
+          return D.map((o) => c.getPropertyValue(i.propertyName, o)).filter(Qi).map((o) => l.stringCaseSensitive ? o : o.toLocaleLowerCase()).reduce((o, p) => o || t(p, a), false);
         };
       }, Pr = { exactElement: (e) => {
         let t = e.getPropertyDefinition();
@@ -3047,13 +3047,14 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         attributesIdsByName = /* @__PURE__ */ new Map();
         constructor(t, u) {
           this.attributesCaseSensitive = u;
-          let r = -1;
-          t.enumAttributes((n, i) => {
-            let s = u ? i.name : i.name.toLocaleLowerCase(), c = this.attributesIdsByName.get(s) || [];
-            c.push(n), this.attributesIdsByName.set(s, c), i.name === "name" && i.category === "__name__" && (r = n);
-          }), this.nameAttributeId = r;
+          let r = -1, n = -1;
+          t.enumAttributes((i, s) => {
+            let l = u ? s.name : s.name.toLocaleLowerCase(), c = this.attributesIdsByName.get(l) || [];
+            c.push(i), this.attributesIdsByName.set(l, c), s.name === "name" && s.category === "__name__" && (r = i), s.name === "instanceof_objid" && s.category === "__instanceof__" && s.dataType === 11 && (n = i);
+          }), this.nameAttributeId = r, this.instanceOfAttributeId = n;
         }
         nameAttributeId;
+        instanceOfAttributeId;
         findAttributesIdsByName(t) {
           let u = this.attributesCaseSensitive ? t : t.toLocaleLowerCase();
           return this.attributesIdsByName.get(u) || [];
@@ -3085,7 +3086,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
         getNodePropertyValue(t, u) {
           let r;
           return this.propertyDatabase.enumObjectProperties(t, (n, i) => {
-            n === u && (r = this.propertyDatabase.getAttrValue(n, i));
+            if (n === u && (r = this.propertyDatabase.getAttrValue(n, i)), r === void 0 && n === this.attributes.instanceOfAttributeId) {
+              let s = this.propertyDatabase.getAttrValue(n, i);
+              typeof s == "number" && (r = this.getNodePropertyValue(s, u));
+            }
           }), r;
         }
       }, Yi = (e, t) => {
@@ -3098,20 +3102,20 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
       };
       var Xi = (e, t) => {
         try {
-          let u = [], { lmvQuery: r, lmvQueryOptions: n } = t, s = new Ve(n).createFilter(r), c = new Se(e, n.attributesCaseSensitive);
-          return e.enumObjects((l) => {
-            if (n.leafNodesOnly && e.getNodeNameAndChildren({ dbId: l }) !== void 0)
+          let u = [], { lmvQuery: r, lmvQueryOptions: n } = t, s = new Ve(n).createFilter(r), l = new Se(e, n.attributesCaseSensitive);
+          return e.enumObjects((c) => {
+            if (n.leafNodesOnly && e.getNodeNameAndChildren({ dbId: c }) !== void 0)
               return;
-            let D = new be(l, e, c);
-            s(D) && u.push(l);
+            let D = new be(c, e, l);
+            s(D) && u.push(c);
           }), { dbIds: u, error: null };
         } catch (u) {
           return { dbIds: [], error: u };
         }
       }, es = (e, t) => {
         try {
-          let { nodeId: u, propertyQuery: r, caseSensitive: n } = t, s = new Ue().createPropertyQuery(r), c = new Se(e, n), l = new be(u, e, c);
-          return { result: s(l), error: null };
+          let { nodeId: u, propertyQuery: r, caseSensitive: n } = t, s = new Ue().createPropertyQuery(r), l = new Se(e, n), c = new be(u, e, l);
+          return { result: s(c), error: null };
         } catch (u) {
           return { result: void 0, error: u };
         }
