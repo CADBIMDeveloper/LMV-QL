@@ -36,4 +36,12 @@ describe("Property database filterable element tests", () => {
 
         assert.equal(typePropertyValue, 1.3);
     });
+
+    it("must get instances property values", () => {
+        const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection);
+
+        const elementPropertyValue = element.getPropertyValue("instance property", ["Category", "SubCategory", "Element"]);
+
+        assert.equal(elementPropertyValue, "instance property value");
+    });
 });
