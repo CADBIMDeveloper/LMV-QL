@@ -17,7 +17,7 @@
     "compile:copy-missing-js": "copyfiles ./src/*.js ./build/obj",
     "compile:copy-missing-d-ts": "copyfiles ./src/*.d.ts ./build/types",
     "bundle": "esbuild ./build/obj/index.js --bundle --outfile=./build/index.js --platform=browser --format=esm",
-    "bundle-functions": "esbuild ./build/obj/propertyDatabaseFunctions.js --bundle --outfile=./build/obj/engine.js --platform=browser --format=iife --global-name=engine",
+    "bundle-functions": "esbuild ./build/obj/propertyDatabaseFunctions.js --bundle --outfile=./build/obj/engine.js --platform=browser --format=iife --global-name=engine --minify",
     "transform-engine": "node ./tools/convertEngineModule.js",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",

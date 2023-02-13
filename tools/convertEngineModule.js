@@ -3,8 +3,8 @@ const fs = require("fs");
 fs.readFile("./build/obj/engine.js", {}, (_err, buf) => {
     const engine = buf.toString()
         .replace(
-            "return __toCommonJS(propertyDatabaseFunctions_exports);\n})();",
-            "return __toCommonJS(propertyDatabaseFunctions_exports);\n});\n\nmodule.exports = { engine };\n");
+            ";})();\n",
+            ";});\n\nmodule.exports = { engine };\n");
 
     fs.writeFile("./engine.js", engine, () => { });
 });
