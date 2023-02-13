@@ -36,17 +36,18 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
     private getNodePropertyValue(dbId: number, attributeId: number): string | number | undefined {
         let value: string | number | undefined = undefined;
 
+        let instanceDbId: number | string | undefined = undefined;
+
         this.propertyDatabase.enumObjectProperties(dbId, (attrId, attrValueId) => {
             if (attrId === attributeId)
                 value = this.propertyDatabase.getAttrValue(attrId, attrValueId);
 
-            if (value === undefined && attrId === this.attributes.instanceOfAttributeId) {
-                const instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
-
-                if (typeof instanceDbId === "number")
-                    value = this.getNodePropertyValue(instanceDbId, attributeId);
-            }
+            if (value === undefined && attrId === this.attributes.instanceOfAttributeId)
+                instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
         });
+
+        if (value === undefined && typeof instanceDbId === "number")
+            value = this.getNodePropertyValue(instanceDbId, attributeId);
 
         return value;
     }

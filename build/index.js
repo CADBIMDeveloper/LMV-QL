@@ -3084,13 +3084,10 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \u2014 see `
           return true;
         }
         getNodePropertyValue(t, u) {
-          let r;
-          return this.propertyDatabase.enumObjectProperties(t, (n, i) => {
-            if (n === u && (r = this.propertyDatabase.getAttrValue(n, i)), r === void 0 && n === this.attributes.instanceOfAttributeId) {
-              let s = this.propertyDatabase.getAttrValue(n, i);
-              typeof s == "number" && (r = this.getNodePropertyValue(s, u));
-            }
-          }), r;
+          let r, n;
+          return this.propertyDatabase.enumObjectProperties(t, (i, s) => {
+            i === u && (r = this.propertyDatabase.getAttrValue(i, s)), r === void 0 && i === this.attributes.instanceOfAttributeId && (n = this.propertyDatabase.getAttrValue(i, s));
+          }), r === void 0 && typeof n == "number" && (r = this.getNodePropertyValue(n, u)), r;
         }
       }, Yi = (e, t) => {
         let u = [], r = e;
