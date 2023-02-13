@@ -5,6 +5,7 @@ export class PropertyDatabaseAttributesCollection {
 
     constructor(propertyDatabase: PropertyDatabase, private readonly attributesCaseSensitive: boolean) {
         let nameAttributeId = -1;
+        let instanceOfAttributeId = -1;
         propertyDatabase.enumAttributes((attrId, attrDef) => {
             const attributeName = attributesCaseSensitive 
                 ? attrDef.name
@@ -18,12 +19,18 @@ export class PropertyDatabaseAttributesCollection {
 
             if (attrDef.name === "name" && attrDef.category === "__name__")
                 nameAttributeId = attrId;
+
+            if (attrDef.name === "instanceof_objid" && attrDef.category === "__instanceof__" && attrDef.dataType === 11)
+                instanceOfAttributeId = attrId;
         });
 
         this.nameAttributeId = nameAttributeId;
+        this.instanceOfAttributeId = instanceOfAttributeId;
     }
 
     public readonly nameAttributeId: number;
+
+    public readonly instanceOfAttributeId: number;
 
     findAttributesIdsByName(name: string): number[] {
         const attributeName = this.attributesCaseSensitive
