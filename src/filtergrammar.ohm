@@ -13,7 +13,7 @@ Filter {
         = "(" Exp ")" -- paren
         | ComparisonExp
 
-    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | exactElement
+    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | StartsWithExpr | EndsWithExpr | exactElement
 
     EqualityExpr = propertySequence "=" expressionConst
     
@@ -26,6 +26,10 @@ Filter {
     MoreThanOrEqualExpr = propertySequence ">=" expressionConst
 
     NonEqualityExpr = propertySequence nonEqualSign expressionConst
+
+    StartsWithExpr = propertySequence likeWord startsWithConst
+
+    EndsWithExpr = propertySequence likeWord endsWithConst
 
     propertySequence = property | directProperty
                     
@@ -60,21 +64,36 @@ Filter {
     orOperation = orWord | "||" | "|"
 
     orWord = ("O" | "o")("R" | "r")
+
+    likeWord = ("L" | "l")("I" | "i")("K" | "k")("E" | "e")
     
     anyProperty = "*"
     
     identificator = (~"]" ~"[" any)+
     
     expressionConst = textConst | number
+
+    startsWithConst
+        = "\"" likeTextValue "%\""
+
+    endsWithConst
+        = "\"%" likeTextValue "\""
     
     textConst (target text value)
         = "\"" textValue "\""
         
     textValue = textChar*
+
+    likeTextValue = likeTextChar*
     
     textChar
         = "\\\""
         | (~"\"" any)
+
+    likeTextChar
+        = "\\\""
+        | "\\%"
+        | (~("\"" | "%") any)
         
     number
       = positiveNumber

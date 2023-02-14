@@ -116,4 +116,20 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3)) or x.c = 1");
         assertIsValidFilterString("x.c = 1 or ((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3))");
     });
+
+    it("like (starts with) filters", () => {
+        assertIsValidFilterString("c1.prop like \"some text%\"");
+    });
+
+    it("like (ends with) filters", () => {
+        assertIsValidFilterString("c1.prop Like \"%some text\"");
+    });
+
+    it("filter with % sign in the middle of constraint must be invalid", () => {
+        assertIsInvalidFilterString("c1.prop like \"some % text\"");
+    });
+
+    it('filter with "\\%" sign in the middle of constraint must be invalid', () => {
+        assertIsValidFilterString("c1.prop like \"%some \\% text\"");
+    });
 });

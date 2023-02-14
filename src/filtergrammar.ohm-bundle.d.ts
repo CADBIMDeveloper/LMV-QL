@@ -26,6 +26,8 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   LessThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   MoreThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  StartsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  EndsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   propertySequence?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   property_ofPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   property_ofDirectAnyPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
@@ -50,12 +52,17 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   andWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode) => T;
   orOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   orWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode) => T;
+  likeWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode, arg3: TerminalNode) => T;
   anyProperty?: (this: NonterminalNode, arg0: TerminalNode) => T;
   identificator?: (this: NonterminalNode, arg0: IterationNode) => T;
   expressionConst?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  startsWithConst?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
+  endsWithConst?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   textConst?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   textValue?: (this: NonterminalNode, arg0: IterationNode) => T;
+  likeTextValue?: (this: NonterminalNode, arg0: IterationNode) => T;
   textChar?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
+  likeTextChar?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   number?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   negativeNumber?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode) => T;
   positiveNumber?: (this: NonterminalNode, arg0: NonterminalNode) => T;
