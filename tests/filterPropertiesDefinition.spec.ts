@@ -144,7 +144,7 @@ describe("Filter properties definitions", () => {
         if (!isSimpleValue)
             return;
 
-        assert.equal(propertyDefinition.value, "test \\\"quoted\\\" value");
+        assert.equal(propertyDefinition.value, "test \"quoted\" value");
     });
 
     it("must get text constant with slash", () => {
