@@ -146,6 +146,18 @@ describe("Filter tests", () => {
         const filter = filterFactory.createFilter("Category.property like \"%some text\"");
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: "lorem ipsum dolorem...some text" }, ["Category"])));
+    });
+
+    it("must filter like% with slashed %", () => {
+        const filter = filterFactory.createFilter("Category.property like \"some \\% text%\"");
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "some % text lorem ipsum dolorem..." }, ["Category"])))
+    });
+
+    it("must filter %like with slashed %", () => {
+        const filter = filterFactory.createFilter("Category.property like \"%some \\% text\"");
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "lorem ipsum dolorem...some % text" }, ["Category"])));
     })
 
     it("must filter with quoted texts", () => {
