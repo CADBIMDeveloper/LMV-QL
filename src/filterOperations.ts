@@ -274,7 +274,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     textValue: (valueNode) => createSimpleValue(valueNode, value => replaceAll(value, '\\"', '"')),
 
-    likeTextValue: (valueNode) => createSimpleValue(valueNode)
+    likeTextValue: (valueNode) => createSimpleValue(valueNode, value => replaceAll(value, '\\"', '"'))
 }
 
 export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {
