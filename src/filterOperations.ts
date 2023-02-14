@@ -50,7 +50,7 @@ const isString = (value: number | string | undefined): value is string => typeof
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
 
 const replaceAll = (value: string, searchValue: string, replacer: string) => {
-    while(value.indexOf(searchValue) >= 0)
+    while (value.indexOf(searchValue) >= 0)
         value = value.replace(searchValue, replacer);
 
     return value;
@@ -131,7 +131,11 @@ export const compile: FilterActionDict<Filter> = {
 
     NonEqualityExpr: createComparisonExpression(
         (elementPropertyValue, constraint, filterSettings) => !isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue !== constraint)
+        (elementPropertyValue, constraint) => elementPropertyValue !== constraint),
+
+    StartsWithExpr: createComparisonExpression(
+        (_elementPropertyValue, _constraint, _filterSettings) => false,
+        (elementPropertyValue, constraint) => elementPropertyValue.startsWith(constraint))
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
