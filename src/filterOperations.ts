@@ -266,7 +266,13 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     textConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
 
-    textValue: (valueNode) => createSimpleValue(valueNode)
+    startsWithConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
+
+    endsWithConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
+
+    textValue: (valueNode) => createSimpleValue(valueNode),
+
+    likeTextValue: (valueNode) => createSimpleValue(valueNode)
 }
 
 export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {

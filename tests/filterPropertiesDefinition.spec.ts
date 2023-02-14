@@ -162,5 +162,39 @@ describe("Filter properties definitions", () => {
             return;
 
         assert.equal(propertyDefinition.value, "test \\ (slash)");
-    })
+    });
+
+    it("must get starts with constant", () => {
+        const match = grammar.match("\"some text%\"", "startsWithConst");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if (!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, "some text");
+    });
+
+    it("must get ends with constant", () => {
+        const match = grammar.match("\"%some text\"", "endsWithConst");
+
+        const node = semantics(match);
+
+        const propertyDefinition = node.getPropertyDefinition() as PropertyDefinition;
+
+        const isSimpleValue = isSimpleValueDefinition(propertyDefinition);
+
+        assert.isTrue(isSimpleValue);
+
+        if (!isSimpleValue)
+            return;
+
+        assert.equal(propertyDefinition.value, "some text");
+    });
 });
