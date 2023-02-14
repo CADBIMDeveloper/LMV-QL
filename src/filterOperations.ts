@@ -78,11 +78,18 @@ const createComparisonExpression = (
 
             const constraintTestValue = filterSettings.stringCaseSensitive ? valueDefinition.value : valueDefinition.value.toLocaleLowerCase();
 
+            const replaceAll = (value: string, searchValue: string, replacer: string) => {
+                while(value.indexOf(searchValue) >= 0)
+                    value = value.replace(searchValue, replacer);
+
+                return value;
+            }
+
             return categoryTemplates
                 .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
                 .filter(isString)
                 .map(x => filterSettings.stringCaseSensitive ? x : x.toLocaleLowerCase())
-                .reduce((acc, elem) => acc || textComparisonRule(elem, constraintTestValue), false);
+                .reduce((acc, elem) => acc || textComparisonRule(elem, replaceAll(constraintTestValue, '\\"', '"')), false);
         };
     }
 }

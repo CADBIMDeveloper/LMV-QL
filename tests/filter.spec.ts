@@ -136,6 +136,14 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
     });
 
+    it("must filter with quoted texts", () => {
+        const testElement = new SimpleFilterableElement({ property: 'some "quoted" text' }, ["Category"]);
+
+        const filter = filterFactory.createFilter('Category.property = "some \\"quoted\\" text"');
+
+        assert.isTrue(filter(testElement));
+    });
+
     it("must filter for text comparison operators", () => {
         const testElement = new SimpleFilterableElement({ property: "abc" }, ["Category"]);
 
