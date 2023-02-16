@@ -19,9 +19,5 @@
         "moduleResolution": "Node",
         "outDir": "./build/obj",
         "declarationDir": "./build/types"
-    },
-    "files": [
-        "./index.ts",
-        "./propertyDatabaseFunctions.ts"
-    ]
+    }
 }
