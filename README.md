@@ -21,3 +21,7 @@ if (!queryResults.error) {
   // do whatever you want with the elements db ids returned by filter engine
 }
 ```
+### Filter language
+
+LMV-QL designed to make filters on model element properties. Let's imagine we want to filter floors by `Area` property value.
+![element](./assets/viewer-model-element.png)
