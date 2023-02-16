@@ -22,8 +22,7 @@
     "transform-engine": "node ./tools/convertEngineModule.js",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",
-    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && npm run test:run",
-    "test:run": "mocha"
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && mocha"
   },
   "repository": {
     "type": "git",
