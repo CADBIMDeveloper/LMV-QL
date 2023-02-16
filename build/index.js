@@ -337,14 +337,12 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \\u2014 see 
 // build/obj/index.js
 async function query(model, query2, options) {
   const propertyDatabase = model.getPropertyDb();
-  const engineModule = engine.toString();
-  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().filterElements(pdb, tag); }`;
+  const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
   return propertyDatabase.executeUserFunction(code, { lmvQuery: query2, lmvQueryOptions: options });
 }
 async function computeExpressionValue(model, dbId, query2, attributesCaseSensitive = true) {
   const propertyDatabase = model.getPropertyDb();
-  const engineModule = engine.toString();
-  const code = `function userFunction(pdb, tag) { const engine = ${engineModule}; return engine().computeExpression(pdb, tag); }`;
+  const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().computeExpression(pdb, tag); }`;
   return propertyDatabase.executeUserFunction(code, { nodeId: dbId, propertyQuery: query2, caseSensitive: attributesCaseSensitive });
 }
 export {
