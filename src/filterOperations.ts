@@ -49,13 +49,6 @@ const isString = (value: number | string | undefined): value is string => typeof
 
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
 
-const replaceAll = (value: string, searchValue: string, replacer: string) => {
-    while (value.indexOf(searchValue) >= 0)
-        value = value.replace(searchValue, replacer);
-
-    return value;
-}
-
 const createComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: FilterSettings) => boolean,
     textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
@@ -280,9 +273,9 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 
     endsWithConst: (_1, valueNode, _2) => valueNode.getPropertyDefinition(),
 
-    textValue: (valueNode) => createSimpleValue(valueNode, value => replaceAll(value, '\\"', '"')),
+    textValue: (valueNode) => createSimpleValue(valueNode, value => value.replaceAll('\\"', '"')),
 
-    likeTextValue: (valueNode) => createSimpleValue(valueNode, value => replaceAll(replaceAll(value, '\\"', '"'), "\\%", "%"))
+    likeTextValue: (valueNode) => createSimpleValue(valueNode, value => value.replaceAll('\\"', '"').replaceAll("\\%", "%"))
 }
 
 export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {
