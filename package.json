@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf ./build",
     "clean:obj": "rimraf ./build/obj",
-    "clean:types": "rimraf ./build/types/src",
+    "clean:types": "rimraf ./build/types/src ./build/types/tests ./build/types/tools ./build/types/engine.d.ts",
     "build": "npm run clean && npm run build-engine && npm run compile && npm run bundle && npm run clean:obj && npm run clean:types",
     "build-engine": "npm run grammar && npm run compile && npm run bundle-functions && npm run transform-engine && npm run clean",
     "compile": "tsc -p ./tsconfig.json && npm run compile:copy-missing-js && npm run compile:copy-engine && npm run compile:copy-missing-d-ts",
