@@ -1,6 +1,10 @@
 # LMV-QL
 A query language for filtering model elements in [Autodesk Platform Services (formerly Forge) viewer](https://aps.autodesk.com/en/docs/viewer/v7/developers_guide/overview/)
 
+> Check out our [demo application](https://lmv-ql.cadbim.dev) with a sample viewer extension
+> which allows to run several predefined LMV-QL filters and also allows you
+> to test you own filters on the basic sample model
+
 ## Usage
 
 ### Quick tour
