@@ -13,7 +13,7 @@
     "clean:types": "rimraf ./build/types/src",
     "build": "npm run clean && npm run build-engine && npm run compile && npm run bundle && npm run clean:obj && npm run clean:types",
     "build-engine": "npm run grammar && npm run compile && npm run bundle-functions && npm run transform-engine && npm run clean",
-    "compile": "tsc -p ./configs/tsconfig.json && npm run compile:copy-missing-js && npm run compile:copy-engine && npm run compile:copy-missing-d-ts",
+    "compile": "tsc -p ./tsconfig.json && npm run compile:copy-missing-js && npm run compile:copy-engine && npm run compile:copy-missing-d-ts",
     "compile:copy-missing-js": "copyfiles ./src/*.js ./build/obj",
     "compile:copy-missing-d-ts": "copyfiles ./src/*.d.ts ./build/types",
     "compile:copy-engine": "copyfiles ./engine.js ./build/obj",
@@ -22,7 +22,8 @@
     "transform-engine": "node ./tools/convertEngineModule.js",
     "prepack": "npm run build",
     "grammar": "ohm generateBundles src/*.ohm --withTypes",
-    "test": "mocha"
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && npm run test:run",
+    "test:run": "mocha"
   },
   "repository": {
     "type": "git",

@@ -10,18 +10,18 @@
         "declarationMap": false,
         "allowSyntheticDefaultImports": true,
         "lib": [
-            "ES6",
+            "esnext",
             "DOM",
             "WebWorker"
         ],
         "target": "esnext",
         "module": "esnext",
         "moduleResolution": "Node",
-        "outDir": "../build/obj",
-        "declarationDir": "../build/types"
+        "outDir": "./build/obj",
+        "declarationDir": "./build/types"
     },
     "files": [
-        "../index.ts",
-        "../propertyDatabaseFunctions.ts"
+        "./index.ts",
+        "./propertyDatabaseFunctions.ts"
     ]
 }
