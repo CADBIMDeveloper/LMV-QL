@@ -48,9 +48,9 @@ export const pdb: PropertyDatabase = {
                 case 2:
                     return "Category";
                 case 3:
-                    return "SubCategory";
+                    return "SubCategory [13]";
                 case 4:
-                    return "Element";
+                    return "Element [57]";
 
                 case 10:
                     return "Level 1";

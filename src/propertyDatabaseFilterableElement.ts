@@ -7,7 +7,7 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
 
     constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, private readonly attributes: PropertyDatabaseAttributesCollection) {
         this.categoryNodesDbIds = getCategories(dbId, propertyDatabase);
-        this.categoriesList =  this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
+        this.categoriesList = this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
     }
 
     categoriesList: string[];
@@ -55,6 +55,9 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
         if (value === undefined && typeof instanceDbId === "number")
             value = this.getNodePropertyValue(instanceDbId, attributeId);
 
+        if (attributeId === this.attributes.nameAttributeId)
+            return getName(value);
+
         return value;
     }
 }
@@ -74,4 +77,18 @@ const getCategories = (dbId: number, propertyDatabase: PropertyDatabase) => {
     }
 
     return categories.reverse();
+}
+
+const nameWithIdExpression = /^(?<name>.*) \[\d+\]$/
+
+const getName = (value: number | string | undefined) => {
+    if (typeof value !== "string")
+        return value;
+
+    const match = value.match(nameWithIdExpression);
+
+    if (match === null)
+        return value;
+
+    return match.groups!["name"];
 }
