@@ -32,11 +32,11 @@ describe("Property database filterable element tests", () => {
     it("must get property values", () => {
         const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection, rootNodes);
 
-        const elementPropertyValue = element.getPropertyValue("element property", ["Category", "SubCategory", "Element"]);
+        const elementPropertyValue = element.getPropertyValue("element property", ["Category", "SubCategory", "Element"]).value;
 
         assert.equal(elementPropertyValue, 5.7);
 
-        const typePropertyValue = element.getPropertyValue("element type property", ["Category", "SubCategory"]);
+        const typePropertyValue = element.getPropertyValue("element type property", ["Category", "SubCategory"]).value;
 
         assert.equal(typePropertyValue, 1.3);
     });
@@ -44,7 +44,7 @@ describe("Property database filterable element tests", () => {
     it("must get instances property values", () => {
         const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection, rootNodes);
 
-        const elementPropertyValue = element.getPropertyValue("instance property", ["Category", "SubCategory", "Element"]);
+        const elementPropertyValue = element.getPropertyValue("instance property", ["Category", "SubCategory", "Element"]).value;
 
         assert.equal(elementPropertyValue, "instance property value");
     });
@@ -52,7 +52,7 @@ describe("Property database filterable element tests", () => {
     it("must get internal ref property value", () => {
         const element = new PropertyDatabaseFilterableElement(4, pdb, attributesCollection, rootNodes);
 
-        const levelPropertyValue = element.getPropertyValue("Level", ["Category", "SubCategory", "Element"]);
+        const levelPropertyValue = element.getPropertyValue("Level", ["Category", "SubCategory", "Element"]).value;
 
         assert.equal(levelPropertyValue, "Level 1");
     });
@@ -64,7 +64,7 @@ describe("Property database filterable element tests", () => {
 
         const element = new PropertyDatabaseFilterableElement(3, doubleRootPdb, doubleRootedModelAttributeCollection, roots);
 
-        const propertyValue = element.getPropertyValue("element property", ["Element"]);
+        const propertyValue = element.getPropertyValue("element property", ["Element"]).value;
 
         assert.equal(propertyValue, 5.7);
     });

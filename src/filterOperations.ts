@@ -65,7 +65,7 @@ const createComparisonExpression = (
                 const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
                 return categoryTemplates
-                    .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                    .map(x => element.getPropertyValue(propertyDefinition.propertyName, x).value)
                     .filter(isNumber)
                     .reduce((acc, elem) => acc || numberComparisonRule(elem, valueDefinition.value, filterSettings), false);
             };
@@ -79,7 +79,7 @@ const createComparisonExpression = (
             const constraintTestValue = filterSettings.stringCaseSensitive ? valueDefinition.value : valueDefinition.value.toLocaleLowerCase();
 
             return categoryTemplates
-                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x).value)
                 .filter(isString)
                 .map(x => filterSettings.stringCaseSensitive ? x : x.toLocaleLowerCase())
                 .reduce((acc, elem) => acc || textComparisonRule(elem, constraintTestValue), false);
@@ -289,7 +289,7 @@ export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {
             const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
             return categoryTemplates
-                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x).value)
                 .find(x => x !== undefined);
         };
     }

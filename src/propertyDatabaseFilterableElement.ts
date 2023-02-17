@@ -1,4 +1,4 @@
-import { IFilterableElement } from "./filterableElement";
+import { IFilterableElement, PropertyValue } from "./filterableElement";
 import { PropertyDatabase } from "../propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./propertyDatabaseAttributesCollection";
 
@@ -6,23 +6,25 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
     private readonly categoryNodesDbIds: number[];
     private readonly valuesCache = new Map<string, string | number | undefined>();
 
-    constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, 
+    constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase,
         private readonly attributes: PropertyDatabaseAttributesCollection, rootNodes: number[]) {
         this.categoryNodesDbIds = getCategories(dbId, propertyDatabase, rootNodes);
-        this.categoriesList = this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
+        this.categoriesList = this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId).value as string);
     }
 
     categoriesList: string[];
 
-    getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
+    getPropertyValue(propertyName: string, categories: string[]): PropertyValue {
         if (!this.compareCategories(categories))
-            return undefined;
+            return { value: undefined, attribute: undefined };
 
         const dbId = this.categoryNodesDbIds[categories.length - 1];
 
-        return this.attributes.findAttributesIdsByName(propertyName)
+        const value = this.attributes.findAttributesIdsByName(propertyName)
             .map(x => this.getNodePropertyValue(dbId, x))
-            .find(x => x !== undefined);
+            .find(x => x.value !== undefined);
+
+        return { value: value?.value, attribute: value?.attribute }
     }
 
     private compareCategories(categories: string[]) {
@@ -34,9 +36,11 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
         return true;
     }
 
-    private getNodePropertyValue(dbId: number, attributeId: number): string | number | undefined {
+    private getNodePropertyValue(dbId: number, attributeId: number): PropertyValue {
+        const attribute = this.attributes.findAttribute(attributeId)!;
+
         if (this.hasCachedValue(dbId, attributeId))
-            return this.getCachedValue(dbId, attributeId);
+            return { value: this.getCachedValue(dbId, attributeId), attribute };
 
         let value: string | number | undefined = undefined;
 
@@ -55,28 +59,28 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
 
         if (attributeId !== this.attributes.nameAttributeId && this.attributes.isInternalRefAttribute(attributeId)) {
             if (typeof value === "number") {
-                value = this.getNodePropertyValue(value, this.attributes.nameAttributeId);
+                value = this.getNodePropertyValue(value, this.attributes.nameAttributeId).value;
 
                 this.cacheValue(dbId, attributeId, value);
 
-                return value;
+                return { value, attribute };
             }
             else {
                 this.cacheValue(dbId, attributeId, undefined);
 
-                return undefined;
+                return { value: undefined, attribute };
             }
         }
 
         if (value === undefined && typeof instanceDbId === "number")
-            value = this.getNodePropertyValue(instanceDbId, attributeId);
+            value = this.getNodePropertyValue(instanceDbId, attributeId).value;
 
         if (attributeId === this.attributes.nameAttributeId)
             value = getName(value);
 
         this.cacheValue(dbId, attributeId, value);
 
-        return value;
+        return { value, attribute };
     }
 
     private hasCachedValue(dbId: number, attributeId: number): boolean {

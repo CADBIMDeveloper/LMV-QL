@@ -1,4 +1,4 @@
-import { IFilterableElement } from "../../src/filterableElement";
+import { IFilterableElement, PropertyValue } from "../../src/filterableElement";
 
 type Props = {
     [key: string]: number | string;
@@ -9,11 +9,11 @@ export class SimpleFilterableElement implements IFilterableElement {
 
     }
 
-    getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
+    getPropertyValue(propertyName: string, categories: string[]): PropertyValue {
         if (!this.compareCategories(categories))
-            return undefined;
+            return { value: undefined, attribute: undefined };
 
-        return this.values[propertyName];
+        return { value: this.values[propertyName], attribute: undefined };
     }
 
     private compareCategories(categories: string[]) {
