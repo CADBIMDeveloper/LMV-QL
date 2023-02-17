@@ -7,11 +7,10 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
 
     constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, private readonly attributes: PropertyDatabaseAttributesCollection) {
         this.categoryNodesDbIds = getCategories(dbId, propertyDatabase);
+        this.categoriesList =  this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
     }
 
-    get categoriesList(): string[] {
-        return this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
-    }
+    categoriesList: string[];
 
     getPropertyValue(propertyName: string, categories: string[]): string | number | undefined {
         if (!this.compareCategories(categories))
