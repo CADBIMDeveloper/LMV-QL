@@ -3,7 +3,7 @@ export type PropertyDatabase = {
 
     enumAttributes(callBack: (attrId: number, attrDef: AttributeDefinition) => void): void;
 
-    enumObjectProperties(dbId: number, callBack: (attrId: number, attrValueId: number) => void): void;
+    enumObjectProperties(dbId: number, callBack: (attrId: number, attrValueId: number) => void): boolean | void;
 
     getAttrValue(attrId: number, attrValueId: number): string | number;
 

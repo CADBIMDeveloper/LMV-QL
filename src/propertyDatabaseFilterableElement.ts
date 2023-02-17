@@ -38,8 +38,11 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
         let instanceDbId: number | string | undefined = undefined;
 
         this.propertyDatabase.enumObjectProperties(dbId, (attrId, attrValueId) => {
-            if (attrId === attributeId)
+            if (attrId === attributeId) {
                 value = this.propertyDatabase.getAttrValue(attrId, attrValueId);
+
+                return true;
+            }
 
             if (value === undefined && attrId === this.attributes.instanceOfAttributeId)
                 instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
