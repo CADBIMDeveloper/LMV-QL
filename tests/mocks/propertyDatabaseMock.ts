@@ -10,7 +10,7 @@ export const pdb: PropertyDatabase = {
         callBack(3, { name: "element property", category: "props", dataType: 20, displayName: null });
         callBack(4, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null });
         callBack(5, { name: "instance property", category: "props", dataType: 20, displayName: null });
-        callBack(6, { name: "Level", category: "__internalref__", dataType: 11, displayName: null })
+        callBack(6, { name: "Level", category: "__internalref__", dataType: 11, displayName: null });
     },
     enumObjectProperties: function (dbId: number, callBack: (attrId: number, attrValueId: number) => void): void {
         if (dbId === 1) // root
@@ -69,7 +69,7 @@ export const pdb: PropertyDatabase = {
             return 5; // instanceof_objid element id
 
         if (attrId === 5 && attrValueId === 8)
-            return "instance property value"
+            return "instance property value";
 
         if (attrId === 6 && attrValueId === 9)
             return 6; // level element id
@@ -85,8 +85,11 @@ export const pdb: PropertyDatabase = {
             return [{
                 dbId: query.dbId + 1,
                 parent: query.dbId
-            }]
+            }];
         }
         return undefined;
+    },
+    findRootNodes: function (): number[] {
+        return [1];
     }
 }

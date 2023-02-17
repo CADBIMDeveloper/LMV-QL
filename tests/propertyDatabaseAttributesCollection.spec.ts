@@ -29,6 +29,9 @@ describe("Attributes collection tests", () => {
         },
         getNodeNameAndChildren: function (query: { dbId: number; }): { dbId: number; parent: number; }[] {
             throw new Error('Function not implemented.');
+        },
+        findRootNodes: function (): number[] {
+            throw new Error('Function not implemented.');
         }
     }
 
