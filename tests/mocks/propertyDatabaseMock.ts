@@ -5,12 +5,12 @@ export const pdb: PropertyDatabase = {
         return 2 <= dbId && dbId <= 4 ? dbId - 1 : null;
     },
     enumAttributes: function (callBack: (attrId: number, attrDef: AttributeDefinition) => void): void {
-        callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null });
-        callBack(2, { name: "element type property", category: "props", dataType: 20, displayName: null });
-        callBack(3, { name: "element property", category: "props", dataType: 20, displayName: null });
-        callBack(4, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null });
-        callBack(5, { name: "instance property", category: "props", dataType: 20, displayName: null });
-        callBack(6, { name: "Level", category: "__internalref__", dataType: 11, displayName: null });
+        callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+        callBack(2, { name: "element type property", category: "props", dataType: 20, displayName: null, dataTypeContext: null, precision: 2 });
+        callBack(3, { name: "element property", category: "props", dataType: 20, displayName: null, dataTypeContext: null, precision: 2 });
+        callBack(4, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
+        callBack(5, { name: "instance property", category: "props", dataType: 20, displayName: null, dataTypeContext: null, precision: 2 });
+        callBack(6, { name: "Level", category: "__internalref__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
     },
     enumObjectProperties: function (dbId: number, callBack: (attrId: number, attrValueId: number) => void): void {
         if (dbId === 1) // root

@@ -8,8 +8,8 @@ export const doubleRootPdb: PropertyDatabase = {
         return 2 <= dbId && dbId <= 3 ? dbId - 1 : null;
     },
     enumAttributes: function (callBack: (attrId: number, attrDef: AttributeDefinition) => void): void {
-        callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null });
-        callBack(2, { name: "element property", category: "props", dataType: 20, displayName: null });
+        callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+        callBack(2, { name: "element property", category: "props", dataType: 20, displayName: null, dataTypeContext: null, precision: 2 });
     },
     enumObjectProperties: function (dbId: number, callBack: (attrId: number, attrValueId: number) => void): boolean | void {
         if (dbId === 1) // root

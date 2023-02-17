@@ -6,14 +6,14 @@ import { PropertyDatabaseAttributesCollection } from '../src/propertyDatabaseAtt
 describe("Attributes collection tests", () => {
     const pdb: PropertyDatabase = {
         enumAttributes: (callBack: (attrId: number, attrDef: AttributeDefinition) => void) => {
-            callBack(1, { name: "a", category: "cat", dataType: 20, displayName: null });
-            callBack(2, { name: "A", category: "cat", dataType: 20, displayName: null });
-            callBack(3, { name: "b", category: "cat", dataType: 20, displayName: null });
-            callBack(4, { name: "mult", category: "cat", dataType: 20, displayName: null });
-            callBack(5, { name: "mult", category: "cat", dataType: 20, displayName: null });
-            callBack(6, { name: "name", category: "__name__", dataType: 20, displayName: null });
-            callBack(7, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null });
-            callBack(8, { name: "Level", category: "__internalref__", dataType: 11, displayName: null });
+            callBack(1, { name: "a", category: "cat", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(2, { name: "A", category: "cat", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(3, { name: "b", category: "cat", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(4, { name: "mult", category: "cat", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(5, { name: "mult", category: "cat", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(6, { name: "name", category: "__name__", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(7, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
+            callBack(8, { name: "Level", category: "__internalref__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
         },
         findParent: function (_dbId: number): number | null {
             throw new Error('Function not implemented.');

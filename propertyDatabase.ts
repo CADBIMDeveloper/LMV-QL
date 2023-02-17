@@ -19,4 +19,6 @@ export type AttributeDefinition = {
     name: string;
     dataType: number;
     displayName: string | null;
+    dataTypeContext: string | null;
+    precision: number;
 }
