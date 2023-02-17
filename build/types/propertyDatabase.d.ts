@@ -1,4 +1,5 @@
 export type PropertyDatabase = {
+    findRootNodes(): number[];
     findParent(dbId: number): number | null;
     enumAttributes(callBack: (attrId: number, attrDef: AttributeDefinition) => void): void;
     enumObjectProperties(dbId: number, callBack: (attrId: number, attrValueId: number) => void): boolean | void;

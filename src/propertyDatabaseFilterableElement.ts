@@ -6,8 +6,9 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
     private readonly categoryNodesDbIds: number[];
     private readonly valuesCache = new Map<string, string | number | undefined>();
 
-    constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, private readonly attributes: PropertyDatabaseAttributesCollection) {
-        this.categoryNodesDbIds = getCategories(dbId, propertyDatabase);
+    constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, 
+        private readonly attributes: PropertyDatabaseAttributesCollection, rootNodes: number[]) {
+        this.categoryNodesDbIds = getCategories(dbId, propertyDatabase, rootNodes);
         this.categoriesList = this.categoryNodesDbIds.map(x => this.getNodePropertyValue(x, this.attributes.nameAttributeId) as string);
     }
 
@@ -95,12 +96,12 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
     }
 }
 
-const getCategories = (dbId: number, propertyDatabase: PropertyDatabase) => {
+const getCategories = (dbId: number, propertyDatabase: PropertyDatabase, rootNodes: number[]) => {
     const categories: number[] = [];
 
     let currentNodeDbId: number | null = dbId;
 
-    while (currentNodeDbId !== null) {
+    while (currentNodeDbId !== null && rootNodes.findIndex(x => x === currentNodeDbId) < 0) {
         const parentDbId = propertyDatabase.findParent(currentNodeDbId);
 
         if (parentDbId !== null)

@@ -3,6 +3,7 @@ import { assert, expect } from 'chai';
 import { Settings } from '../output';
 import { computeExpression, filterElements } from '../propertyDatabaseFunctions';
 import { pdb } from './mocks/propertyDatabaseMock';
+import { doubleRootPdb } from './mocks/doubleRootPropertyDatabaseMock';
 
 describe('Query functions tests', () => {
     const leafNodesOnlySettings: Settings = {
@@ -65,6 +66,16 @@ describe('Query functions tests', () => {
 
         assert.isNotNull(results.error);
     });
+
+    it("must query property value from double-rooted model", () => {
+        const results = filterElements(doubleRootPdb, {
+            lmvQuery: "Element.[element property] = 5.7",
+            lmvQueryOptions: leafNodesOnlySettings
+        });
+
+        assert.isNull(results.error);
+        expect(results.dbIds).to.eql([3]);
+    })
 
     it("must query property value", () => {
         const elementPropertiesQueryResults = computeExpression(pdb, {

@@ -4,6 +4,7 @@ import { FilterFactory } from "./src/filterFactory";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
 import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
+import { findRootNodes } from "./src/rootsNodesFactory";
 
 export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => {
     try {
@@ -17,11 +18,13 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, lmvQueryOptions.attributesCaseSensitive);
 
+        const roots = findRootNodes(pdb, attributesCollection);
+
         pdb.enumObjects(dbId => {
             if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
                 return;
 
-            const element = new PropertyDatabaseFilterableElement(dbId, pdb, attributesCollection);
+            const element = new PropertyDatabaseFilterableElement(dbId, pdb, attributesCollection, roots);
 
             if (elementFilter(element))
                 dbIds.push(dbId);
@@ -49,7 +52,9 @@ export const computeExpression = (pdb: PropertyDatabase, tag: UserComputeOptions
 
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, caseSensitive);
 
-        const element = new PropertyDatabaseFilterableElement(nodeId, pdb, attributesCollection);
+        const roots = findRootNodes(pdb, attributesCollection);
+
+        const element = new PropertyDatabaseFilterableElement(nodeId, pdb, attributesCollection, roots);
 
         const result = query(element);
 
