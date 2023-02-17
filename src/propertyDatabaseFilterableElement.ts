@@ -4,6 +4,7 @@ import { PropertyDatabaseAttributesCollection } from "./propertyDatabaseAttribut
 
 export class PropertyDatabaseFilterableElement implements IFilterableElement {
     private readonly categoryNodesDbIds: number[];
+    private readonly valuesCache = new Map<string, string | number | undefined>();
 
     constructor(public readonly dbId: number, private readonly propertyDatabase: PropertyDatabase, private readonly attributes: PropertyDatabaseAttributesCollection) {
         this.categoryNodesDbIds = getCategories(dbId, propertyDatabase);
@@ -33,6 +34,9 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
     }
 
     private getNodePropertyValue(dbId: number, attributeId: number): string | number | undefined {
+        if (this.hasCachedValue(dbId, attributeId))
+            return this.getCachedValue(dbId, attributeId);
+
         let value: string | number | undefined = undefined;
 
         let instanceDbId: number | string | undefined = undefined;
@@ -49,19 +53,45 @@ export class PropertyDatabaseFilterableElement implements IFilterableElement {
         });
 
         if (attributeId !== this.attributes.nameAttributeId && this.attributes.isInternalRefAttribute(attributeId)) {
-            if (typeof value === "number")
-                return this.getNodePropertyValue(value, this.attributes.nameAttributeId);
-            else
+            if (typeof value === "number") {
+                value = this.getNodePropertyValue(value, this.attributes.nameAttributeId);
+
+                this.cacheValue(dbId, attributeId, value);
+
+                return value;
+            }
+            else {
+                this.cacheValue(dbId, attributeId, undefined);
+
                 return undefined;
+            }
         }
 
         if (value === undefined && typeof instanceDbId === "number")
             value = this.getNodePropertyValue(instanceDbId, attributeId);
 
         if (attributeId === this.attributes.nameAttributeId)
-            return getName(value);
+            value = getName(value);
+
+        this.cacheValue(dbId, attributeId, value);
 
         return value;
+    }
+
+    private hasCachedValue(dbId: number, attributeId: number): boolean {
+        return this.valuesCache.has(this.getCacheKey(dbId, attributeId));
+    }
+
+    private getCachedValue(dbId: number, attributeId: number) {
+        return this.valuesCache.get(this.getCacheKey(dbId, attributeId));
+    }
+
+    private cacheValue(dbId: number, attributeId: number, value: string | number | undefined) {
+        this.valuesCache.set(this.getCacheKey(dbId, attributeId), value);
+    }
+
+    private getCacheKey(dbId: number, attributeId: number): string {
+        return `${dbId}#${attributeId}`;
     }
 }
 
