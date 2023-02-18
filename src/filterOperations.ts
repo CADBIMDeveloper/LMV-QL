@@ -69,7 +69,7 @@ const createComparisonExpression = (
                 return categoryTemplates
                     .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
                     .filter(isNumberProperty)
-                    .map(getNumberPropertyValue)
+                    .map(x => getNumberPropertyValue(x, filterSettings))
                     .reduce((acc, elem) => acc || numberComparisonRule(elem, valueDefinition.value, filterSettings), false);
             };
 
