@@ -103,7 +103,7 @@ const ModelUnits = {
     FOOT: 'ft',
     INCH: 'in',
     POINT: 'pt'
-};
+} as const;
 
 
 const UnitScales = {
@@ -113,4 +113,4 @@ const UnitScales = {
     [ModelUnits.FOOT]: 0.3048,
     [ModelUnits.INCH]: 0.0254,
     [ModelUnits.POINT]: 0.0254 / 72 //A typographical point is 1/72 of an international inch
-};
+} as const;
