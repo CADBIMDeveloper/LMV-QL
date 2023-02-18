@@ -1,20 +1,27 @@
 import { AttributeDefinition } from "../propertyDatabase";
 import { FilterSettings } from "./filterSettings";
+import { convertUnits, ModelUnits, ModelUnitTypes } from "./units";
 
 export type NumberPropertyValue = {
     value: number;
     attribute?: AttributeDefinition;
 };
 
-export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: FilterSettings) => {
-    const value = propertyMustBeConverted(property, filterSettings) ? convertValue(property, filterSettings) : property.value;
-    
-    return applyPrecision(value, property.attribute, filterSettings);
-}
+export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: FilterSettings) =>
+    applyPrecision(convertValue(property, filterSettings), property.attribute, filterSettings);
 
 const convertValue = (property: NumberPropertyValue, filterSettings: FilterSettings): number => {
-    // TODO
-    return property.value;
+    if (propertyMustBeConverted(property, filterSettings))
+        return property.value;
+
+    const unitType = getPropertyUnitType(property.attribute!);
+
+    if (unitType === null)
+        return property.value;
+
+    const propertyUnits = ModelUnits[unitType.modelUnitType];
+
+    return convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value, unitType.modificator);
 }
 
 const applyPrecision = (value: number, attributeDefinition: AttributeDefinition | undefined, filterSettings: FilterSettings): number => {
@@ -27,4 +34,13 @@ const propertyMustBeConverted = (property: NumberPropertyValue, filterSettings: 
         && (property.attribute.dataType === 2 || property.attribute.dataType === 3) // int or double
         && !property.attribute.dataTypeContext
         && filterSettings.displayUnits !== ""
+}
+
+type PropertyUnitType = {
+    modelUnitType: ModelUnitTypes;
+    modificator: "square" | "cube" | undefined
+}
+
+const getPropertyUnitType = (attributeDefinition: AttributeDefinition): PropertyUnitType | null => {
+    return null;
 }
