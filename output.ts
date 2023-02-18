@@ -5,7 +5,7 @@ export type Settings = {
     stringCaseSensitive: boolean;
     leafNodesOnly: boolean;
     attributesCaseSensitive: boolean;
-    displayUnits: number | string;
+    displayUnits: string;
     displayUnitsPrecision: number | string;
 }
 
