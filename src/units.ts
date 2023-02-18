@@ -105,6 +105,9 @@ export const ModelUnits = {
     POINT: 'pt'
 } as const;
 
+type ModelUnitsType = typeof ModelUnits;
+
+export type ModelUnitTypes = keyof ModelUnitsType;
 
 const UnitScales = {
     [ModelUnits.METER]: 1.0,
