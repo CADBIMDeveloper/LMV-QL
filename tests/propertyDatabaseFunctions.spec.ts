@@ -10,14 +10,18 @@ describe('Query functions tests', () => {
         attributesCaseSensitive: true,
         leafNodesOnly: true,
         stringCaseSensitive: true,
-        tolerance: 1e-5
+        tolerance: 1e-5,
+        displayUnits: "",
+        displayUnitsPrecision: ""
     }
 
     const allElementsSetttings: Settings = {
         attributesCaseSensitive: true,
         leafNodesOnly: false,
         stringCaseSensitive: true,
-        tolerance: 1e-5
+        tolerance: 1e-5,
+        displayUnits: "",
+        displayUnitsPrecision: ""
     }
 
     it("must query leaf elements", () => {

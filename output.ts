@@ -4,7 +4,9 @@ export type Settings = {
     tolerance: number;
     stringCaseSensitive: boolean;
     leafNodesOnly: boolean;
-    attributesCaseSensitive: boolean
+    attributesCaseSensitive: boolean;
+    displayUnits: number | string;
+    displayUnitsPrecision: number | string;
 }
 
 export type QueryResults = {

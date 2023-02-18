@@ -9,7 +9,9 @@ describe("Query tests", () => {
             attributesCaseSensitive: true,
             leafNodesOnly: true,
             stringCaseSensitive: true,
-            tolerance: 1e-5
+            tolerance: 1e-5,
+            displayUnits: "",
+            displayUnitsPrecision: ""
         });
 
         assert.isNull(element.error);
