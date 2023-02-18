@@ -79,6 +79,16 @@ describe('Query functions tests', () => {
 
         assert.isNull(results.error);
         expect(results.dbIds).to.eql([3]);
+    });
+
+    it("must query property value with specified display units", () => {
+        const results = filterElements(pdb, {
+            lmvQuery: "*.Length = 1",
+            lmvQueryOptions: { ...leafNodesOnlySettings, displayUnits: "in" }
+        });
+
+        assert.isNull(results.error);
+        expect(results.dbIds).to.eql([4]);
     })
 
     it("must query property value", () => {

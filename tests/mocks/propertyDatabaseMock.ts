@@ -11,6 +11,7 @@ export const pdb: PropertyDatabase = {
         callBack(4, { name: "instanceof_objid", category: "__instanceof__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
         callBack(5, { name: "instance property", category: "props", dataType: 20, displayName: null, dataTypeContext: null, precision: 2 });
         callBack(6, { name: "Level", category: "__internalref__", dataType: 11, displayName: null, dataTypeContext: null, precision: 0 });
+        callBack(7, { name: "Length", category: "Dimensions", dataType: 3, displayName: "Length", dataTypeContext: "autodesk.unit.unit:millimeters-1.0.1", precision: 1 })
     },
     enumObjectProperties: function (dbId: number, callBack: (attrId: number, attrValueId: number) => void): void {
         if (dbId === 1) // root
@@ -30,6 +31,7 @@ export const pdb: PropertyDatabase = {
             callBack(3, 6); // element property
             callBack(4, 7); // instanceof_objid
             callBack(6, 9); // Level
+            callBack(7, 11); // Length
         }
 
         if (dbId === 5) { // Instance (common for element and subcategory)
@@ -73,6 +75,9 @@ export const pdb: PropertyDatabase = {
 
         if (attrId === 6 && attrValueId === 9)
             return 6; // level element id
+
+        if (attrId === 7 && attrValueId === 11)
+            return 25.4; // length
 
         throw new Error('Values is not supported');
     },
