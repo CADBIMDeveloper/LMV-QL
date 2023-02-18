@@ -96,7 +96,7 @@ function fixUnitString(unit?: string): string | undefined {
 
 }
 
-const ModelUnits = {
+export const ModelUnits = {
     METER: 'm',
     CENTIMETER: 'cm',
     MILLIMETER: 'mm',
