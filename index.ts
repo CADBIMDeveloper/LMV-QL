@@ -5,9 +5,6 @@ import { engine } from "./engine";
 export async function query(model: IModel, query: string, options?: Partial<Settings>): Promise<QueryResults> {
   const lmvQueryOptions = createFilterSettings(options);
 
-  if (lmvQueryOptions.displayUnits !== "")
-    throw new Error("Sorry, current LMV-QL version doesn't support display units setting other than \"File units\"");
-
   const propertyDatabase = model.getPropertyDb();
 
   const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
