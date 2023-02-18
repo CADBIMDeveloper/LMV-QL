@@ -24,16 +24,10 @@ export const getNumberPropertyValue = (property: NumberPropertyValue, filterSett
         ? convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value * (unitType.factor || 1), unitType.modificator)
         : property.value;
 
-    return applyPrecision(convertedValue, unitType, filterSettings, propertyAttribute.precision);
+    return applyPrecision(convertedValue, filterSettings, propertyAttribute.precision);
 }
 
-const applyPrecision = (value: number, unitType: PropertyUnitType, filterSettings: FilterSettings, attrubutePrecision: number): number => {
-    return isSimpleNumberFormatting(unitType, filterSettings)
-        ? applySimpleNumberPrecisionFormatting(value, filterSettings, attrubutePrecision)
-        : applyImperialNumberPrecisionFormatting(value, filterSettings, attrubutePrecision);
-}
-
-const applySimpleNumberPrecisionFormatting = (value: number, filterSettings: FilterSettings, attrubutePrecision: number): number => {
+const applyPrecision = (value: number, filterSettings: FilterSettings, attrubutePrecision: number): number => {
     // webpack://LMV/src/measurement/UnitFormatter.js formatNumber function uses toFixed(precision)
     // and it has some kind of financial style rounding, e.g
     // 1.675.toFixed(2) === "1.68" but
@@ -44,44 +38,8 @@ const applySimpleNumberPrecisionFormatting = (value: number, filterSettings: Fil
     return new Number(value.toFixed(precision)).valueOf();
 }
 
-const applyImperialNumberPrecisionFormatting = (value: number, filterSettings: FilterSettings, attrubutePrecision: number): number => {
-    console.warn("Imperial apply precision is not implemented yet");
-
-    return value;
-}
-
 const getPrecision = (filterSettings: FilterSettings, attrubutePrecision: number) => {
     return typeof filterSettings.displayUnitsPrecision === "number" ? filterSettings.displayUnitsPrecision : attrubutePrecision;
-}
-
-const isSimpleNumberFormatting = (unitType: PropertyUnitType, filterSettings: FilterSettings) => {
-    if (unitType.modificator) // square an cubic are formatted as regular numbers
-        return true;
-
-    switch (filterSettings.displayUnits) {
-        case "":
-            return unitType.system === "metric";
-
-        // taken from Autodesk.Viewing.Private.displayUnitsEnum
-        case "mm":
-        case "cm":
-        case "m":
-        case "m-and-cm":
-        case "pt":
-            return true;
-
-        case "in":
-        case "ft":
-        case "ft-and-fractional-in":
-        case "ft-and-decimal-in":
-        case "decimal-in":
-        case "decimal-ft":
-        case "fractional-in":
-            return false;
-
-        default:
-            throw new Error("LMV-QL doesn't support \"" + filterSettings.displayUnits + "\" display units");
-    }
 }
 
 const propertyMustBeConverted = (property: NumberPropertyValue, filterSettings: FilterSettings) => {
