@@ -128,7 +128,7 @@ describe("Filter tests", () => {
     });
 
     it("must filter for string property equality [case insensitive]", () => {
-        const caseInsensitiveFilterFactory = new FilterFactory({ tolerance: 1e-3, stringCaseSensitive: false });
+        const caseInsensitiveFilterFactory = new FilterFactory({ tolerance: 1e-3, stringCaseSensitive: false, displayUnits: "", displayUnitsPrecision: "" });
 
         const filter = caseInsensitiveFilterFactory.createFilter("Category.property = \"test\"");
 

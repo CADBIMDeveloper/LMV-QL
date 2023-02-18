@@ -8,7 +8,7 @@ export class FilterFactory {
     private readonly settings: FilterSettings;
 
     constructor(settings?: FilterSettings) {
-        this.settings = settings || { tolerance: 1e-5, stringCaseSensitive: true };
+        this.settings = settings || { tolerance: 1e-5, stringCaseSensitive: true, displayUnits: "", displayUnitsPrecision: "" };
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
         this.semantics.addOperation<Filter>("compile", compile);
     }

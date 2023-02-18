@@ -4,6 +4,8 @@ export type Settings = {
     stringCaseSensitive: boolean;
     leafNodesOnly: boolean;
     attributesCaseSensitive: boolean;
+    displayUnits: string;
+    displayUnitsPrecision: number | string;
 };
 export type QueryResults = {
     dbIds: number[];
