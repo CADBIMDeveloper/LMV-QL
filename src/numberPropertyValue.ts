@@ -59,6 +59,7 @@ const forgeUnits: ForgeUnits = {
     kilometers: { modelUnitType: "METER", factor: 1000 },
     liters: { modelUnitType: "METER", modificator: "cube", factor: 0.001 },
     meters: { modelUnitType: "METER" },
+    millimeters: { modelUnitType: "MILLIMETER" },
     squareCentimeters: { modelUnitType: "CENTIMETER", modificator: "square" },
     squareFeet: { modelUnitType: "FOOT", modificator: "square" },
     squareInches: { modelUnitType: "INCH", modificator: "square" },
