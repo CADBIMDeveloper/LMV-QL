@@ -7,24 +7,25 @@ export type NumberPropertyValue = {
     attribute?: AttributeDefinition;
 };
 
-export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: FilterSettings) =>
-    applyPrecision(convertValue(property, filterSettings), property.attribute, filterSettings);
-
-const convertValue = (property: NumberPropertyValue, filterSettings: FilterSettings): number => {
+export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: FilterSettings) => {
     if (!propertyMustBeConverted(property, filterSettings))
         return property.value;
 
-    const unitType = getPropertyUnitType(property.attribute!);
+    const propertyAttribute = property.attribute!;
+
+    const unitType = getPropertyUnitType(propertyAttribute);
 
     if (unitType === null)
         return property.value;
 
     const propertyUnits = ModelUnits[unitType.modelUnitType];
 
-    return convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value * (unitType.factor || 1), unitType.modificator);
+    const convertedValue = convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value * (unitType.factor || 1), unitType.modificator);
+
+    return applyPrecision(convertedValue, propertyAttribute, filterSettings);
 }
 
-const applyPrecision = (value: number, attributeDefinition: AttributeDefinition | undefined, filterSettings: FilterSettings): number => {
+const applyPrecision = (value: number, attributeDefinition: AttributeDefinition, filterSettings: FilterSettings): number => {
     // TODO
     return value;
 }
