@@ -1,10 +1,11 @@
 import { ParsingError } from "./parsingError";
 
-export type Settings = { 
+export type Settings = {
     tolerance: number;
     stringCaseSensitive: boolean;
-    leafNodesOnly: boolean; 
-    attributesCaseSensitive: boolean }
+    leafNodesOnly: boolean;
+    attributesCaseSensitive: boolean
+}
 
 export type QueryResults = {
     dbIds: number[];
