@@ -11,7 +11,7 @@ describe("Number conversions tests", () => {
         dataType: 3,
         displayName: "Area",
         dataTypeContext: "autodesk.unit.unit:squareMeters-1.0.1",
-        precision: 1
+        precision: 17
     }
 
     it("must get original property if units are not specified in filter settings", () => {
@@ -39,4 +39,17 @@ describe("Number conversions tests", () => {
 
         assert.isTrue(Math.abs(propertyValue - 10.76391) < 1e-4);
     });
+
+    it("must apply display units precision", () => {
+        const filterSettings: FilterSettings = {
+            displayUnits: "",
+            displayUnitsPrecision: 1,
+            stringCaseSensitive: true,
+            tolerance: 1e-3
+        };
+
+        const propertyValue = getNumberPropertyValue({ value: 5.713, attribute: metricAttributeDefinition }, filterSettings);
+
+        assert.equal(propertyValue, 5.7);
+    })
 });
