@@ -1,9 +1,11 @@
 import * as ohm from "ohm-js";
+import { AttributeDefinition } from "../propertyDatabase";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
-import { IFilterableElement } from "./filterableElement";
+import { IFilterableElement, PropertyValue } from "./filterableElement";
 import { FilterActionDict } from "./filtergrammar.ohm-bundle";
 import { FilterSettings } from "./filterSettings";
+import { getNumberPropertyValue, NumberPropertyValue } from "./numberPropertyValue";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
 export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
@@ -44,7 +46,7 @@ const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): proper
     return propertyDefinition.type === "number";
 }
 
-const isNumber = (value: number | string | undefined): value is number => typeof value === "number";
+const isNumberProperty = (value: PropertyValue): value is NumberPropertyValue => typeof value.value === "number";
 const isString = (value: number | string | undefined): value is string => typeof value === "string";
 
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
@@ -65,8 +67,9 @@ const createComparisonExpression = (
                 const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
                 return categoryTemplates
-                    .map(x => element.getPropertyValue(propertyDefinition.propertyName, x).value)
-                    .filter(isNumber)
+                    .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                    .filter(isNumberProperty)
+                    .map(getNumberPropertyValue)
                     .reduce((acc, elem) => acc || numberComparisonRule(elem, valueDefinition.value, filterSettings), false);
             };
 
