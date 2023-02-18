@@ -93,7 +93,7 @@ describe('Query functions tests', () => {
 
     it("must query property value", () => {
         const elementPropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4, 
+            nodeId: 4,
             caseSensitive: true,
             propertyQuery: "*.[element property]"
         });
@@ -102,7 +102,7 @@ describe('Query functions tests', () => {
         assert.equal(elementPropertiesQueryResults.result, 5.7);
 
         const elementTypePropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4, 
+            nodeId: 4,
             caseSensitive: true,
             propertyQuery: "*.[element type property]"
         });
