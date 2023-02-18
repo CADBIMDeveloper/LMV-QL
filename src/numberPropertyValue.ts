@@ -21,7 +21,7 @@ const convertValue = (property: NumberPropertyValue, filterSettings: FilterSetti
 
     const propertyUnits = ModelUnits[unitType.modelUnitType];
 
-    return convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value, unitType.modificator);
+    return convertUnits(propertyUnits, filterSettings.displayUnits, 1, property.value * (unitType.factor || 1), unitType.modificator);
 }
 
 const applyPrecision = (value: number, attributeDefinition: AttributeDefinition | undefined, filterSettings: FilterSettings): number => {
@@ -38,7 +38,8 @@ const propertyMustBeConverted = (property: NumberPropertyValue, filterSettings: 
 
 type PropertyUnitType = {
     modelUnitType: ModelUnitTypes;
-    modificator: "square" | "cube" | undefined
+    modificator?: "square" | "cube" | undefined;
+    factor?: number;
 }
 
 const getPropertyUnitType = (attributeDefinition: AttributeDefinition): PropertyUnitType | null => {
