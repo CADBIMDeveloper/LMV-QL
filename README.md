@@ -5,6 +5,27 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
 > which allows to run several predefined LMV-QL filters and also allows you
 > to test you own filters on the basic sample model
 
+
+### Table of Contents
+- [Quick tour](#quick-tour)
+- [Introduction](#introduction)
+  * [Simple filters](#simple-filters)
+  * [Complex filters](#complex-filters)
+  * [Units](#units)
+- [Filter language](#filter-language)
+  * [Identificators: hierarchy and element property definition](#identificators-hierarchy-and-element-property-definition)
+  * [Elements in hierarchy filters](#elements-in-hierarchy-filters)
+  * [Simple filters by property value](#simple-filters-by-property-value)
+    - [Numerical properties](#numerical-properties)
+    - [String properties](#string-properties)
+    - [IN / NOT IN](#in--not-in)
+  * [Logical filters](#logical-filters)
+    - [AND operator](#and-operator)
+    - [OR operator](#or-operator)
+    - [NOT operator](#not-operator)
+    - [Brackets](#brackets)
+- [Filter settings](#filter-settings)
+
 ## Usage
 
 ### Quick tour
