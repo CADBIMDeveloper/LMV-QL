@@ -85,4 +85,16 @@ However, if we change precision, we also need to fix the filter string: `*.Floor
 If we are changing display units, then we also should adjust the filter string: `*.Floor.Area = 413.98`
 ![adjusted display units](./assets/floor-area-query-with-adjusted-display-units-settings.png)
 
-### Filter language
+
+#### Identificators: hierarchy and element property definition 
+
+You need to join with `.` symbol model tree item names and property into a single string To define LMV-QL hierarchy position and property, e.g. `SomeCategory.SomeSubCategory.SomeProperty`. If your item or property name contains spaces or dots `.` symbols, then put it inside `[` and `]` symbols like `Floors.Floor.[Generic 150mm].Floor.Area`
+
+You can replace any part of the hierarchy path with `*` (except the latest), which would mean `any` in that case
+Valid identificators:
+- `Floors.Floor.[Generic 150mm].Floor.Area`
+- `Floors.*.Area`
+- `*.Area`
+
+`Floors.*` - not valid, e.g. any property is not supported
+
