@@ -140,3 +140,39 @@ If you want to include a text with quotes like `some "value" of something` then 
 
 If you want to include `%` sign into `like` expression you also need to escape it with `\` sign:
 `category.element.property like "%some \% of something"`
+
+##### IN / NOT IN
+Currently not supported. Upcoming...
+
+#### Logical filters
+
+##### AND filter
+
+LMV-QL allows to define `AND` filter as:
+- `and` (case insensitive)
+- `&&`
+- `&`
+
+Valid `and` filters samples:
+- `Windows! and *.Level = "Level 1 Living Rm."`
+- `Walls.[Curtain Wall].*.[Assembly Code] = "B2020200" 
+&& *.[Type Name] = "64 x 128 rectangular"`
+
+##### OR filter
+LMV-QL allows to define `OR` filter as:
+- `or` (case insensitive)
+- `||`
+- `|`
+
+Valid `or` filters samples:
+- `*.Mark = "207" or *.Mark = "204"`
+- `*.Level = "Level 1" || *.Level = "Level 1 Living Rm."`
+
+##### NOT filter
+Currently not supported. Upcoming...
+
+#### Brackets
+
+LMV-QL allows to combine filters using brackets. Example:
+- `Windows! and (*.Level = "Level 1 Living Rm."
+or *.name = "M_Skylight")`
