@@ -1,5 +1,5 @@
 # LMV-QL
-A query language for filtering model elements in [Autodesk Platform Services (formerly Forge) viewer](https://aps.autodesk.com/en/docs/viewer/v7/developers_guide/overview/)
+LMV-QL is a query language for filtering model elements in [Autodesk Platform Services (formerly Forge) viewer](https://aps.autodesk.com/en/docs/viewer/v7/developers_guide/overview/)
 
 > Check out our [demo application](https://lmv-ql.cadbim.dev) with a sample viewer extension
 > which allows to run several predefined LMV-QL filters and also allows you
@@ -27,9 +27,8 @@ if (!queryResults.error) {
   // do whatever you want with the elements db ids returned by filter engine
 }
 ```
-### Filter language
-
-#### Introducion: Simple filters
+### Introduction
+#### Simple filters
 LMV-QL designed to make filters on model element properties. Let's imagine we want to make a simple filter for model floors with specified `Area` property value.
 ![floor properties](./assets/viewer-model-element.png)
 There are several possible options to that, depending on what you need:
@@ -42,8 +41,10 @@ In that case LMV-QL would search elements only inside that subtree
 `*.Area = 105.9`
 But what if some other element of your model has `Area` property and it's value is 105.9 squared meters and you want to searcg only among floors? Then use something like that:
 `Floors.*.Area = 105.9`
+- or maybe you want to query all elements which areas are more than 50 square meters?
+`*.Area > 50`
 
-#### Introducion: Complex filters
+#### Complex filters
 LMV-QL designed to be able to make queries on models with a complex structure. Let's say, we want to query rectangular mullions from specific curtain wall from [Revit sample file](https://lmv-ql.cadbim.dev)
 
 The main problem is that we need to check properties from different levels of hierarch of the model tree. To do that with LMV-QL we should use logical operators. 
@@ -62,3 +63,5 @@ So, let's add this to our filter:
 
 and check it:
 ![curtain wall mullions search results](./assets/complex-filter-results.png)
+
+### Filter language
