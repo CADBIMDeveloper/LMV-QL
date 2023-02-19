@@ -179,3 +179,28 @@ Currently not supported. Upcoming...
 LMV-QL allows to combine filters using brackets. Example:
 - `Windows! and (*.Level = "Level 1 Living Rm."
 or *.name = "M_Skylight")`
+
+#### Filter settings
+
+Filters settings are defined by:
+```ts
+{
+  attributesCaseSensitive: boolean;
+  stringCaseSensitive: boolean;
+  leafNodesOnly: boolean;
+  displayUnits: string;
+  displayUnitsPrecision: number | string;
+}
+```
+
+- `attributesCaseSensitive` defines if indentificators (item in the model tree and property names) are case-sensitive. Default `true`
+- `stringCaseSensitive` defines if string comparison is case-sensitive or not, e.g. if `stringCaseSensitive` is `true` then `*.[some property value] = "some text"` would return the element if it's `some property value` is "some text", but not "Some text". Default `true`
+- `leafNodesOnly` - if `true` then filter engine returns only leaf nodes from the model tree. Default `true`
+- `displayUnits`. Viewer display units. Default is `""` which means "File units". Possible values can be taken from:
+```js 
+Autodesk.Viewing.Private.displayUnitsEnum
+```
+- `displayUnitsPrecision`. Viewer display units precision. Default is `""` which means "File precision". Possible values can be taken from:
+```js
+Autodesk.Viewing.Private.displayUnitsPrecisionEnum
+```
