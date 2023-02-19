@@ -79,7 +79,10 @@ So user can copy numerical values from properties panel to your filter query str
 
 ![default settings query](./assets/floor-area-query-with-default-settings.png)
 
-However, if we change precision, we also need to fix the filter: `*.Floor.Area = 38.46`
-![](./assets/floor-area-query-with-adjusted-precision-settings.png)
+However, if we change precision, we also need to fix the filter string: `*.Floor.Area = 38.46`
+![adjusted precision settings](./assets/floor-area-query-with-adjusted-precision-settings.png)
+
+If we are changing display units, then we also should adjust the filter string: `*.Floor.Area = 413.98`
+![adjusted display units](./assets/floor-area-query-with-adjusted-display-units-settings.png)
 
 ### Filter language
