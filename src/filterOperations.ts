@@ -1,4 +1,5 @@
 import * as ohm from "ohm-js";
+import { ComputeExpressionSettings } from "./computeExpressionSettings";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement, PropertyValue } from "./filterableElement";
@@ -10,6 +11,8 @@ import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLess
 export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
 
 export type ElementFilter = (element: IFilterableElement) => boolean;
+
+export type PropertyValueQuery = (settings: ComputeExpressionSettings, element: IFilterableElement) => number | string | undefined;
 
 export type ElementPropertyValueQuery = (element: IFilterableElement) => number | string | undefined;
 
@@ -280,11 +283,11 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
     likeTextValue: (valueNode) => createSimpleValue(valueNode, value => value.replaceAll('\\"', '"').replaceAll("\\%", "%"))
 }
 
-export const getPropertyValue: FilterActionDict<ElementPropertyValueQuery> = {
+export const getPropertyValue: FilterActionDict<PropertyValueQuery> = {
     propertySequence: (node) => {
         const propertyDefinition = convertToPropertiesNode(node) as Property;
 
-        return (element) => {
+        return (settings, element) => {
             if (!compareCategories(element.categoriesList, propertyDefinition.categories))
                 return undefined;
 

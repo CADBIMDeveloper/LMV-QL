@@ -1,13 +1,16 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { ElementPropertyValueQuery, getPropertyDefinition, getPropertyValue, PropertyDefinition } from "./filterOperations";
+import { PropertyValueQuery, getPropertyDefinition, getPropertyValue, PropertyDefinition, ElementPropertyValueQuery } from "./filterOperations";
 import { ParsingError } from "../parsingError";
+import { ComputeExpressionSettings } from "./computeExpressionSettings";
 
 export class ElementPropertyValueQueryFactory {
     private readonly semantics = grammar.createSemantics();
+    private readonly settings: ComputeExpressionSettings;
 
-    constructor() {
+    constructor(settings?: ComputeExpressionSettings) {
+        this.settings = settings || { attributesCaseSensitive: true, displayUnits: "", displayUnitsPrecision: "" }
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
-        this.semantics.addOperation<ElementPropertyValueQuery>("getPropertyValue", getPropertyValue);
+        this.semantics.addOperation<PropertyValueQuery>("getPropertyValue", getPropertyValue);
     }
 
     createPropertyQuery(propertyQuery: string): ElementPropertyValueQuery {
@@ -18,6 +21,6 @@ export class ElementPropertyValueQueryFactory {
 
         const node = this.semantics(match);
 
-        return node.getPropertyValue();
+        return node.getPropertyValue().bind(null, this.settings);
     }
 }

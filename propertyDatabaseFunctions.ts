@@ -49,7 +49,7 @@ export const computeExpression = (pdb: PropertyDatabase, tag: UserComputeOptions
     try {
         const { nodeId, propertyQuery, options } = tag!;
 
-        const factory = new ElementPropertyValueQueryFactory();
+        const factory = new ElementPropertyValueQueryFactory(options);
 
         const query = factory.createPropertyQuery(propertyQuery);
 
