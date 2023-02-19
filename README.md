@@ -180,7 +180,7 @@ LMV-QL allows to combine filters using brackets. Example:
 - `Windows! and (*.Level = "Level 1 Living Rm."
 or *.name = "M_Skylight")`
 
-#### Filter settings
+### Filter settings
 
 Filters settings are defined by:
 ```ts
