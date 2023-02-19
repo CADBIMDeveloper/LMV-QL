@@ -31,10 +31,11 @@ if (!queryResults.error) {
 #### Simple filters
 LMV-QL designed to make filters on model element properties. Let's imagine we want to make a simple filter for model floors with specified `Area` property value.
 ![floor properties](./assets/viewer-model-element.png)
+
 There are several possible options to that, depending on what you need:
 - you can provide exact path:
 `Floors.Floor.[Generic 150mm].Floor.Area = 105.9`
-In that case LMV-QL would search elements only inside that subtree
+In that case LMV-QL would search elements only inside that subtree (Floors -> Floor -> Generic 150mm -> Floor)
 - you can replace any path of your query with `*` symbol:
 `*.Floor.Area = 105.9`
 - or even search among all elements of your model like:
@@ -53,9 +54,10 @@ First of all we need to distinguish curtain walls [from our model](https://lmv-q
 ![curtain wall properties](./assets/complex-filter-curtain-wall.png)
 
 So we are ready to write the first part of our filter:
+
 `*.[Curtain Wall].Length = 6202 and *.[Curtain Wall].Area = 26.5`
 
-Then we need to distinguish rectangular mullions from other curtain wall components. We can do that by checking `Type Name` property. If it ends with "rectangular", then we found our mullion object
+Then we need to distinguish rectangular mullions from other curtain wall components. We can do that by checking `Type Name` property. If it ends with "rectangular", then we found our mullion object:
 ![mullion properties](./assets/complex-filter-mullion-properties.png)
 
 So, let's add this to our filter:
@@ -75,7 +77,7 @@ const filterOptions = {
 
 const queryResults = await query(viewer.model, lmvQuery, filterOptions);
 ```
-So user can copy numerical values from properties panel to your filter query string: `*.Floor.Area = 38.5`
+So user can copy numerical values from properties panel directly to the filter query string: `*.Floor.Area = 38.5`
 
 ![default settings query](./assets/floor-area-query-with-default-settings.png)
 
@@ -105,6 +107,7 @@ You can provide a valid identificator with following `!` sign to filter all sub 
 - `[Plumbing Fixtures]!`
 - `Walls.[Curtain Wall]!`
 - `Walls.[Curtain Wall].[SH_Curtain wall].[Curtain Wall].[System Panel]!`
+
 `Walls.*!` is not a valid filter
 
 #### Simple filters by property value
@@ -146,7 +149,7 @@ Currently not supported. Upcoming...
 
 #### Logical filters
 
-##### AND filter
+##### AND operator
 
 LMV-QL allows to define `AND` filter as:
 - `and` (case insensitive)
@@ -158,7 +161,7 @@ Valid `and` filters samples:
 - `Walls.[Curtain Wall].*.[Assembly Code] = "B2020200" 
 && *.[Type Name] = "64 x 128 rectangular"`
 
-##### OR filter
+##### OR operator
 LMV-QL allows to define `OR` filter as:
 - `or` (case insensitive)
 - `||`
@@ -168,10 +171,10 @@ Valid `or` filters samples:
 - `*.Mark = "207" or *.Mark = "204"`
 - `*.Level = "Level 1" || *.Level = "Level 1 Living Rm."`
 
-##### NOT filter
+##### NOT operator
 Currently not supported. Upcoming...
 
-#### Brackets
+##### Brackets
 
 LMV-QL allows to combine filters using brackets. Example:
 - `Windows! and (*.Level = "Level 1 Living Rm."
