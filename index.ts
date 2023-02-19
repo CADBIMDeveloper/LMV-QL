@@ -19,10 +19,11 @@ export async function computeExpressionValue(model: IModel, dbId: number, query:
 
   const computeOptions = createComputeExpressionOptions(options);
 
-  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(code, { 
-    nodeId: dbId, 
-    propertyQuery: query, 
-    options: computeOptions });
+  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(code, {
+    nodeId: dbId,
+    propertyQuery: query,
+    options: computeOptions
+  });
 }
 
 const createFilterSettings = (options?: Partial<Settings>): Settings => {
