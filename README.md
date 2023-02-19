@@ -85,6 +85,7 @@ However, if we change precision, we also need to fix the filter string: `*.Floor
 If we are changing display units, then we also should adjust the filter string: `*.Floor.Area = 413.98`
 ![adjusted display units](./assets/floor-area-query-with-adjusted-display-units-settings.png)
 
+### Filter language
 
 #### Identificators: hierarchy and element property definition 
 
@@ -98,3 +99,10 @@ Valid identificators:
 
 `Floors.*` - not valid, e.g. any property is not supported
 
+#### Elements in hierarchy filters
+
+You can provide a valid identificator with following `!` sign to filter all sub items from model tree. Valid filters:
+- `[Plumbing Fixtures]!`
+- `Walls.[Curtain Wall]!`
+- `Walls.[Curtain Wall].[SH_Curtain wall].[Curtain Wall].[System Panel]!`
+`Walls.*!` is not a valid filter
