@@ -64,4 +64,22 @@ So, let's add this to our filter:
 and check it:
 ![curtain wall mullions search results](./assets/complex-filter-results.png)
 
+#### Units
+
+LMV-QL follows the same rules of formatting and values comparison as Autodesk Platform Services viewer does. You can provide `displayUnits` and `displayUnitsPrecision` in the options object when you perform your query like
+```ts
+const filterOptions = {
+  displayUnits: viewer.prefs.get(Autodesk.Viewing.Private.Prefs.DISPLAY_UNITS),
+  displayUnitsPrecision: viewer.prefs.get(Autodesk.Viewing.Private.Prefs.DISPLAY_UNITS_PRECISION)
+};
+
+const queryResults = await query(viewer.model, lmvQuery, filterOptions);
+```
+So user can copy numerical values from properties panel to your filter query string: `*.Floor.Area = 38.5`
+
+![default settings query](./assets/floor-area-query-with-default-settings.png)
+
+However, if we change precision, we also need to fix the filter: `*.Floor.Area = 38.46`
+![](./assets/floor-area-query-with-adjusted-precision-settings.png)
+
 ### Filter language
