@@ -29,7 +29,7 @@ if (!queryResults.error) {
 ```
 ### Filter language
 
-#### Introducion: Simple filter
+#### Introducion: Simple filters
 LMV-QL designed to make filters on model element properties. Let's imagine we want to make a simple filter for model floors with specified `Area` property value.
 ![floor properties](./assets/viewer-model-element.png)
 There are several possible options to that, depending on what you need:
@@ -43,4 +43,22 @@ In that case LMV-QL would search elements only inside that subtree
 But what if some other element of your model has `Area` property and it's value is 105.9 squared meters and you want to searcg only among floors? Then use something like that:
 `Floors.*.Area = 105.9`
 
-#### Introducion: Complex filter demo
+#### Introducion: Complex filters
+LMV-QL designed to be able to make queries on models with a complex structure. Let's say, we want to query rectangular mullions from specific curtain wall from [Revit sample file](https://lmv-ql.cadbim.dev)
+
+The main problem is that we need to check properties from different levels of hierarch of the model tree. To do that with LMV-QL we should use logical operators. 
+
+First of all we need to distinguish curtain walls [from our model](https://lmv-ql.cadbim.dev). We can do that by dimensions:
+![curtain wall properties](./assets/complex-filter-curtain-wall.png)
+
+So we are ready to write the first part of our filter:
+`*.[Curtain Wall].Length = 6202 and *.[Curtain Wall].Area = 26.5`
+
+Then we need to distinguish rectangular mullions from other curtain wall components. We can do that by checking `Type Name` property. If it ends with "rectangular", then we found our mullion object
+![mullion properties](./assets/complex-filter-mullion-properties.png)
+
+So, let's add this to our filter:
+`*.[Curtain Wall].Length = 6202 and *.[Curtain Wall].Area = 26.5 && *.[Type Name] like "%rectangular"`
+
+and check it:
+![curtain wall mullions search results](./assets/complex-filter-results.png)
