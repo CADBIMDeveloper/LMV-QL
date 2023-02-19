@@ -23,33 +23,15 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, roots);
 
-        let elementConstructionTime = 0;
-        let elementFilteringTime = 0;
-        let filterAttemptsCount = 0;
-
         for (const dbId of nodes) {
             if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
                 continue;
 
-            const constructorStarted = performance.now();
-
             const element = new PropertyDatabaseFilterableElement(dbId, propertyValuesQueryFactory);
-
-            const constructionTime = performance.now() - constructorStarted;
-
-            const filteringStarted = performance.now();
 
             if (elementFilter(element))
                 dbIds.push(dbId);
-
-            const filteringTime = performance.now() - filteringStarted;
-
-            elementConstructionTime += constructionTime;
-            elementFilteringTime += filteringTime;
-            ++filterAttemptsCount;
         }
-
-        console.log("statistics", { elementConstructionTime, elementFilteringTime, filterAttemptsCount });
 
         return {
             dbIds,
