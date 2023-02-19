@@ -106,3 +106,37 @@ You can provide a valid identificator with following `!` sign to filter all sub 
 - `Walls.[Curtain Wall]!`
 - `Walls.[Curtain Wall].[SH_Curtain wall].[Curtain Wall].[System Panel]!`
 `Walls.*!` is not a valid filter
+
+#### Simple filters by property value
+
+##### Numerical properties
+
+- property value equal to `identificator = value`:
+`Walls.[Basic Wall].*.Width = 300`
+- greater than value `identificator > value`:
+`*.Floor.Area > 100`
+- greater than or equal to value `identificator >= value`
+`*.Floor.Area >= 100`
+- less than value `identificator < value`
+`*.Floor.Area < 100`
+- less than or equal to value `identificator <= value`:
+`*.Floor.Area <= 100`
+- property not equal to value `identificator <> value` or `identificator != value`. Both options are valid:
+`*.Floor.Area <> 9` or `*.Floor.Area != 9`
+
+##### String properties
+
+- property value equal to `identificator = value`:
+`*.Mark = "207"`
+- property value not equal to `identificator <> value` or `identificator != value`. Both options are valid:
+`*.Mark <> "205"` or `*.Mark != "205"`
+- property value starts with `identificator like "start text%"`:
+`*.name like "RPC%"`
+- property value ends with `identificator like "%-some further text"`:
+`*.name like "%- 300mm Concrete"`
+
+If you want to include a text with quotes like `some "value" of something` then you need to escape quotes with `\` sign:
+`category.element.property = "some \"value\" of something"`
+
+If you want to include `%` sign into `like` expression you also need to escape it with `\` sign:
+`category.element.property like "%some \% of something"`
