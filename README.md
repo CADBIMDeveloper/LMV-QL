@@ -15,7 +15,13 @@ import { query } from "lmv-ql";
 ```
 - run your LMV query
 ```ts
+const filterOptions = {
+  displayUnits: viewer.prefs.get(Autodesk.Viewing.Private.Prefs.DISPLAY_UNITS),
+  displayUnitsPrecision: viewer.prefs.get(Autodesk.Viewing.Private.Prefs.DISPLAY_UNITS_PRECISION)
+};
+
 const queryResults = await query(viewer.model, lmvQuery, filterOptions);
+
 if (!queryResults.error) {
   const dbIds = queryResults.dbIds;
   // do whatever you want with the elements db ids returned by filter engine
