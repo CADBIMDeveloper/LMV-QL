@@ -294,8 +294,10 @@ export const getPropertyValue: FilterActionDict<PropertyValueQuery> = {
             const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
 
             return categoryTemplates
-                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x).value)
-                .find(x => x !== undefined);
+                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+                .filter(x => x.value !== undefined)
+                .map(x => isNumberProperty(x) ? getNumberPropertyValue(x, settings) : x.value)
+                .find(x => x);
         };
     }
 }

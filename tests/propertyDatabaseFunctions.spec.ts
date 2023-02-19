@@ -118,4 +118,19 @@ describe('Query functions tests', () => {
         assert.isNull(elementTypePropertiesQueryResults.error);
         assert.equal(elementTypePropertiesQueryResults.result, 1.3);
     });
+
+    it("must query property value according to specified display units", () => {
+        const elementPropertiesQueryResults = computeExpression(pdb, {
+            nodeId: 4,
+            propertyQuery: "*.Length",
+            options: {
+                attributesCaseSensitive: true,
+                displayUnits: "in",
+                displayUnitsPrecision: ""
+            }
+        });
+
+        assert.isNull(elementPropertiesQueryResults.error);
+        assert.equal(elementPropertiesQueryResults.result, 1);
+    });
 });
