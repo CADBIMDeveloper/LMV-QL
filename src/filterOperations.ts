@@ -1,5 +1,4 @@
 import * as ohm from "ohm-js";
-import { AttributeDefinition } from "../propertyDatabase";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement, PropertyValue } from "./filterableElement";
