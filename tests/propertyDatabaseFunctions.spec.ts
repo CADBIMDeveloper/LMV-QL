@@ -27,7 +27,8 @@ describe('Query functions tests', () => {
     it("must query leaf elements", () => {
         const element = filterElements(pdb, {
             lmvQuery: "*.[element property] = 5.7",
-            lmvQueryOptions: leafNodesOnlySettings
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNull(element.error);
@@ -35,7 +36,8 @@ describe('Query functions tests', () => {
 
         const type = filterElements(pdb, {
             lmvQuery: "*.[element type property] = 1.3",
-            lmvQueryOptions: leafNodesOnlySettings
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNull(type.error);
@@ -45,7 +47,8 @@ describe('Query functions tests', () => {
     it("must query elements from the tree", () => {
         const elements = filterElements(pdb, {
             lmvQuery: "*.[element type property] = 1.3",
-            lmvQueryOptions: allElementsSetttings
+            lmvQueryOptions: allElementsSetttings,
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNull(elements.error);
@@ -55,7 +58,8 @@ describe('Query functions tests', () => {
     it("must query instance-of properties", () => {
         const elements = filterElements(pdb, {
             lmvQuery: "*.[instance property] = \"instance property value\"",
-            lmvQueryOptions: allElementsSetttings
+            lmvQueryOptions: allElementsSetttings,
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNull(elements.error);
@@ -65,7 +69,8 @@ describe('Query functions tests', () => {
     it("must fail on the incorrect query", () => {
         const results = filterElements(pdb, {
             lmvQuery: "*.[element property]",
-            lmvQueryOptions: leafNodesOnlySettings
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNotNull(results.error);
@@ -74,7 +79,8 @@ describe('Query functions tests', () => {
     it("must query property value from double-rooted model", () => {
         const results = filterElements(doubleRootPdb, {
             lmvQuery: "Element.[element property] = 5.7",
-            lmvQueryOptions: leafNodesOnlySettings
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3]
         });
 
         assert.isNull(results.error);
@@ -84,7 +90,8 @@ describe('Query functions tests', () => {
     it("must query property value with specified display units", () => {
         const results = filterElements(pdb, {
             lmvQuery: "*.Length = 1",
-            lmvQueryOptions: { ...leafNodesOnlySettings, displayUnits: "in" }
+            lmvQueryOptions: { ...leafNodesOnlySettings, displayUnits: "in" },
+            nodes: [1, 2, 3, 4]
         });
 
         assert.isNull(results.error);

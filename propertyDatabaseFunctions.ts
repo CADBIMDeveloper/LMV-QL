@@ -11,7 +11,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
     try {
         const dbIds: number[] = [];
 
-        const { lmvQuery, lmvQueryOptions } = tag!;
+        const { lmvQuery, lmvQueryOptions, nodes } = tag!;
 
         const filterFactory = new FilterFactory(lmvQueryOptions);
 
@@ -27,9 +27,9 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
         let elementFilteringTime = 0;
         let filterAttemptsCount = 0;
 
-        pdb.enumObjects(dbId => {
+        for (const dbId of nodes) {
             if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
-                return;
+                continue;
 
             const constructorStarted = performance.now();
 
@@ -47,7 +47,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
             elementConstructionTime += constructionTime;
             elementFilteringTime += filteringTime;
             ++filterAttemptsCount;
-        });
+        }
 
         console.log("statistics", { elementConstructionTime, elementFilteringTime, filterAttemptsCount });
 

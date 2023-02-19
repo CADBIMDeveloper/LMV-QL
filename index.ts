@@ -7,9 +7,15 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
 
   const propertyDatabase = model.getPropertyDb();
 
+  const nodes: number[] = [];
+
+  const instanceTree = model.getInstanceTree();
+
+  instanceTree.enumNodeChildren(instanceTree.getRootId(), dbId => { nodes.push(dbId) }, true);
+
   const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
 
-  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions });
+  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions, nodes });
 }
 
 export async function computeExpressionValue(model: IModel, dbId: number, query: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {

@@ -27,6 +27,7 @@ export type ExpressionComputeResults = {
 
 export type UserQueryOptions = {
     lmvQuery: string;
+    nodes: number[];
     lmvQueryOptions: Settings;
 }
 
