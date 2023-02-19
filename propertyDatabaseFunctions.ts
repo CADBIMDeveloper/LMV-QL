@@ -47,13 +47,13 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
 export const computeExpression = (pdb: PropertyDatabase, tag: UserComputeOptions) => {
     try {
-        const { nodeId, propertyQuery, caseSensitive } = tag!;
+        const { nodeId, propertyQuery, options } = tag!;
 
         const factory = new ElementPropertyValueQueryFactory();
 
         const query = factory.createPropertyQuery(propertyQuery);
 
-        const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, caseSensitive);
+        const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, options.attributesCaseSensitive);
 
         const roots = findRootNodes(pdb, attributesCollection);
 

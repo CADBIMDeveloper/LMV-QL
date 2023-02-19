@@ -7,6 +7,11 @@ export type Settings = {
     displayUnits: string;
     displayUnitsPrecision: number | string;
 };
+export type ComputeSettings = {
+    attributesCaseSensitive: boolean;
+    displayUnits: string;
+    displayUnitsPrecision: number | string;
+};
 export type QueryResults = {
     dbIds: number[];
     error: ParsingError | Error | null;
@@ -22,5 +27,5 @@ export type UserQueryOptions = {
 export type UserComputeOptions = {
     nodeId: number;
     propertyQuery: string;
-    caseSensitive: boolean;
+    options: ComputeSettings;
 };

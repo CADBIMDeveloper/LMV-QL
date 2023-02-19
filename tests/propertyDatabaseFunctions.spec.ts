@@ -94,8 +94,12 @@ describe('Query functions tests', () => {
     it("must query property value", () => {
         const elementPropertiesQueryResults = computeExpression(pdb, {
             nodeId: 4,
-            caseSensitive: true,
-            propertyQuery: "*.[element property]"
+            propertyQuery: "*.[element property]",
+            options: {
+                attributesCaseSensitive: true,
+                displayUnits: "",
+                displayUnitsPrecision: ""
+            }
         });
 
         assert.isNull(elementPropertiesQueryResults.error);
@@ -103,8 +107,12 @@ describe('Query functions tests', () => {
 
         const elementTypePropertiesQueryResults = computeExpression(pdb, {
             nodeId: 4,
-            caseSensitive: true,
-            propertyQuery: "*.[element type property]"
+            propertyQuery: "*.[element type property]",
+            options: {
+                attributesCaseSensitive: true,
+                displayUnits: "",
+                displayUnitsPrecision: ""
+            }
         });
 
         assert.isNull(elementTypePropertiesQueryResults.error);
