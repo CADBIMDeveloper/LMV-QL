@@ -29,5 +29,18 @@ if (!queryResults.error) {
 ```
 ### Filter language
 
-LMV-QL designed to make filters on model element properties. Let's imagine we want to filter floors by `Area` property value.
-![element](./assets/viewer-model-element.png)
+#### Introducion: Simple filter
+LMV-QL designed to make filters on model element properties. Let's imagine we want to make a simple filter for model floors with specified `Area` property value.
+![floor properties](./assets/viewer-model-element.png)
+There are several possible options to that, depending on what you need:
+- you can provide exact path:
+`Floors.Floor.[Generic 150mm].Floor.Area = 105.9`
+In that case LMV-QL would search elements only inside that subtree
+- you can replace any path of your query with `*` symbol:
+`*.Floor.Area = 105.9`
+- or even search among all elements of your model like:
+`*.Area = 105.9`
+But what if some other element of your model has `Area` property and it's value is 105.9 squared meters and you want to searcg only among floors? Then use something like that:
+`Floors.*.Area = 105.9`
+
+#### Introducion: Complex filter demo
