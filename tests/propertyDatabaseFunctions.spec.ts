@@ -140,4 +140,19 @@ describe('Query functions tests', () => {
         assert.isNull(elementPropertiesQueryResults.error);
         assert.equal(elementPropertiesQueryResults.result, 1);
     });
+
+    it("must query deepest node property value on wildcarded query if several elements have equally-named properties", () => {
+        const elementPropertiesQueryResults = computeExpression(pdb, {
+            nodeId: 4,
+            propertyQuery: "*.name",
+            options: {
+                attributesCaseSensitive: true,
+                displayUnits: "",
+                displayUnitsPrecision: ""
+            }
+        });
+
+        assert.isNull(elementPropertiesQueryResults.error);
+        assert.equal(elementPropertiesQueryResults.result, "Element");
+    });
 });
