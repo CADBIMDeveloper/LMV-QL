@@ -16,16 +16,15 @@ describe("Wildcards expander", () => {
 
         assert.equal(sequences3.length, 2);
 
-        assert.isTrue(sequences3.indexOf("*.*.a") >= 0);
-        assert.isTrue(sequences3.indexOf("*.a.*") >= 0);
-
+        assert.equal(sequences3[0], "*.*.a");
+        assert.equal(sequences3[1], "*.a.*");
         const sequences4 = expandTemplateCategories(["*", "a"], 4).map(x => x.join("."));
 
         assert.equal(sequences4.length, 3);
 
-        assert.isTrue(sequences4.indexOf("*.*.*.a") >= 0);
-        assert.isTrue(sequences4.indexOf("*.*.a.*") >= 0);
-        assert.isTrue(sequences4.indexOf("*.a.*.*") >= 0);
+        assert.equal(sequences4[0], "*.*.*.a");
+        assert.equal(sequences4[1], "*.*.a.*");
+        assert.equal(sequences4[2], "*.a.*.*");
     });
 
     it("must expand sequences with multiple wildcards", () => {
@@ -43,6 +42,7 @@ describe("Wildcards expander", () => {
         assert.isTrue(sequences5.indexOf("*.a.*.b.*") >= 0);
         assert.isTrue(sequences5.indexOf("*.a.*.*.b") >= 0);
         assert.isTrue(sequences5.indexOf("*.*.a.*.b") >= 0);
+        assert.equal(sequences5.indexOf("*.*.a.*.b"), 0);
 
         const sequences6 = expandTemplateCategories(sourceCategories, 6).map(x => x.join("."));
 
@@ -54,5 +54,6 @@ describe("Wildcards expander", () => {
         assert.isTrue(sequences6.indexOf("*.*.a.*.b.*") >= 0);
         assert.isTrue(sequences6.indexOf("*.*.a.*.*.b") >= 0);
         assert.isTrue(sequences6.indexOf("*.*.*.a.*.b") >= 0);
+        assert.equal(sequences6.indexOf("*.*.*.a.*.b"), 0);
     });
 });
