@@ -9,7 +9,7 @@ const compile = (code) => {
 
     const engineMatch = JSON.stringify({ engine }).match(engineRegex);
 
-    return `export const engine = \"${engineMatch.groups["engine"]}\";`;
+    return `/*Generated automatically*/export const engine = \"${engineMatch.groups["engine"]}\";`;
 }
 
 fs.readFile("./build/obj/engine.js", {}, (_err, buf) => {
