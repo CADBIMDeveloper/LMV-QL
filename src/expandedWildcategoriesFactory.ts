@@ -8,7 +8,7 @@ export const expandTemplateCategories = (templateCategories: Template, targetLen
 
     expand(templates, [], templateCategories, 0, targetLength);
 
-    return templates;
+    return templates.sort((a, b) => computeTemplateScore(a) - computeTemplateScore(b));
 }
 
 export const expandTemplateCategoriesForValue = (templateCategories: Template, targetLength: number) => {
@@ -61,3 +61,5 @@ const expand = (templates: Template[], currentTemplate: Template, templateCatego
         expand(templates, currentTemplate, templateCategories, currentIndex + 1, targetLength);
     }
 }
+
+const computeTemplateScore = (template: Template): number => template.map((x, i) => x === "*" ? i : 0).reduce((acc, elem) => acc + elem, 0);
