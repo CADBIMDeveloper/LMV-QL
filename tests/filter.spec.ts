@@ -262,5 +262,9 @@ describe("Filter tests", () => {
     it("queries with omitted filter (e.g. select only, aggregated,...) must get filter, which returns true for any element", () => {
         assert.isTrue(filterFactory.createQuery("*.property").filter(complexElement));
         assert.isTrue(filterFactory.createQuery("*.property as property_name").filter(complexElement));
+
+        assert.isTrue(filterFactory.createQuery("*.property, *.name").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("*.property, *.name as name").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("*.property as prop, *.name as name").filter(complexElement));
     });
 });
