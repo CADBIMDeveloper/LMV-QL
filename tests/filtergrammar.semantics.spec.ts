@@ -139,5 +139,11 @@ describe("Filter grammar semantics tests", () => {
 
     it("must support simple named property expressions", () => {
         assertIsValidFilterString("*.property as name");
-    })
+    });
+
+    it("must support properties list expressions", () => {
+        assertIsValidFilterString("*.prop1, Cat.prop2");
+        assertIsValidFilterString("*.prop1 as name1, Cat.prop2");
+        assertIsValidFilterString("*.prop1 as name1, Cat.prop2 as name2");
+    });
 });
