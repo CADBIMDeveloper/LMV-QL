@@ -15,7 +15,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const filterFactory = new QueryFactory(lmvQueryOptions);
 
-        const elementFilter = filterFactory.createQuery(lmvQuery).filter;
+        const elementQuery = filterFactory.createQuery(lmvQuery);
 
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, lmvQueryOptions.attributesCaseSensitive);
 
@@ -29,7 +29,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
             const element = new PropertyDatabaseFilterableElement(dbId, propertyValuesQueryFactory);
 
-            if (elementFilter(element))
+            if (elementQuery.filter(element))
                 dbIds.push(dbId);
         }
 

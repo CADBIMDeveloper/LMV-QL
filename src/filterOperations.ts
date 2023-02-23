@@ -13,10 +13,16 @@ export type Filter = (settings: FilterSettings, element: IFilterableElement) => 
 export type ElementFilter = (element: IFilterableElement) => boolean;
 
 export type ElementQuery = {
-    filter: ElementFilter
+    filter: ElementFilter;
+    selectProperties: SelectValueQuery[];
 }
 
-export type PropertyValueQuery = (settings: ComputeExpressionSettings, element: IFilterableElement) => number | string | undefined;
+export type PropertyValueQuery = (settings: ComputeExpressionSettings | FilterSettings, element: IFilterableElement) => number | string | undefined;
+
+export type SelectValueQuery = {
+    fun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
+    name?: string;
+}
 
 export type ElementPropertyValueQuery = (element: IFilterableElement) => number | string | undefined;
 
@@ -144,14 +150,32 @@ export const compileFilter: FilterActionDict<Filter> = {
         (elementPropertyValue, constraint) => elementPropertyValue.endsWith(constraint)),
 
     PropertiesSelectExpr: (_) => (_settings, _element) => true,
-    
+
     AggregatedSelectionClause: (_) => (_settings, _element) => true,
 
     FilterWithSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
-    
+
     FilterWithAggregatedSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
-    
+
     FilterWithGroupedAggregedSelectExpr: (filterNode, _1, _2, _3, _4) => filterNode.compileFilter()
+}
+
+export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
+    FilterExpr: (_) => [],
+
+    PropertiesExpr: (firstIdentifierNode, _, sequence) => {
+        const properties: SelectValueQuery[] = firstIdentifierNode.compileSelect();
+
+        const sequenceValue: SelectValueQuery[] = sequence.children.flatMap(x => x.compileSelect());
+
+        properties.splice(1, 0, ...sequenceValue)
+
+        return properties;
+    },
+
+    NamedPropertyExpr: (propertyNode, _, nameNode) => [{ fun: createPropertyValueGetterFunction(propertyNode), name: nameNode.sourceString }],
+
+    propertySequence: (node) => [{ fun: createPropertyValueGetterFunction(node) }]
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
@@ -313,5 +337,22 @@ export const getPropertyValue: FilterActionDict<PropertyValueQuery> = {
                 .map(x => isNumberProperty(x) ? getNumberPropertyValue(x, settings) : x.value)
                 .find(x => x);
         };
+    }
+}
+
+const createPropertyValueGetterFunction = (node: ohm.NonterminalNode) => {
+    const propertyDefinition = convertToPropertiesNode(node) as Property;
+
+    return (settings: FilterSettings, element: IFilterableElement) => {
+        if (!compareCategories(element.categoriesList, propertyDefinition.categories))
+            return undefined;
+
+        const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
+
+        return categoryTemplates
+            .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
+            .filter(x => x.value !== undefined)
+            .map(x => isNumberProperty(x) ? getNumberPropertyValue(x, settings) : x.value)
+            .find(x => x);
     }
 }
