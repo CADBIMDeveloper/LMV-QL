@@ -152,5 +152,18 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("category! -> *.property as name");
         assertIsValidFilterString("category! -> *.property1 as name1, *.property as name2");
         assertIsValidFilterString("category.Element.property = 5.7 -> *.property1 as name1, *.property as name2");
+    });
+
+    it("must support simple aggregated expressions", () => {
+        assertIsValidFilterString("count()");
+    });
+
+    it("must support named aggregated expressions", () => {
+        assertIsValidFilterString("count() as cnt");
+    });
+
+    it("must support filter -> aggregated functions", () => {
+        assertIsValidFilterString("category! -> count()");
+        assertIsValidFilterString("category! -> count() as cnt");
     })
 });

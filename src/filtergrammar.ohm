@@ -1,10 +1,14 @@
 Filter {
     Expr 
         = FilterWithSelectExpr
+        | FilterWithAggregatedSelectExpr
+        | AggregatedSelectionClause
         | FilterExpr
         | PropertiesSelectExpr
     
     FilterWithSelectExpr = FilterExpr "->" PropertiesSelectExpr
+
+    FilterWithAggregatedSelectExpr = FilterExpr "->" AggregatedSelectionClause
 
     FilterExpr = BoolOr
     
@@ -37,6 +41,18 @@ Filter {
     StartsWithExpr = propertySequence likeWord startsWithConst
 
     EndsWithExpr = propertySequence likeWord endsWithConst
+
+    AggregatedSelectionClause = AnyAggregatedFuncExpr | AggregatedFuncsExpr
+
+    AggregatedFuncsExpr = AnyAggregatedFuncExpr ("," AnyAggregatedFuncExpr)*
+
+    AnyAggregatedFuncExpr = AggregatedNamedFuncExpr | AggregatedFuncExpr
+
+    AggregatedNamedFuncExpr = AggregatedFuncExpr asWord propertyNameIdentifier
+
+    AggregatedFuncExpr = AggregatedCountExpr
+
+    AggregatedCountExpr = countWord "()"
 
     PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
@@ -73,6 +89,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    countWord = caseInsensitive<"count">
 
     asWord = caseInsensitive<"as">
 
