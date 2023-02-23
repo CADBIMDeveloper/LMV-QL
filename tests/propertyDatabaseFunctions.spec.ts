@@ -12,7 +12,8 @@ describe('Query functions tests', () => {
         stringCaseSensitive: true,
         tolerance: 1e-5,
         displayUnits: "",
-        displayUnitsPrecision: ""
+        displayUnitsPrecision: "",
+        dbIds: []
     }
 
     const allElementsSetttings: Settings = {
@@ -21,7 +22,8 @@ describe('Query functions tests', () => {
         stringCaseSensitive: true,
         tolerance: 1e-5,
         displayUnits: "",
-        displayUnitsPrecision: ""
+        displayUnitsPrecision: "",
+        dbIds: []
     }
 
     it("must query leaf elements", () => {

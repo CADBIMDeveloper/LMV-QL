@@ -39,7 +39,8 @@ const createFilterSettings = (options?: Partial<Settings>): Settings => {
     leafNodesOnly: true,
     attributesCaseSensitive: true,
     displayUnits: "",
-    displayUnitsPrecision: ""
+    displayUnitsPrecision: "",
+    dbIds: []
   }
 
   if (!options)
@@ -51,7 +52,8 @@ const createFilterSettings = (options?: Partial<Settings>): Settings => {
     leafNodesOnly: options.leafNodesOnly !== undefined ? options.leafNodesOnly : defaultSettings.leafNodesOnly,
     attributesCaseSensitive: options.attributesCaseSensitive !== undefined ? options.attributesCaseSensitive : defaultSettings.attributesCaseSensitive,
     displayUnits: options.displayUnits !== undefined ? options.displayUnits : defaultSettings.displayUnits,
-    displayUnitsPrecision: options.displayUnitsPrecision !== undefined ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision
+    displayUnitsPrecision: options.displayUnitsPrecision !== undefined ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision,
+    dbIds: options.dbIds !== undefined ? options.dbIds : defaultSettings.dbIds
   }
 }
 

@@ -7,6 +7,7 @@ export type Settings = {
     attributesCaseSensitive: boolean;
     displayUnits: string;
     displayUnitsPrecision: number | string;
+    dbIds: number[];
 }
 
 export type ComputeSettings = {
