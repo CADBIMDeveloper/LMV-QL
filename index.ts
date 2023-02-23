@@ -7,11 +7,7 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
 
   const propertyDatabase = model.getPropertyDb();
 
-  const nodes: number[] = [];
-
-  const instanceTree = model.getInstanceTree();
-
-  instanceTree.enumNodeChildren(instanceTree.getRootId(), dbId => { nodes.push(dbId) }, true);
+  const nodes = getModelNodesForSearch(model);
 
   const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
 
@@ -30,6 +26,16 @@ export async function computeExpressionValue(model: IModel, dbId: number, query:
     propertyQuery: query,
     options: computeOptions
   });
+}
+
+const getModelNodesForSearch = (model: IModel) => {
+  const nodes: number[] = [];
+
+  const instanceTree = model.getInstanceTree();
+
+  instanceTree.enumNodeChildren(instanceTree.getRootId(), dbId => { nodes.push(dbId) }, true);
+
+  return nodes;
 }
 
 const createFilterSettings = (options?: Partial<Settings>): Settings => {
