@@ -70,7 +70,7 @@ Filter {
 
     NamedPropertyExpr = propertySequence asWord propertyNameIdentifier
 
-    propertyNameIdentifier = (letter | digit)+
+    propertyNameIdentifier = (letter | digit | "_")+
 
     propertySequence = property | directProperty
                     

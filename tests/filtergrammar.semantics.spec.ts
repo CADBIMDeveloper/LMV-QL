@@ -150,6 +150,7 @@ describe("Filter grammar semantics tests", () => {
     it("must support filter -> select", () => {
         assertIsValidFilterString("category! -> *.property");
         assertIsValidFilterString("category! -> *.property as name");
+        assertIsValidFilterString("category! -> *.property as name_with_underscores");
         assertIsValidFilterString("category! -> *.property1 as name1, *.property as name2");
         assertIsValidFilterString("category.Element.property = 5.7 -> *.property1 as name1, *.property as name2");
     });
