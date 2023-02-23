@@ -158,12 +158,14 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("count()");
         assertIsValidFilterString("sum(*.property)");
         assertIsValidFilterString("min(*.property)");
+        assertIsValidFilterString("max(*.property)");
     });
 
     it("must support named aggregated expressions", () => {
         assertIsValidFilterString("count() as cnt");
         assertIsValidFilterString("sum(*.property) as sum");
         assertIsValidFilterString("min(*.property) as min");
+        assertIsValidFilterString("max(*.property) as max");
     });
 
     it("must support filter -> aggregated functions", () => {
@@ -173,6 +175,6 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("category! -> sum(*.property)");
         assertIsValidFilterString("category! -> sum(*.property) as sum");
 
-        assertIsValidFilterString("category.Element.property = 5.7 -> count(), sum(*.property) as sum, min(*.property) as min")
+        assertIsValidFilterString("category.Element.property = 5.7 -> count(), sum(*.property) as sum, min(*.property) as min, max(*.property) as max")
     })
 });
