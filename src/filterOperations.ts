@@ -143,7 +143,9 @@ export const compileFilter: FilterActionDict<Filter> = {
         (_elementPropertyValue, _constraint, _filterSettings) => false,
         (elementPropertyValue, constraint) => elementPropertyValue.endsWith(constraint)),
 
-    PropertiesSelectExpr: (_) => (_settings, _element) => true
+    PropertiesSelectExpr: (_) => (_settings, _element) => true,
+    
+    AggregatedSelectionClause: (_) => (_settings, _element) => true
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
