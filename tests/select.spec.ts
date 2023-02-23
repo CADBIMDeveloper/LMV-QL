@@ -53,4 +53,12 @@ describe("Select clause of LMV-QL tests", () => {
         assert.equal(query.selectProperties[1].name, "name");
         assert.equal(query.selectProperties[2].name, "other_prop");
     });
+
+    it("must get grouping properties list from the query with groups", () => {
+        const query = queryFactory.createQuery("Top.*.property = 5.7 -> sum(*.property), min(*.property) group by *.name as name, *.otherProp as otherProp");
+
+        assert.equal(query.selectProperties.length, 2);
+        assert.equal(query.selectProperties[0].name, "name");
+        assert.equal(query.selectProperties[1].name, "otherProp");
+    })
 });

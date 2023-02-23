@@ -167,7 +167,7 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
 
     FilterWithAggregatedSelectExpr: (_1, _2, _3) => [],
 
-    FilterWithGroupedAggregedSelectExpr: (_1, _2, _3, _4, _5) => [],
+    FilterWithGroupedAggregedSelectExpr: (_1, _2, _3, _4, groupPropertiesNode) => groupPropertiesNode.compileSelect(),
 
     FilterWithSelectExpr: (_1, _2, node) => node.compileSelect(),
 
