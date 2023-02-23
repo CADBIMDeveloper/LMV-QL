@@ -146,4 +146,11 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("*.prop1 as name1, Cat.prop2");
         assertIsValidFilterString("*.prop1 as name1, Cat.prop2 as name2");
     });
+
+    it("must support filter -> select", () => {
+        assertIsValidFilterString("category! -> *.property");
+        assertIsValidFilterString("category! -> *.property as name");
+        assertIsValidFilterString("category! -> *.property1 as name1, *.property as name2");
+        assertIsValidFilterString("category.Element.property = 5.7 -> *.property1 as name1, *.property as name2");
+    })
 });

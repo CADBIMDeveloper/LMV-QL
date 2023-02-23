@@ -1,8 +1,10 @@
 Filter {
     Expr 
-        = FilterExpr
-        | PropertiesExpr
-        | PropertyIdentifierExpr
+        = FilterWithSelectExpr
+        | FilterExpr
+        | PropertiesSelectExpr
+    
+    FilterWithSelectExpr = FilterExpr "->" PropertiesSelectExpr
 
     FilterExpr = BoolOr
     
@@ -35,6 +37,8 @@ Filter {
     StartsWithExpr = propertySequence likeWord startsWithConst
 
     EndsWithExpr = propertySequence likeWord endsWithConst
+
+    PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
     PropertiesExpr = PropertyIdentifierExpr ("," PropertyIdentifierExpr)*
 

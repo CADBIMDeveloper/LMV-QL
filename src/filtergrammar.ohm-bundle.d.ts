@@ -13,6 +13,7 @@ import {
 
 export interface FilterActionDict<T> extends ActionDict<T> {
   Expr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  FilterWithSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   FilterExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   BoolOr_or?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   BoolOr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
@@ -29,6 +30,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   StartsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   EndsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  PropertiesSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   PropertiesExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   PropertyIdentifierExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   NamedPropertyExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
