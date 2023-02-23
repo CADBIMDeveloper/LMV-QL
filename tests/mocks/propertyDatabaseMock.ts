@@ -2,7 +2,13 @@ import { PropertyDatabase, AttributeDefinition } from "../../propertyDatabase";
 
 export const pdb: PropertyDatabase = {
     findParent: function (dbId: number): number | null {
-        return 2 <= dbId && dbId <= 4 ? dbId - 1 : null;
+        if (2 <= dbId && dbId <= 4)
+            return dbId - 1;
+
+        if (dbId === 7)
+            return 3;
+
+        return null;
     },
     enumAttributes: function (callBack: (attrId: number, attrDef: AttributeDefinition) => void): void {
         callBack(1, { name: "name", category: "__name__", dataType: 20, displayName: null, dataTypeContext: null, precision: 0 });
@@ -41,6 +47,11 @@ export const pdb: PropertyDatabase = {
         if (dbId === 6) {
             callBack(1, 10); // level name
         }
+
+        if (dbId === 7) { // Element-2
+            callBack(1, 12);
+            callBack(3, 14);
+        }
     },
     getAttrValue: function (attrId: number, attrValueId: number): string | number {
         if (attrId === 1) { // name
@@ -57,6 +68,9 @@ export const pdb: PropertyDatabase = {
                 case 10:
                     return "Level 1";
 
+                case 12:
+                    return "Element [13]";
+
                 default:
                     throw new Error("Values is not supported");
             }
@@ -66,6 +80,9 @@ export const pdb: PropertyDatabase = {
 
         if (attrId === 3 && attrValueId === 6)
             return 5.7; // element property value
+        
+        if (attrId === 3 && attrValueId === 14)
+            return 1.3;
 
         if (attrId === 4 && attrValueId === 7)
             return 5; // instanceof_objid element id
@@ -84,14 +101,30 @@ export const pdb: PropertyDatabase = {
     enumObjects: function (callBack: (dbId: number) => void): void {
         for (let i = 1; i <= 4; ++i)
             callBack(i);
+
+        callBack(7);
     },
     getNodeNameAndChildren: function (query: { dbId: number; }): { dbId: number; parent: number; }[] | undefined {
-        if (1 <= query.dbId && query.dbId <= 3) {
+        if (1 <= query.dbId && query.dbId <= 2) {
             return [{
                 dbId: query.dbId + 1,
                 parent: query.dbId
             }];
         }
+
+        if (query.dbId === 3) {
+            return [
+                {
+                    dbId: 4,
+                    parent: 3
+                },
+                {
+                    dbId: 7,
+                    parent: 3
+                }
+            ]
+        }
+
         return undefined;
     },
     findRootNodes: function (): number[] {

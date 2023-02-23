@@ -7,7 +7,7 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
 
   const propertyDatabase = model.getPropertyDb();
 
-  const nodes = getModelNodesForSearch(model);
+  const nodes = lmvQueryOptions.dbIds.length === 0 ? getModelNodesForSearch(model) : lmvQueryOptions.dbIds;
 
   const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
 

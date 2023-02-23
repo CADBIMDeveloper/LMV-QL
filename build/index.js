@@ -338,11 +338,7 @@ NOTE: as of Ohm v16, there is no default action for iteration nodes \\u2014 see 
 async function query(model, query2, options) {
   const lmvQueryOptions = createFilterSettings(options);
   const propertyDatabase = model.getPropertyDb();
-  const nodes = [];
-  const instanceTree = model.getInstanceTree();
-  instanceTree.enumNodeChildren(instanceTree.getRootId(), (dbId) => {
-    nodes.push(dbId);
-  }, true);
+  const nodes = lmvQueryOptions.dbIds.length === 0 ? getModelNodesForSearch(model) : lmvQueryOptions.dbIds;
   const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
   return propertyDatabase.executeUserFunction(code, { lmvQuery: query2, lmvQueryOptions, nodes });
 }
@@ -356,6 +352,14 @@ async function computeExpressionValue(model, dbId, query2, options) {
     options: computeOptions
   });
 }
+var getModelNodesForSearch = (model) => {
+  const nodes = [];
+  const instanceTree = model.getInstanceTree();
+  instanceTree.enumNodeChildren(instanceTree.getRootId(), (dbId) => {
+    nodes.push(dbId);
+  }, true);
+  return nodes;
+};
 var createFilterSettings = (options) => {
   const defaultSettings = {
     tolerance: 1e-3,
@@ -363,7 +367,8 @@ var createFilterSettings = (options) => {
     leafNodesOnly: true,
     attributesCaseSensitive: true,
     displayUnits: "",
-    displayUnitsPrecision: ""
+    displayUnitsPrecision: "",
+    dbIds: []
   };
   if (!options)
     return defaultSettings;
@@ -373,7 +378,8 @@ var createFilterSettings = (options) => {
     leafNodesOnly: options.leafNodesOnly !== void 0 ? options.leafNodesOnly : defaultSettings.leafNodesOnly,
     attributesCaseSensitive: options.attributesCaseSensitive !== void 0 ? options.attributesCaseSensitive : defaultSettings.attributesCaseSensitive,
     displayUnits: options.displayUnits !== void 0 ? options.displayUnits : defaultSettings.displayUnits,
-    displayUnitsPrecision: options.displayUnitsPrecision !== void 0 ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision
+    displayUnitsPrecision: options.displayUnitsPrecision !== void 0 ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision,
+    dbIds: options.dbIds !== void 0 ? options.dbIds : defaultSettings.dbIds
   };
 };
 var createComputeExpressionOptions = (options) => {

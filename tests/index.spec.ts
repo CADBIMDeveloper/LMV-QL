@@ -18,6 +18,13 @@ describe("Query tests", () => {
         expect(element.dbIds).to.eql([4]);
     });
 
+    it("must perform query on specific db ids only", async () => {
+        const results = await query(model, "Category!", { dbIds: [4] });
+
+        assert.isNull(results.error);
+        expect(results.dbIds).to.eql([4]);
+    });
+
     it("must evaluate property expression", async () => {
         const elementPropertiesQueryResults = await computeExpressionValue(model, 4, "*.[element property]");
 
