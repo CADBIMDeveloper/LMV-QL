@@ -1,5 +1,9 @@
 Filter {
-    Exp = BoolOr
+    Expr 
+        = FilterExpr
+        | PropertyIdentifierExpr
+
+    FilterExpr = BoolOr
     
     BoolOr
         = BoolOr orOperation BoolAnd -- or
@@ -10,7 +14,7 @@ Filter {
         | PriExp
         
     PriExp 
-        = "(" Exp ")" -- paren
+        = "(" FilterExpr ")" -- paren
         | ComparisonExp
 
     ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | StartsWithExpr | EndsWithExpr | exactElement
@@ -30,6 +34,14 @@ Filter {
     StartsWithExpr = propertySequence likeWord startsWithConst
 
     EndsWithExpr = propertySequence likeWord endsWithConst
+
+    PropertyIdentifierExpr
+        = NamedPropertyExpr
+        | propertySequence
+
+    NamedPropertyExpr = propertySequence asWord propertyNameIdentifier
+
+    propertyNameIdentifier = (letter | digit)+
 
     propertySequence = property | directProperty
                     
@@ -54,6 +66,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    asWord = ("A" | "a")("S" | "s")
 
     nonEqualSign = "<>" | "!="
         

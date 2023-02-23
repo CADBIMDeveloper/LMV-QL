@@ -132,4 +132,12 @@ describe("Filter grammar semantics tests", () => {
     it('filter with "\\%" sign in the middle of constraint must be invalid', () => {
         assertIsValidFilterString("c1.prop like \"%some \\% text\"");
     });
+
+    it("must support property expressions", () => {
+        assertIsValidFilterString("*.property");
+    });
+
+    it("must support simple named property expressions", () => {
+        assertIsValidFilterString("*.property as name");
+    })
 });

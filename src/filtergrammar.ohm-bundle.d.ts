@@ -12,7 +12,8 @@ import {
 } from 'ohm-js';
 
 export interface FilterActionDict<T> extends ActionDict<T> {
-  Exp?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  Expr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  FilterExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   BoolOr_or?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   BoolOr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   BoolAnd_and?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
@@ -28,6 +29,9 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   StartsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   EndsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  PropertyIdentifierExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  NamedPropertyExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  propertyNameIdentifier?: (this: NonterminalNode, arg0: IterationNode) => T;
   propertySequence?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   property_ofPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   property_ofDirectAnyPropertySequence?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
@@ -47,6 +51,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   categoryOrProperty_inBrackets?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   categoryOrProperty_value?: (this: NonterminalNode, arg0: IterationNode) => T;
   categoryOrProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  asWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode) => T;
   nonEqualSign?: (this: NonterminalNode, arg0: TerminalNode) => T;
   andOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   andWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode) => T;
