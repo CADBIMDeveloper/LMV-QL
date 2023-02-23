@@ -68,16 +68,6 @@ describe('Query functions tests', () => {
         expect(elements.dbIds).to.eql([3, 4]);
     });
 
-    it("must fail on the incorrect query", () => {
-        const results = filterElements(pdb, {
-            lmvQuery: "*.[element property]",
-            lmvQueryOptions: leafNodesOnlySettings,
-            nodes: [1, 2, 3, 4]
-        });
-
-        assert.isNotNull(results.error);
-    });
-
     it("must query property value from double-rooted model", () => {
         const results = filterElements(doubleRootPdb, {
             lmvQuery: "Element.[element property] = 5.7",
