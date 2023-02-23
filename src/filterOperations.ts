@@ -141,7 +141,9 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     EndsWithExpr: createComparisonExpression(
         (_elementPropertyValue, _constraint, _filterSettings) => false,
-        (elementPropertyValue, constraint) => elementPropertyValue.endsWith(constraint))
+        (elementPropertyValue, constraint) => elementPropertyValue.endsWith(constraint)),
+
+    PropertiesSelectExpr: (_) => (_settings, _element) => true
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {

@@ -258,4 +258,9 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createQuery("*.typeProperty = 1.3").filter(complexElement));
         assert.isTrue(filterFactory.createQuery("*.name = \"test\"").filter(complexElement));
     });
+
+    it("queries with omitted filter (e.g. select only, aggregated,...) must get filter, which returns true for any element", () => {
+        assert.isTrue(filterFactory.createQuery("*.property").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("*.property as property_name").filter(complexElement));
+    });
 });
