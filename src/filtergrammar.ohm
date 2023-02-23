@@ -1,6 +1,7 @@
 Filter {
     Expr 
         = FilterWithSelectExpr
+        | FilterWithGroupedAggregedSelectExpr
         | FilterWithAggregatedSelectExpr
         | AggregatedSelectionClause
         | FilterExpr
@@ -9,6 +10,8 @@ Filter {
     FilterWithSelectExpr = FilterExpr "->" PropertiesSelectExpr
 
     FilterWithAggregatedSelectExpr = FilterExpr "->" AggregatedSelectionClause
+    
+    FilterWithGroupedAggregedSelectExpr = FilterExpr "->" AggregatedSelectionClause groupedBy PropertiesSelectExpr
 
     FilterExpr = BoolOr
     
@@ -97,6 +100,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    groupedBy = caseInsensitive<"group by">
 
     avgWord = caseInsensitive<"avg">
 

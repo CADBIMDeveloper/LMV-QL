@@ -188,5 +188,12 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("category! -> avg(*.property) as avg");
 
         assertIsValidFilterString("category.Element.property = 5.7 -> count(), sum(*.property) as sum, min(*.property) as min, max(*.property) as max, avg(*.property) as avg")
-    })
+    });
+
+    it("must support filters with group by clause", () => {
+        assertIsValidFilterString("category! -> sum(*.sumProp) group by *.prop");
+        assertIsValidFilterString("category! -> sum(*.sumProp) as sumProp group by *.prop as groupingProp");
+        assertIsValidFilterString("category! -> min(*.valProp) as minProp, max(*.valProp) group by *.prop as groupingProp");
+        assertIsValidFilterString("category! -> min(*.valProp) as minProp, max(*.valProp) group by *.prop as groupingProp1, *.grpProp2");
+    });
 });

@@ -15,6 +15,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   Expr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FilterWithSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   FilterWithAggregatedSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  FilterWithGroupedAggregedSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: NonterminalNode, arg4: NonterminalNode) => T;
   FilterExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   BoolOr_or?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   BoolOr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
@@ -65,6 +66,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   categoryOrProperty_inBrackets?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   categoryOrProperty_value?: (this: NonterminalNode, arg0: IterationNode) => T;
   categoryOrProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  groupedBy?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   avgWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   maxWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   minWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
