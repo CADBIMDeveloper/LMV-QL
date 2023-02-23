@@ -15,7 +15,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const filterFactory = new FilterFactory(lmvQueryOptions);
 
-        const elementFilter = filterFactory.createFilter(lmvQuery);
+        const elementFilter = filterFactory.createFilter(lmvQuery).filter;
 
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, lmvQueryOptions.attributesCaseSensitive);
 

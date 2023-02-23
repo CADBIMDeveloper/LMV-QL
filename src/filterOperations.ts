@@ -12,6 +12,10 @@ export type Filter = (settings: FilterSettings, element: IFilterableElement) => 
 
 export type ElementFilter = (element: IFilterableElement) => boolean;
 
+export type ElementQuery = {
+    filter: ElementFilter
+}
+
 export type PropertyValueQuery = (settings: ComputeExpressionSettings, element: IFilterableElement) => number | string | undefined;
 
 export type ElementPropertyValueQuery = (element: IFilterableElement) => number | string | undefined;
