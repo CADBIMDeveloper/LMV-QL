@@ -42,7 +42,7 @@ Filter {
 
     EndsWithExpr = propertySequence likeWord endsWithConst
 
-    AggregatedSelectionClause = AnyAggregatedFuncExpr | AggregatedFuncsExpr
+    AggregatedSelectionClause = AggregatedFuncsExpr | AnyAggregatedFuncExpr
 
     AggregatedFuncsExpr = AnyAggregatedFuncExpr ("," AnyAggregatedFuncExpr)*
 
@@ -50,9 +50,11 @@ Filter {
 
     AggregatedNamedFuncExpr = AggregatedFuncExpr asWord propertyNameIdentifier
 
-    AggregatedFuncExpr = AggregatedCountExpr
+    AggregatedFuncExpr = AggregatedCountExpr | AggregatedSumExpr
 
     AggregatedCountExpr = countWord "()"
+
+    AggregatedSumExpr = sumWord "(" propertySequence ")"
 
     PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
@@ -89,6 +91,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    sumWord = caseInsensitive<"sum">
 
     countWord = caseInsensitive<"count">
 
