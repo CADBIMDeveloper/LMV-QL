@@ -1,9 +1,9 @@
-import grammar from "../src/filtergrammar.ohm-bundle";
+import grammar from "./filtergrammar.ohm-bundle";
 import { compileFilter, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
 import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "../parsingError";
 
-export class FilterFactory {
+export class QueryFactory {
     private readonly semantics = grammar.createSemantics();
     private readonly settings: FilterSettings;
 
@@ -13,7 +13,7 @@ export class FilterFactory {
         this.semantics.addOperation<Filter>("compileFilter", compileFilter);
     }
 
-    createFilter(filterString: string): ElementQuery {
+    createQuery(filterString: string): ElementQuery {
         const match = grammar.match(filterString);
 
         if (match.failed())

@@ -1,6 +1,6 @@
 import { UserComputeOptions, UserQueryOptions } from "./output";
 import { ElementPropertyValueQueryFactory } from "./src/elementPropertyValueQueryFactory";
-import { FilterFactory } from "./src/filterFactory";
+import { QueryFactory } from "./src/queryFactory";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
 import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
@@ -13,9 +13,9 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const { lmvQuery, lmvQueryOptions, nodes } = tag!;
 
-        const filterFactory = new FilterFactory(lmvQueryOptions);
+        const filterFactory = new QueryFactory(lmvQueryOptions);
 
-        const elementFilter = filterFactory.createFilter(lmvQuery).filter;
+        const elementFilter = filterFactory.createQuery(lmvQuery).filter;
 
         const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, lmvQueryOptions.attributesCaseSensitive);
 
