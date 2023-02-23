@@ -160,6 +160,7 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("sum(*.property)");
         assertIsValidFilterString("min(*.property)");
         assertIsValidFilterString("max(*.property)");
+        assertIsValidFilterString("avg(*.property)");
     });
 
     it("must support named aggregated expressions", () => {
@@ -167,6 +168,7 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("sum(*.property) as sum");
         assertIsValidFilterString("min(*.property) as min");
         assertIsValidFilterString("max(*.property) as max");
+        assertIsValidFilterString("avg(*.property) as avg");
     });
 
     it("must support filter -> aggregated functions", () => {
@@ -176,6 +178,15 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("category! -> sum(*.property)");
         assertIsValidFilterString("category! -> sum(*.property) as sum");
 
-        assertIsValidFilterString("category.Element.property = 5.7 -> count(), sum(*.property) as sum, min(*.property) as min, max(*.property) as max")
+        assertIsValidFilterString("category! -> min(*.property)");
+        assertIsValidFilterString("category! -> min(*.property) as min");
+
+        assertIsValidFilterString("category! -> max(*.property)");
+        assertIsValidFilterString("category! -> max(*.property) as max");
+
+        assertIsValidFilterString("category! -> avg(*.property)");
+        assertIsValidFilterString("category! -> avg(*.property) as avg");
+
+        assertIsValidFilterString("category.Element.property = 5.7 -> count(), sum(*.property) as sum, min(*.property) as min, max(*.property) as max, avg(*.property) as avg")
     })
 });

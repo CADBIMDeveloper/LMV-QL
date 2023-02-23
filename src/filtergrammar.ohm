@@ -50,7 +50,7 @@ Filter {
 
     AggregatedNamedFuncExpr = AggregatedFuncExpr asWord propertyNameIdentifier
 
-    AggregatedFuncExpr = AggregatedCountExpr | AggregatedSumExpr | AggregatedMinExpr | AggregatedMaxExpr
+    AggregatedFuncExpr = AggregatedCountExpr | AggregatedSumExpr | AggregatedMinExpr | AggregatedMaxExpr | AggregatedAvgExpr
 
     AggregatedCountExpr = countWord "()"
 
@@ -59,6 +59,8 @@ Filter {
     AggregatedMinExpr = minWord "(" propertySequence ")"
 
     AggregatedMaxExpr = maxWord "(" propertySequence ")"
+
+    AggregatedAvgExpr = avgWord "(" propertySequence ")"
 
     PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
@@ -95,6 +97,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    avgWord = caseInsensitive<"avg">
 
     maxWord = caseInsensitive<"max">
 
