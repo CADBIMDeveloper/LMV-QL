@@ -1,5 +1,5 @@
 import grammar from "../src/filtergrammar.ohm-bundle";
-import { compile, ElementFilter, Filter, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
+import { compileFilter, ElementFilter, Filter, getPropertyDefinition, PropertyDefinition } from "./filterOperations";
 import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "../parsingError";
 
@@ -10,7 +10,7 @@ export class FilterFactory {
     constructor(settings?: FilterSettings) {
         this.settings = settings || { tolerance: 1e-5, stringCaseSensitive: true, displayUnits: "", displayUnitsPrecision: "" };
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
-        this.semantics.addOperation<Filter>("compile", compile);
+        this.semantics.addOperation<Filter>("compileFilter", compileFilter);
     }
 
     createFilter(filterString: string): ElementFilter {
@@ -21,6 +21,6 @@ export class FilterFactory {
 
         const node = this.semantics(match);
 
-        return node.compile().bind(null, this.settings);
+        return node.compileFilter().bind(null, this.settings);
     }
 }

@@ -92,7 +92,7 @@ const createComparisonExpression = (
     }
 }
 
-export const compile: FilterActionDict<Filter> = {
+export const compileFilter: FilterActionDict<Filter> = {
     exactElement: (node) => {
         const propertyDefinition: Category = node.getPropertyDefinition();
 
@@ -120,12 +120,12 @@ export const compile: FilterActionDict<Filter> = {
         (elementPropertyValue, constraint) => elementPropertyValue >= constraint),
 
     BoolAnd_and: (leftNode, _, rightNode) => (filterSettings, element) =>
-        leftNode.compile()(filterSettings, element) && rightNode.compile()(filterSettings, element),
+        leftNode.compileFilter()(filterSettings, element) && rightNode.compileFilter()(filterSettings, element),
 
     BoolOr_or: (leftNode, _, rightNode) => (filterSettings, element) =>
-        leftNode.compile()(filterSettings, element) || rightNode.compile()(filterSettings, element),
+        leftNode.compileFilter()(filterSettings, element) || rightNode.compileFilter()(filterSettings, element),
 
-    PriExp_paren: (_1, node, _2) => (filterSettings, element) => node.compile()(filterSettings, element),
+    PriExp_paren: (_1, node, _2) => (filterSettings, element) => node.compileFilter()(filterSettings, element),
 
     NonEqualityExpr: createComparisonExpression(
         (elementPropertyValue, constraint, filterSettings) => !isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
