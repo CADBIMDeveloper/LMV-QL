@@ -1,5 +1,5 @@
 import grammar from "./filtergrammar.ohm-bundle";
-import { compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, getPropertyValue, PropertyDefinition, PropertyValueQuery, SelectValueQuery } from "./filterOperations";
+import { AggreagatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./filterOperations";
 import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "../parsingError";
 
@@ -11,7 +11,8 @@ export class QueryFactory {
         this.settings = settings || { tolerance: 1e-5, stringCaseSensitive: true, displayUnits: "", displayUnitsPrecision: "" };
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
         this.semantics.addOperation<Filter>("compileFilter", compileFilter);
-        this.semantics.addOperation<SelectValueQuery[]>("compileSelect", compileSelect)
+        this.semantics.addOperation<SelectValueQuery[]>("compileSelect", compileSelect);
+        this.semantics.addOperation<AggreagatedValueQuery[]>("compileAggregate", compileAggregate);
     }
 
     createQuery(filterString: string): ElementQuery {
@@ -24,7 +25,8 @@ export class QueryFactory {
 
         return {
             filter: node.compileFilter().bind(null, this.settings),
-            selectProperties: node.compileSelect()
+            selectProperties: node.compileSelect(),
+            aggregateProperties: []
         };
     }
 }

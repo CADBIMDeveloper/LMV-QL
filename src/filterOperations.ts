@@ -15,12 +15,19 @@ export type ElementFilter = (element: IFilterableElement) => boolean;
 export type ElementQuery = {
     filter: ElementFilter;
     selectProperties: SelectValueQuery[];
+    aggregateProperties: AggreagatedValueQuery[];
 }
 
 export type PropertyValueQuery = (settings: ComputeExpressionSettings | FilterSettings, element: IFilterableElement) => number | string | undefined;
 
 export type SelectValueQuery = {
     fun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
+    name?: string;
+}
+
+export type AggreagatedValueQuery = {
+    type: "count" | "sum" | "min" | "max" | "avg";
+    elemValueFun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
     name?: string;
 }
 
@@ -184,6 +191,10 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     NamedPropertyExpr: (propertyNode, _, nameNode) => [{ fun: createPropertyValueGetterFunction(propertyNode), name: nameNode.sourceString }],
 
     propertySequence: (node) => [{ fun: createPropertyValueGetterFunction(node) }]
+}
+
+export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
+    
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
