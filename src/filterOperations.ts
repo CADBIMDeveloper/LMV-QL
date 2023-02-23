@@ -194,7 +194,11 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
 }
 
 export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
+    FilterWithSelectExpr: (_1, _2, _3) => [],
     
+    FilterExpr: (_) => [],
+
+    PropertiesSelectExpr: (_) => []
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {

@@ -26,7 +26,7 @@ export class QueryFactory {
         return {
             filter: node.compileFilter().bind(null, this.settings),
             selectProperties: node.compileSelect(),
-            aggregateProperties: []
+            aggregateProperties: node.compileAggregate()
         };
     }
 }
