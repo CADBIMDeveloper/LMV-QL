@@ -268,9 +268,9 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createQuery("*.property, *.name as name").filter(complexElement));
         assert.isTrue(filterFactory.createQuery("*.property as prop, *.name as name").filter(complexElement));
 
-        // assert.isTrue(filterFactory.createQuery("sum(*.property)").filter(complexElement));
-        // assert.isTrue(filterFactory.createQuery("sum(*.property) as s").filter(complexElement));
-        // assert.isTrue(filterFactory.createQuery("sum(*.property) as s, min(*.property) as min").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("sum(*.property)").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("sum(*.property) as s").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("sum(*.property) as s, min(*.property) as min").filter(complexElement));
     });
 
     it("must get filtering parts from queries", () => {
