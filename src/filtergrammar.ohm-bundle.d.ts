@@ -54,13 +54,13 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   categoryOrProperty_inBrackets?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   categoryOrProperty_value?: (this: NonterminalNode, arg0: IterationNode) => T;
   categoryOrProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
-  asWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode) => T;
+  asWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   nonEqualSign?: (this: NonterminalNode, arg0: TerminalNode) => T;
   andOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
-  andWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode) => T;
+  andWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   orOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
-  orWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode) => T;
-  likeWord?: (this: NonterminalNode, arg0: TerminalNode, arg1: TerminalNode, arg2: TerminalNode, arg3: TerminalNode) => T;
+  orWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  likeWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   anyProperty?: (this: NonterminalNode, arg0: TerminalNode) => T;
   identificator?: (this: NonterminalNode, arg0: IterationNode) => T;
   expressionConst?: (this: NonterminalNode, arg0: NonterminalNode) => T;

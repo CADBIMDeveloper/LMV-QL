@@ -74,19 +74,19 @@ Filter {
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
 
-    asWord = ("A" | "a")("S" | "s")
+    asWord = caseInsensitive<"as">
 
     nonEqualSign = "<>" | "!="
         
     andOperation = andWord | "&&" | "&"
 
-    andWord = ("A" | "a")("N" | "n")("D" | "d")
+    andWord = caseInsensitive<"and">
     
     orOperation = orWord | "||" | "|"
 
-    orWord = ("O" | "o")("R" | "r")
+    orWord = caseInsensitive<"or">
 
-    likeWord = ("L" | "l")("I" | "i")("K" | "k")("E" | "e")
+    likeWord = caseInsensitive<"like">
     
     anyProperty = "*"
     
