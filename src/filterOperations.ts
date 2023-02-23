@@ -165,6 +165,8 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
 
     AggregatedSelectionClause: (_) => [],
 
+    FilterWithAggregatedSelectExpr: (_1, _2, _3) => [],
+
     FilterWithSelectExpr: (_1, _2, node) => node.compileSelect(),
 
     PropertiesExpr: (firstIdentifierNode, _, sequence) => {
