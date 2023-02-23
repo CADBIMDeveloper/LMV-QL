@@ -274,11 +274,11 @@ describe("Filter tests", () => {
     });
 
     it("must get filtering parts from queries", () => {
-        // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property").filter(complexElement));
-        // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property as prop").filter(complexElement));
-        // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property, *.name").filter(complexElement));
-        // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property as prop, *.name as name").filter(complexElement));
-        // assert.isFalse(filterFactory.createQuery("Top.*.property = 5.8 -> *.property as prop, *.name as name").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property as prop").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property, *.name").filter(complexElement));
+        assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> *.property as prop, *.name as name").filter(complexElement));
+        assert.isFalse(filterFactory.createQuery("Top.*.property = 5.8 -> *.property as prop, *.name as name").filter(complexElement));
 
         // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> sum(*.property)").filter(complexElement));
         // assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> sum(*.property) as sum").filter(complexElement));

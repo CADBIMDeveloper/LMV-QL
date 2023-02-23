@@ -163,6 +163,8 @@ export const compileFilter: FilterActionDict<Filter> = {
 export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     FilterExpr: (_) => [],
 
+    FilterWithSelectExpr: (_1, _2, node) => node.compileSelect(),
+
     PropertiesExpr: (firstIdentifierNode, _, sequence) => {
         const properties: SelectValueQuery[] = firstIdentifierNode.compileSelect();
 

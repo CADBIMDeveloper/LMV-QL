@@ -38,4 +38,19 @@ describe("Select clause of LMV-QL tests", () => {
         assert.equal(query.selectProperties[1].name, "name");
         assert.equal(query.selectProperties[2].name, "other_prop");
     });
+
+    it("must get single property from the query string with filter", () => {
+        const query = queryFactory.createQuery("*.Sub.name = \"Element\" -> *.property as prop");
+
+        assert.equal(query.selectProperties.length, 1);
+    })
+
+    it("must get properties list from the queries with filters", () => {
+        const query = queryFactory.createQuery("*.property = 5.7 -> *.property as prop, *.name as name, *.prop2 as other_prop");
+
+        assert.equal(query.selectProperties.length, 3);
+        assert.equal(query.selectProperties[0].name, "prop");
+        assert.equal(query.selectProperties[1].name, "name");
+        assert.equal(query.selectProperties[2].name, "other_prop");
+    });
 });
