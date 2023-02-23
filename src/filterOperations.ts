@@ -145,7 +145,13 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     PropertiesSelectExpr: (_) => (_settings, _element) => true,
     
-    AggregatedSelectionClause: (_) => (_settings, _element) => true
+    AggregatedSelectionClause: (_) => (_settings, _element) => true,
+
+    FilterWithSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
+    
+    FilterWithAggregatedSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
+    
+    FilterWithGroupedAggregedSelectExpr: (filterNode, _1, _2, _3, _4) => filterNode.compileFilter()
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
