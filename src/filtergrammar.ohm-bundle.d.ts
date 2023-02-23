@@ -38,6 +38,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   AggregatedFuncExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   AggregatedCountExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode) => T;
   AggregatedSumExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
+  AggregatedMinExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
   PropertiesSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   PropertiesExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   PropertyIdentifierExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
@@ -62,6 +63,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   categoryOrProperty_inBrackets?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   categoryOrProperty_value?: (this: NonterminalNode, arg0: IterationNode) => T;
   categoryOrProperty?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  minWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   sumWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   countWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   asWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;

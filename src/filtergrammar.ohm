@@ -50,11 +50,13 @@ Filter {
 
     AggregatedNamedFuncExpr = AggregatedFuncExpr asWord propertyNameIdentifier
 
-    AggregatedFuncExpr = AggregatedCountExpr | AggregatedSumExpr
+    AggregatedFuncExpr = AggregatedCountExpr | AggregatedSumExpr | AggregatedMinExpr
 
     AggregatedCountExpr = countWord "()"
 
     AggregatedSumExpr = sumWord "(" propertySequence ")"
+
+    AggregatedMinExpr = minWord "(" propertySequence ")"
 
     PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
@@ -91,6 +93,8 @@ Filter {
     categoryOrProperty (element category or property)
         = "[" identificator "]" --inBrackets 
         | alnum+ --value
+
+    minWord = caseInsensitive<"min">
 
     sumWord = caseInsensitive<"sum">
 
