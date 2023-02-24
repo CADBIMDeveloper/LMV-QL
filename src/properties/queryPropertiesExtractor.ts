@@ -8,7 +8,7 @@ export class QueryPropertiesExtractor implements IQueryPropertiesExtractor {
     private readonly results: QuryResultRow[] = [];
 
     constructor(properties: SelectValueQuery[], private readonly settings: Settings) {
-        this.properties = properties.map((x, i) => { return { ...x, name: x.name || `$col_${i}` }; })
+        this.properties = properties.map((x, i) => { return { ...x, name: x.name || `$col_${i + 1}` }; })
     }
 
     push(dbId: number, element: IFilterableElement): void {
