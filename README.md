@@ -27,6 +27,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
   * [Selection expressions](#selection-expressions)
     - [Simple properties selection](#simple-properties-selection)
     - [Filtered properties selection](#filtered-properties-selection)
+    - [Aggregation functions](#aggregation-functions)
 - [Filter settings](#filter-settings)
 
 ## Usage
@@ -239,6 +240,23 @@ LMV-QL allows to combine selection expressions with filter expressions. Let's co
 Floors! -> *.[Type Name] as type_name, *.Area as area, *.Volume as volume, *.Thickness as thickness, *.Perimeter as perimeter
 ```
 ![filtered-selection-expression](./assets/filtered-selection-expression.png)
+
+##### Aggregation functions
+
+LMV-QL can aggregate the data collected from model elements properties with the following aggregation functions:
+- sum (summs numerical properties values)
+- min (gets minimal property value among elements)
+- max (gets maximum property value among elements)
+- avg (gets average property value among elements)
+- count (gets elements count)
+
+The following query will calculate total, maximum, mininimum and average area of all floors in the model:
+```
+Floors! -> sum(*.Area) as total_area, max(*.Area) as max_area, min(*.Area) as min_area, avg(*.Area) as avg_area, count() as count
+```
+> You can omit filter part `Floors! ->` to perform calculation on all element in the model
+
+![grouping-query](./assets/grouping-query.png)
 
 ### Filter settings
 
