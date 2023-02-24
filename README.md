@@ -29,7 +29,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
     - [Filtered properties selection](#filtered-properties-selection)
     - [Aggregation functions](#aggregation-functions)
     - [Aggregation functions with grouping](#aggregation-functions-with-grouping)
-- [Filter settings](#filter-settings)
+- [Query settings](#query-settings)
 
 ## Usage
 
@@ -274,9 +274,9 @@ Walls! -> sum(*.Area) as total_area, max(*.Area) as max_area, min(*.Area) as min
 
 ![grouping-aggregated-query](./assets/grouping-aggregated-query.png)
 
-### Filter settings
+### Query settings
 
-Filters settings are defined by:
+Queries settings are defined by:
 ```ts
 {
   attributesCaseSensitive: boolean;
@@ -284,6 +284,7 @@ Filters settings are defined by:
   leafNodesOnly: boolean;
   displayUnits: string;
   displayUnitsPrecision: number | string;
+  dbIds: number[];
 }
 ```
 
@@ -298,3 +299,4 @@ Autodesk.Viewing.Private.displayUnitsEnum
 ```js
 Autodesk.Viewing.Private.displayUnitsPrecisionEnum
 ```
+- `dbIds` forces LMV-QL to perform query only on the ids were provided by user. Default value is `[]` - perform the query on the entire model
