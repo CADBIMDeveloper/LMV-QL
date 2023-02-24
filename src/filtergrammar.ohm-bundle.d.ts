@@ -24,6 +24,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   PriExp_paren?: (this: NonterminalNode, arg0: TerminalNode, arg1: NonterminalNode, arg2: TerminalNode) => T;
   PriExp?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   ComparisonExp?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  NotExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
   EqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   LessThanExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   MoreThanExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
@@ -80,6 +81,8 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   orOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   orWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   likeWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  notOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
+  notWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   anyProperty?: (this: NonterminalNode, arg0: TerminalNode) => T;
   identificator?: (this: NonterminalNode, arg0: IterationNode) => T;
   expressionConst?: (this: NonterminalNode, arg0: NonterminalNode) => T;

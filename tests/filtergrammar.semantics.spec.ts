@@ -133,6 +133,18 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("c1.prop like \"%some \\% text\"");
     });
 
+    it("must support NOT expression", () => {
+        assertIsValidFilterString("!(cat!)");
+        assertIsValidFilterString("!(cat.subCat!)");
+        assertIsValidFilterString("!(cat.prop = 5.7)");
+        assertIsValidFilterString("!(cat.prop = 5.7 or cat.prop2 = 1.3)");
+
+        assertIsValidFilterString("not(cat!)");
+        assertIsValidFilterString("not(cat.subCat!)");
+        assertIsValidFilterString("not(cat.prop = 5.7)");
+        assertIsValidFilterString("not(cat.prop = 5.7 or cat.prop2 = 1.3)");
+    });
+
     it("must support property expressions", () => {
         assertIsValidFilterString("*.property");
     });

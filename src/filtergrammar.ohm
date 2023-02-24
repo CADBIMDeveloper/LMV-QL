@@ -27,8 +27,11 @@ Filter {
     PriExp 
         = "(" FilterExpr ")" -- paren
         | ComparisonExp
+        | NotExpr
 
     ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | StartsWithExpr | EndsWithExpr | exactElement
+
+    NotExpr = notOperation "(" FilterExpr ")"
 
     EqualityExpr = propertySequence "=" expressionConst
     
@@ -129,6 +132,10 @@ Filter {
     orWord = caseInsensitive<"or">
 
     likeWord = caseInsensitive<"like">
+
+    notOperation = notWord | "!"
+
+    notWord = caseInsensitive<"not">
     
     anyProperty = "*"
     
