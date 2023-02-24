@@ -157,6 +157,8 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     AggregatedSelectionClause: (_) => (_settings, _element) => true,
 
+    AggregatedSelectionWithGroups: (_1, _2, _3) => (_settings, _element) => true,
+
     FilterWithSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
 
     FilterWithAggregatedSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
@@ -174,6 +176,8 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     FilterWithGroupedAggregedSelectExpr: (_1, _2, _3, _4, groupPropertiesNode) => groupPropertiesNode.compileSelect(),
 
     FilterWithSelectExpr: (_1, _2, node) => node.compileSelect(),
+
+    AggregatedSelectionWithGroups: (_1, _2, groupPropertiesNode) => groupPropertiesNode.compileSelect(),
 
     PropertiesExpr: (firstIdentifierNode, _, sequence) => {
         const properties: SelectValueQuery[] = firstIdentifierNode.compileSelect();
@@ -200,6 +204,8 @@ export const compileAggregate: FilterActionDict<AggregatedValueQuery[]> = {
     FilterWithAggregatedSelectExpr: (_1, _2, aggregateSelectNode) => aggregateSelectNode.compileAggregate(),
 
     FilterWithGroupedAggregedSelectExpr: (_1, _2, aggregateSelectNode, _3, _4) => aggregateSelectNode.compileAggregate(),
+
+    AggregatedSelectionWithGroups: (aggregateSelectNode, _1, _2) => aggregateSelectNode.compileAggregate(),
 
     AggregatedNamedFuncExpr: (aggregatedFuncNode, _, propertyNameIdentifierNode) => {
         const aggregatedPropertries = aggregatedFuncNode.compileAggregate()[0];

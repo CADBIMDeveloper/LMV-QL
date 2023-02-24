@@ -3,6 +3,7 @@ Filter {
         = FilterWithSelectExpr
         | FilterWithGroupedAggregedSelectExpr
         | FilterWithAggregatedSelectExpr
+        | AggregatedSelectionWithGroups
         | AggregatedSelectionClause
         | FilterExpr
         | PropertiesSelectExpr
@@ -44,6 +45,8 @@ Filter {
     StartsWithExpr = propertySequence likeWord startsWithConst
 
     EndsWithExpr = propertySequence likeWord endsWithConst
+
+    AggregatedSelectionWithGroups = AggregatedSelectionClause groupedBy PropertiesSelectExpr
 
     AggregatedSelectionClause = AggregatedFuncsExpr | AnyAggregatedFuncExpr
 
