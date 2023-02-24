@@ -17,7 +17,7 @@
                 "--slow",
                 "5000",
                 "--colors",
-                "${workspaceFolder}/tests/**/*.spec.js",
+                "${workspaceFolder}/tests/**/*.spec.ts",
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
