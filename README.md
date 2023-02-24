@@ -24,6 +24,9 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
     - [OR operator](#or-operator)
     - [NOT operator](#not-operator)
     - [Brackets](#brackets)
+  * [Selection expressions](#select-expression)
+    - [Simple properties selection](#simple-properties-selection)
+    - [Filtered properties selection](#filtered-properties-selection)
 - [Filter settings](#filter-settings)
 
 ## Usage
@@ -208,6 +211,34 @@ Currently not supported. Upcoming...
 LMV-QL allows to combine filters using brackets. Example:
 - `Windows! and (*.Level = "Level 1 Living Rm."
 or *.name = "M_Skylight")`
+
+#### Selection expressions
+
+LMV-QL can contain:
+- filter expressions as it was described above
+- properties query expressions:
+  - with filter expression as well
+  - without filter expression
+  - with aggregation functions (sum, min, max, avg, count)
+  - with an ability to group by single or multiple fields
+
+##### Simple properties selection
+
+You can use LMV-QL to collect required properties value from the entire model using simple selection expressions without filtering part:
+```
+*.ElementId as id, *.name as name, *.[Type Name] as type_name
+```
+
+Run this query in our [demo application](https://lmv-ql.cadbim.dev) and you'll see query results:
+![simple-select-query](./assets/simple-select-query.png)
+
+##### Filtered properties selection
+
+LMV-QL allows to combine selection expressions with filter expressions. Let's collect several properties from [demo model](https://lmv-ql.cadbim.dev) model floors:
+```
+Floors! -> *.[Type Name] as type_name, *.Area as area, *.Volume as volume, *.Thickness as thickness, *.Perimeter as perimeter
+```
+![filtered-selection-expression](./assets/filtered-selection-expression.png)
 
 ### Filter settings
 
