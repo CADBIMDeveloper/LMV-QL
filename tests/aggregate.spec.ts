@@ -56,4 +56,16 @@ describe("Aggregated functions of LMV-QL", () => {
         assert.equal(property.elemValueFun(settings, complexElement), 5.7);
         assert.isUndefined(property.name);
     });
+
+    it("must get `avg` aggregated expression", () => {
+        const query = queryFactory.createQuery("avg(*.property)");
+
+        assert.equal(query.aggregateProperties.length, 1);
+
+        const property = query.aggregateProperties[0];
+
+        assert.equal(property.type, "avg");
+        assert.equal(property.elemValueFun(settings, complexElement), 5.7);
+        assert.isUndefined(property.name);
+    });
 });
