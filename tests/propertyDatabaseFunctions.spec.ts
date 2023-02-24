@@ -4,6 +4,7 @@ import { Settings } from '../output';
 import { computeExpression, filterElements } from '../propertyDatabaseFunctions';
 import { pdb } from './mocks/propertyDatabaseMock';
 import { doubleRootPdb } from './mocks/doubleRootPropertyDatabaseMock';
+import { isAlmostEqual } from '../src/numbersComparison';
 
 describe('Query functions tests', () => {
     const leafNodesOnlySettings: Settings = {
@@ -111,6 +112,25 @@ describe('Query functions tests', () => {
         assert.equal(values.name, "Element");
         assert.equal(values.length, 25.4);
         assert.equal(values["$col_2"], "Level 1");
+    });
+
+    it("must return results for queries with aggreaged functions", () => {
+        const results = filterElements(pdb, {
+            // TODO: extend to commented
+            // lmvQuery: "count() as cnt, sum(*.Length) as sum, min(*.Length) as min, max(*.Length) as max, avg(*.Length) as avg",
+            lmvQuery: "count() as cnt, sum(*.Length) as sum",
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4, 7]
+        });
+
+        assert.isNull(results.error);
+
+        assert.equal(results.rows.length, 1);
+
+        const values = results.rows[0].values;
+
+        assert.equal(values.cnt, 2)
+        assert.isTrue(isAlmostEqual(values.sum as number, 76.2));
     });
 
     it("must query property value", () => {
