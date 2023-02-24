@@ -195,10 +195,33 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
 
 export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
     FilterWithSelectExpr: (_1, _2, _3) => [],
-    
+
     FilterExpr: (_) => [],
 
-    PropertiesSelectExpr: (_) => []
+    PropertiesSelectExpr: (_) => [],
+
+    AggregatedNamedFuncExpr: (aggregatedFuncNode, _, propertyNameIdentifierNode) => {
+        const aggregatedPropertries = aggregatedFuncNode.compileAggregate()[0];
+
+        return [{ ...aggregatedPropertries, name: propertyNameIdentifierNode.sourceString }];
+    },
+
+    AggregatedFuncsExpr: (firstIdentifierNode, _, sequence) => {
+        const aggregatedPropertries: AggreagatedValueQuery[] = firstIdentifierNode.compileAggregate();
+
+        const sequencedProperties: AggreagatedValueQuery[] = sequence.children.flatMap(x => x.compileAggregate());
+
+        aggregatedPropertries.splice(1, 0, ...sequencedProperties);
+
+        return aggregatedPropertries;
+    },
+
+    AggregatedCountExpr: (_1, _2) => {
+        return [{
+            type: "count",
+            elemValueFun: (_settings, _element) => 1
+        }]
+    }
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
