@@ -216,12 +216,15 @@ export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
         return aggregatedPropertries;
     },
 
-    AggregatedCountExpr: (_1, _2) => {
-        return [{
-            type: "count",
-            elemValueFun: (_settings, _element) => 1
-        }]
-    }
+    AggregatedCountExpr: (_1, _2) => [{
+        type: "count",
+        elemValueFun: (_settings, _element) => 1
+    }],
+
+    AggregatedSumExpr: (_1, _2, propertyNode, _3) => [{
+        type: "sum",
+        elemValueFun: createPropertyValueGetterFunction(propertyNode)
+    }]
 }
 
 const appendPropertyToSequence = (sequenceNode: ohm.NonterminalNode, propertyNode: ohm.NonterminalNode): PropertyDefinition => {
