@@ -111,10 +111,10 @@ describe("Filter tests", () => {
         const filter = filterFactory.createQuery("Category.property != 5.7").filter;
 
         assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ property: 1.3 }, ["Other Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Other Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must filter for string property equality", () => {
@@ -183,9 +183,9 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
         assert.isTrue(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
-        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
     it("must support logical and filter", () => {

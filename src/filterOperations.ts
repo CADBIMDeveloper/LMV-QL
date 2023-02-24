@@ -141,9 +141,15 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     PriExp_paren: (_1, node, _2) => (filterSettings, element) => node.compileFilter()(filterSettings, element),
 
-    NonEqualityExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => !isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue !== constraint),
+    NonEqualityExpr: (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
+        const equalityExpression = createComparisonExpression(
+            (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
+            (elementPropertyValue, constraint) => elementPropertyValue === constraint)
+
+        const equalityCheck = equalityExpression(propertyNode, _, valueNode);
+
+        return (settings, element) => !equalityCheck(settings, element);
+    },
 
     StartsWithExpr: createComparisonExpression(
         (_elementPropertyValue, _constraint, _filterSettings) => false,
