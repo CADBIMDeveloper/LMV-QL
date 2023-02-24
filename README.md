@@ -24,7 +24,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
     - [OR operator](#or-operator)
     - [NOT operator](#not-operator)
     - [Brackets](#brackets)
-  * [Selection expressions](#select-expression)
+  * [Selection expressions](#selection-expressions)
     - [Simple properties selection](#simple-properties-selection)
     - [Filtered properties selection](#filtered-properties-selection)
 - [Filter settings](#filter-settings)
