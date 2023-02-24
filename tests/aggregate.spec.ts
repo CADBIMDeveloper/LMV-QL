@@ -68,4 +68,22 @@ describe("Aggregated functions of LMV-QL", () => {
         assert.equal(property.elemValueFun(settings, complexElement), 5.7);
         assert.isUndefined(property.name);
     });
+
+    it("must get named aggregated expressions", () => {
+        const expressions = ["min", "max", "sum", "avg"] as const;
+
+        for (const expression of expressions) {
+            const query = queryFactory.createQuery(`${expression}(*.property) as value`);
+
+            assert.equal(query.aggregateProperties.length, 1);
+
+            const property = query.aggregateProperties[0];
+
+            assert.equal(property.type, expression);
+            assert.equal(property.elemValueFun(settings, complexElement), 5.7);
+            assert.equal(property.name, "value");
+        }
+
+        assert.equal(queryFactory.createQuery("count() as cnt").aggregateProperties[0]?.name, "cnt");
+    });
 });
