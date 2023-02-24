@@ -6,6 +6,7 @@ import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttr
 import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
 import { findRootNodes } from "./src/rootsNodesFactory";
 import { PropertyValuesQueryFactory } from "./src/propertyValuesQueryFactory";
+import { createPropertiesExtractor } from "./src/properties/queryPropertiesExtractorsFactory";
 
 export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => {
     try {
@@ -23,18 +24,25 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, roots);
 
+        const propertiesExtractor = createPropertiesExtractor(elementQuery, lmvQueryOptions);
+
         for (const dbId of nodes) {
             if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
                 continue;
 
             const element = new PropertyDatabaseFilterableElement(dbId, propertyValuesQueryFactory);
 
-            if (elementQuery.filter(element))
+            if (elementQuery.filter(element)) {
                 dbIds.push(dbId);
+
+                propertiesExtractor.push(dbId, element);
+            }
         }
 
         return {
             dbIds,
+            rows: propertiesExtractor.compile(),
+            columns: propertiesExtractor.getColumns(),
             error: null
         }
     } catch (error: any) {
