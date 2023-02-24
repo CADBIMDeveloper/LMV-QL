@@ -6,7 +6,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
 > to test you own filters on the basic sample model
 
 
-### Table of Contents
+## Table of Contents
 - [Quick tour](#quick-tour)
 - [Introduction](#introduction)
   * [Simple filters](#simple-filters)
@@ -31,9 +31,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
     - [Aggregation functions with grouping](#aggregation-functions-with-grouping)
 - [Query settings](#query-settings)
 
-## Usage
-
-### Quick tour
+## Quick tour
 - install the package: `npm install lmv-ql`
 - import query:
 ```ts
@@ -61,8 +59,8 @@ if (!queryResults.error) {
   }
 }
 ```
-### Introduction
-#### Simple filters
+## Introduction
+### Simple filters
 LMV-QL designed to make filters on model element properties. Let's imagine we want to make a simple filter for model floors with specified `Area` property value.
 ![floor properties](./assets/viewer-model-element.png)
 
@@ -79,7 +77,7 @@ But what if some other element of your model has `Area` property and it's value 
 - or maybe you want to query all elements which areas are more than 50 square meters?
 `*.Area > 50`
 
-#### Complex filters
+### Complex filters
 LMV-QL designed to be able to make queries on models with a complex structure. Let's say, we want to query rectangular mullions from specific curtain wall from [Revit sample file](https://lmv-ql.cadbim.dev)
 
 The main problem is that we need to check properties from different levels of hierarch of the model tree. To do that with LMV-QL we should use logical operators. 
@@ -100,7 +98,7 @@ So, let's add this to our filter:
 and check it:
 ![curtain wall mullions search results](./assets/complex-filter-results.png)
 
-#### Units
+### Units
 
 LMV-QL follows the same rules of formatting and values comparison as Autodesk Platform Services viewer does. You can provide `displayUnits` and `displayUnitsPrecision` in the options object when you perform your query like
 ```ts
@@ -121,9 +119,9 @@ However, if we change precision, we also need to fix the filter string: `*.Floor
 If we are changing display units, then we also should adjust the filter string: `*.Floor.Area = 413.98`
 ![adjusted display units](./assets/floor-area-query-with-adjusted-display-units-settings.png)
 
-### Filter language
+## Filter language
 
-#### Identificators: hierarchy and element property definition 
+### Identificators: hierarchy and element property definition 
 
 You need to join with `.` symbol model tree item names and property into a single string To define LMV-QL hierarchy position and property, e.g. `SomeCategory.SomeSubCategory.SomeProperty`. If your item or property name contains spaces or dots `.` symbols, then put it inside `[` and `]` symbols like `Floors.Floor.[Generic 150mm].Floor.Area`
 
@@ -135,7 +133,7 @@ Valid identificators:
 
 `Floors.*` - not valid, e.g. any property is not supported
 
-#### Elements in hierarchy filters
+### Elements in hierarchy filters
 
 You can provide a valid identificator with following `!` sign to filter all sub items from model tree. Valid filters:
 - `[Plumbing Fixtures]!`
@@ -144,9 +142,9 @@ You can provide a valid identificator with following `!` sign to filter all sub 
 
 `Walls.*!` is not a valid filter
 
-#### Simple filters by property value
+### Simple filters by property value
 
-##### Numerical properties
+#### Numerical properties
 
 - property value equal to `identificator = value`:
 `Walls.[Basic Wall].*.Width = 300`
@@ -161,7 +159,7 @@ You can provide a valid identificator with following `!` sign to filter all sub 
 - property not equal to value `identificator <> value` or `identificator != value`. Both options are valid:
 `*.Floor.Area <> 9` or `*.Floor.Area != 9`
 
-##### String properties
+#### String properties
 
 - property value equal to `identificator = value`:
 `*.Mark = "207"`
@@ -178,12 +176,12 @@ If you want to include a text with quotes like `some "value" of something` then 
 If you want to include `%` sign into `like` expression you also need to escape it with `\` sign:
 `category.element.property like "%some \% of something"`
 
-##### IN / NOT IN
+#### IN / NOT IN
 Currently not supported. Upcoming...
 
-#### Logical filters
+### Logical filters
 
-##### AND operator
+#### AND operator
 
 LMV-QL allows to define `AND` filter as:
 - `and` (case insensitive)
@@ -195,7 +193,7 @@ Valid `and` filters samples:
 - `Walls.[Curtain Wall].*.[Assembly Code] = "B2020200" 
 && *.[Type Name] = "64 x 128 rectangular"`
 
-##### OR operator
+#### OR operator
 LMV-QL allows to define `OR` filter as:
 - `or` (case insensitive)
 - `||`
@@ -205,16 +203,16 @@ Valid `or` filters samples:
 - `*.Mark = "207" or *.Mark = "204"`
 - `*.Level = "Level 1" || *.Level = "Level 1 Living Rm."`
 
-##### NOT operator
+#### NOT operator
 Currently not supported. Upcoming...
 
-##### Brackets
+#### Brackets
 
 LMV-QL allows to combine filters using brackets. Example:
 - `Windows! and (*.Level = "Level 1 Living Rm."
 or *.name = "M_Skylight")`
 
-#### Selection expressions
+### Selection expressions
 
 LMV-QL can contain:
 - filter expressions as it was described above
@@ -224,7 +222,7 @@ LMV-QL can contain:
   - with aggregation functions (sum, min, max, avg, count)
   - with an ability to group by single or multiple fields
 
-##### Simple properties selection
+#### Simple properties selection
 
 You can use LMV-QL to collect required properties value from the entire model using simple selection expressions without filtering part:
 ```
@@ -234,7 +232,7 @@ You can use LMV-QL to collect required properties value from the entire model us
 Run this query in our [demo application](https://lmv-ql.cadbim.dev) and you'll see query results:
 ![simple-select-query](./assets/simple-select-query.png)
 
-##### Filtered properties selection
+#### Filtered properties selection
 
 LMV-QL allows to combine selection expressions with filter expressions. Let's collect several properties from [demo model](https://lmv-ql.cadbim.dev) model floors:
 ```
@@ -242,7 +240,7 @@ Floors! -> *.[Type Name] as type_name, *.Area as area, *.Volume as volume, *.Thi
 ```
 ![filtered-selection-expression](./assets/filtered-selection-expression.png)
 
-##### Aggregation functions
+#### Aggregation functions
 
 LMV-QL can aggregate the data collected from model elements properties with the following aggregation functions:
 - sum (summs numerical properties values)
@@ -261,7 +259,7 @@ Floors! -> sum(*.Area) as total_area, max(*.Area) as max_area, min(*.Area) as mi
 
 **Important note**: you can't mix simple properties selection with aggregation functions, but you can use multiple aggregation functions in the same query as shown above
 
-##### Aggregation functions with grouping
+#### Aggregation functions with grouping
 
 LMV-QL can perform grouping elements by fields you provided in your query.
 
@@ -274,7 +272,7 @@ Walls! -> sum(*.Area) as total_area, max(*.Area) as max_area, min(*.Area) as min
 
 ![grouping-aggregated-query](./assets/grouping-aggregated-query.png)
 
-### Query settings
+## Query settings
 
 Queries settings are defined by:
 ```ts
