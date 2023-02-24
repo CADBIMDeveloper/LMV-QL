@@ -46,6 +46,14 @@ const queryResults = await query(viewer.model, lmvQuery, filterOptions);
 if (!queryResults.error) {
   const dbIds = queryResults.dbIds;
   // do whatever you want with the elements db ids returned by filter engine
+  const rows = queryResults.rows;
+  // consume query results if you provided selection expressions in your query
+  for(const row of queryResults.rows) {
+    for(const column of queryResults.columns) {
+      const value = row.values[column];
+      // do whatever you want with this information
+    }
+  }
 }
 ```
 ### Introduction
