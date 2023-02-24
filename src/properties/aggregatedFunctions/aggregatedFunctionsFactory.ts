@@ -2,6 +2,7 @@ import { Settings } from "../../../output";
 import { IFilterableElement } from "../../filterableElement";
 import { AggregatedValueQuery } from "../../filterOperations";
 import { CountFunction } from "./countFunction";
+import { MinFunction } from "./minFunction";
 import { SumFunction } from "./sumFunction";
 
 export interface IAggregatedFunction {
@@ -21,6 +22,9 @@ export const createAggregatedFunction = (aggregatedValueQuery: Required<Aggregat
 
         case "sum":
             return new SumFunction(aggregatedValueQuery, settings);
+
+        case "min":
+            return new MinFunction(aggregatedValueQuery, settings);
     
         default:
             throw new Error(`${aggregatedValueQuery.type} is not supported yet`)
