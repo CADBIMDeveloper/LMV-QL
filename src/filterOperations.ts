@@ -228,6 +228,11 @@ export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
     AggregatedSumExpr: (_1, _2, propertyNode, _3) => [{
         type: "sum",
         elemValueFun: createPropertyValueGetterFunction(propertyNode)
+    }],
+
+    AggregatedMinExpr: (_1, _2, propertyNode, _3) => [{
+        type: "min",
+        elemValueFun: createPropertyValueGetterFunction(propertyNode)
     }]
 }
 
