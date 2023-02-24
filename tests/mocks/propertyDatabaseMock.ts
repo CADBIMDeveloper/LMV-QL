@@ -51,6 +51,7 @@ export const pdb: PropertyDatabase = {
         if (dbId === 7) { // Element-2
             callBack(1, 12);
             callBack(3, 14);
+            callBack(7, 15);
         }
     },
     getAttrValue: function (attrId: number, attrValueId: number): string | number {
@@ -95,6 +96,9 @@ export const pdb: PropertyDatabase = {
 
         if (attrId === 7 && attrValueId === 11)
             return 25.4; // length
+
+        if (attrId === 7 && attrValueId === 15)
+            return 50.8; // length
 
         throw new Error('Values is not supported');
     },
