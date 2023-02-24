@@ -1,4 +1,4 @@
-import { ComputeSettings, ExpressionComputeResults, QueryResults, Settings, UserComputeOptions, UserQueryOptions } from "./output";
+import { ComputeSettings, ExpressionComputeResults, QueryResults, Settings, UserQueryOptions } from "./output";
 import { IModel } from "./model";
 import { engine } from "./engine";
 
@@ -14,18 +14,19 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
   return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions, nodes });
 }
 
-export async function computeExpressionValue(model: IModel, dbId: number, query: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {
-  const propertyDatabase = model.getPropertyDb();
+export async function computeExpressionValue(model: IModel, dbId: number, queryString: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {
+  console.warn("computeExpressionValue is deprecated, use `query` instead with dbIds provided in options");
 
-  const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().computeExpression(pdb, tag); }`;
+  const filterSettings: Partial<Settings> = { ...options, dbIds: [dbId] };
 
-  const computeOptions = createComputeExpressionOptions(options);
+  const results = await query(model, queryString, filterSettings);
 
-  return propertyDatabase.executeUserFunction<ExpressionComputeResults, UserComputeOptions>(code, {
-    nodeId: dbId,
-    propertyQuery: query,
-    options: computeOptions
-  });
+  if (results.error)
+    return { error: results.error, result: undefined };
+
+  const value = results.rows[0].values[results.columns[0]];
+
+  return { result: value, error: null };
 }
 
 const getModelNodesForSearch = (model: IModel) => {
@@ -60,22 +61,5 @@ const createFilterSettings = (options?: Partial<Settings>): Settings => {
     displayUnits: options.displayUnits !== undefined ? options.displayUnits : defaultSettings.displayUnits,
     displayUnitsPrecision: options.displayUnitsPrecision !== undefined ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision,
     dbIds: options.dbIds !== undefined ? options.dbIds : defaultSettings.dbIds
-  }
-}
-
-const createComputeExpressionOptions = (options?: Partial<ComputeSettings>): ComputeSettings => {
-  const defaultSettings: ComputeSettings = {
-    attributesCaseSensitive: true,
-    displayUnits: "",
-    displayUnitsPrecision: ""
-  };
-
-  if (!options)
-    return defaultSettings;
-
-  return {
-    attributesCaseSensitive: options.attributesCaseSensitive !== undefined ? options.attributesCaseSensitive : defaultSettings.attributesCaseSensitive,
-    displayUnits: options.displayUnits !== undefined ? options.displayUnits : defaultSettings.displayUnits,
-    displayUnitsPrecision: options.displayUnitsPrecision !== undefined ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision
   }
 }
