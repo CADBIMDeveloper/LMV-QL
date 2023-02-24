@@ -118,7 +118,7 @@ describe('Query functions tests', () => {
         const results = filterElements(pdb, {
             // TODO: extend to commented
             // lmvQuery: "count() as cnt, sum(*.Length) as sum, min(*.Length) as min, max(*.Length) as max, avg(*.Length) as avg",
-            lmvQuery: "count() as cnt, sum(*.Length) as sum, min(*.Length) as min",
+            lmvQuery: "count() as cnt, sum(*.Length) as sum, min(*.Length) as min, max(*.Length) as max",
             lmvQueryOptions: leafNodesOnlySettings,
             nodes: [1, 2, 3, 4, 7]
         });
@@ -132,6 +132,7 @@ describe('Query functions tests', () => {
         assert.equal(values.cnt, 2)
         assert.isTrue(isAlmostEqual(values.sum as number, 76.2));
         assert.equal(values.min, 25.4);
+        assert.equal(values.max, 50.8);
     });
 
     it("must query property value", () => {
