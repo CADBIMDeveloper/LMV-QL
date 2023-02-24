@@ -25,8 +25,10 @@ export type SelectValueQuery = {
     name?: string;
 }
 
+export type AggregatedValueFunctionType = "count" | "sum" | "min" | "max" | "avg";
+
 export type AggregatedValueQuery = {
-    type: "count" | "sum" | "min" | "max" | "avg";
+    type: AggregatedValueFunctionType;
     elemValueFun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
     name?: string;
 }
