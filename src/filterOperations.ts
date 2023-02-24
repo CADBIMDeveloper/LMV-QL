@@ -200,6 +200,10 @@ export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
 
     PropertiesSelectExpr: (_) => [],
 
+    FilterWithAggregatedSelectExpr: (_1, _2, aggregateSelectNode) => aggregateSelectNode.compileAggregate(),
+
+    FilterWithGroupedAggregedSelectExpr: (_1, _2, aggregateSelectNode, _3, _4) => aggregateSelectNode.compileAggregate(),
+
     AggregatedNamedFuncExpr: (aggregatedFuncNode, _, propertyNameIdentifierNode) => {
         const aggregatedPropertries = aggregatedFuncNode.compileAggregate()[0];
 
