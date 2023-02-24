@@ -233,6 +233,11 @@ export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
     AggregatedMinExpr: (_1, _2, propertyNode, _3) => [{
         type: "min",
         elemValueFun: createPropertyValueGetterFunction(propertyNode)
+    }],
+
+    AggregatedMaxExpr: (_1, _2, propertyNode, _3) => [{
+        type: "max",
+        elemValueFun: createPropertyValueGetterFunction(propertyNode)
     }]
 }
 
