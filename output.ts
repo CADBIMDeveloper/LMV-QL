@@ -18,7 +18,16 @@ export type ComputeSettings = {
 
 export type QueryResults = {
     dbIds: number[];
+    columns: string[];
+    rows: QuryResultRow[];
     error: ParsingError | Error | null;
+}
+
+export type QuryResultRow = {
+    dbIds: number[];
+    values: {
+        [key: string]: string | number | undefined
+    }
 }
 
 export type ExpressionComputeResults = {
