@@ -86,4 +86,40 @@ describe("Aggregated functions of LMV-QL", () => {
 
         assert.equal(queryFactory.createQuery("count() as cnt").aggregateProperties[0]?.name, "cnt");
     });
+
+    it("must get aggregated expressions list (omited filter)", () => {
+        const query = queryFactory.createQuery("sum(*.property), min(*.property)");
+
+        assert.equal(query.aggregateProperties.length, 2);
+
+        assert.equal(query.aggregateProperties[0].type, "sum");
+        assert.equal(query.aggregateProperties[1].type, "min");
+
+        for (const property of query.aggregateProperties)
+            assert.equal(property.elemValueFun(settings, complexElement), 5.7);
+    });
+
+    it("must get aggregated expressions list (with filter clause)", () => {
+        const query = queryFactory.createQuery("category! -> sum(*.property), min(*.property)");
+
+        assert.equal(query.aggregateProperties.length, 2);
+
+        assert.equal(query.aggregateProperties[0].type, "sum");
+        assert.equal(query.aggregateProperties[1].type, "min");
+
+        for (const property of query.aggregateProperties)
+            assert.equal(property.elemValueFun(settings, complexElement), 5.7);
+    });
+
+    it("must get aggregated expressions list (with filter clause and groups)", () => {
+        const query = queryFactory.createQuery("category! -> sum(*.property), min(*.property) group by *.name");
+
+        assert.equal(query.aggregateProperties.length, 2);
+
+        assert.equal(query.aggregateProperties[0].type, "sum");
+        assert.equal(query.aggregateProperties[1].type, "min");
+
+        for (const property of query.aggregateProperties)
+            assert.equal(property.elemValueFun(settings, complexElement), 5.7);
+    });
 });
