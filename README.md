@@ -12,7 +12,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
   * [Simple filters](#simple-filters)
   * [Complex filters](#complex-filters)
   * [Units](#units)
-- [Filter language](#filter-language)
+- [Query language](#query-language)
   * [Identificators: hierarchy and element property definition](#identificators-hierarchy-and-element-property-definition)
   * [Elements in hierarchy filters](#elements-in-hierarchy-filters)
   * [Simple filters by property value](#simple-filters-by-property-value)
@@ -119,7 +119,7 @@ However, if we change precision, we also need to fix the filter string: `*.Floor
 If we are changing display units, then we also should adjust the filter string: `*.Floor.Area = 413.98`
 ![adjusted display units](./assets/floor-area-query-with-adjusted-display-units-settings.png)
 
-## Filter language
+## Query language
 
 ### Identificators: hierarchy and element property definition 
 
