@@ -15,7 +15,7 @@ export type ElementFilter = (element: IFilterableElement) => boolean;
 export type ElementQuery = {
     filter: ElementFilter;
     selectProperties: SelectValueQuery[];
-    aggregateProperties: AggreagatedValueQuery[];
+    aggregateProperties: AggregatedValueQuery[];
 }
 
 export type PropertyValueQuery = (settings: ComputeExpressionSettings | FilterSettings, element: IFilterableElement) => number | string | undefined;
@@ -25,7 +25,7 @@ export type SelectValueQuery = {
     name?: string;
 }
 
-export type AggreagatedValueQuery = {
+export type AggregatedValueQuery = {
     type: "count" | "sum" | "min" | "max" | "avg";
     elemValueFun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
     name?: string;
@@ -193,7 +193,7 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     propertySequence: (node) => [{ fun: createPropertyValueGetterFunction(node) }]
 }
 
-export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
+export const compileAggregate: FilterActionDict<AggregatedValueQuery[]> = {
     FilterWithSelectExpr: (_1, _2, _3) => [],
 
     FilterExpr: (_) => [],
@@ -211,9 +211,9 @@ export const compileAggregate: FilterActionDict<AggreagatedValueQuery[]> = {
     },
 
     AggregatedFuncsExpr: (firstIdentifierNode, _, sequence) => {
-        const aggregatedPropertries: AggreagatedValueQuery[] = firstIdentifierNode.compileAggregate();
+        const aggregatedPropertries: AggregatedValueQuery[] = firstIdentifierNode.compileAggregate();
 
-        const sequencedProperties: AggreagatedValueQuery[] = sequence.children.flatMap(x => x.compileAggregate());
+        const sequencedProperties: AggregatedValueQuery[] = sequence.children.flatMap(x => x.compileAggregate());
 
         aggregatedPropertries.splice(1, 0, ...sequencedProperties);
 

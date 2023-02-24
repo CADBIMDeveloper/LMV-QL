@@ -1,5 +1,5 @@
 import grammar from "./filtergrammar.ohm-bundle";
-import { AggreagatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./filterOperations";
+import { AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./filterOperations";
 import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "../parsingError";
 
@@ -12,7 +12,7 @@ export class QueryFactory {
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
         this.semantics.addOperation<Filter>("compileFilter", compileFilter);
         this.semantics.addOperation<SelectValueQuery[]>("compileSelect", compileSelect);
-        this.semantics.addOperation<AggreagatedValueQuery[]>("compileAggregate", compileAggregate);
+        this.semantics.addOperation<AggregatedValueQuery[]>("compileAggregate", compileAggregate);
     }
 
     createQuery(filterString: string): ElementQuery {
