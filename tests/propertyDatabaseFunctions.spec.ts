@@ -134,6 +134,35 @@ describe('Query functions tests', () => {
         assert.isTrue(isAlmostEqual(values.avg as number, 38.1));
     });
 
+    it("must return results for queries with grouped aggregation functions", () => {
+        const results = filterElements(pdb, {
+            lmvQuery: "*.Length > 0 -> count() as cnt, sum(*.Length) as sum, min(*.Length) as min, max(*.Length) as max, avg(*.Length) as avg group by *.Length",
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4, 7]
+        });
+
+        assert.isNull(results.error);
+        assert.equal(results.rows.length, 2);
+
+        expect(results.rows[0].dbIds).to.eql([4]);
+
+        assert.equal(results.rows[0].values["$grp_col_1"], 25.4);
+        assert.equal(results.rows[0].values.sum, 25.4);
+        assert.equal(results.rows[0].values.min, 25.4);
+        assert.equal(results.rows[0].values.max, 25.4);
+        assert.equal(results.rows[0].values.avg, 25.4);
+        assert.equal(results.rows[0].values.cnt, 1);
+
+        expect(results.rows[1].dbIds).to.eql([7]);
+
+        assert.equal(results.rows[1].values["$grp_col_1"], 50.8);
+        assert.equal(results.rows[1].values.sum, 50.8);
+        assert.equal(results.rows[1].values.min, 50.8);
+        assert.equal(results.rows[1].values.max, 50.8);
+        assert.equal(results.rows[1].values.avg, 50.8);
+        assert.equal(results.rows[1].values.cnt, 1);
+    })
+
     it("must query property value", () => {
         const elementPropertiesQueryResults = computeExpression(pdb, {
             nodeId: 4,
