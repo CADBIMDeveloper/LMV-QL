@@ -40,9 +40,3 @@ export type UserQueryOptions = {
     nodes: number[];
     lmvQueryOptions: Settings;
 }
-
-export type UserComputeOptions = {
-    nodeId: number;
-    propertyQuery: string;
-    options: ComputeSettings;
-}

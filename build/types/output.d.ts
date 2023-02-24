@@ -15,7 +15,15 @@ export type ComputeSettings = {
 };
 export type QueryResults = {
     dbIds: number[];
+    columns: string[];
+    rows: QuryResultRow[];
     error: ParsingError | Error | null;
+};
+export type QuryResultRow = {
+    dbIds: number[];
+    values: {
+        [key: string]: string | number | undefined;
+    };
 };
 export type ExpressionComputeResults = {
     result: number | string | undefined;
@@ -25,9 +33,4 @@ export type UserQueryOptions = {
     lmvQuery: string;
     nodes: number[];
     lmvQueryOptions: Settings;
-};
-export type UserComputeOptions = {
-    nodeId: number;
-    propertyQuery: string;
-    options: ComputeSettings;
 };

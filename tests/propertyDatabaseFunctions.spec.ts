@@ -1,7 +1,7 @@
 import 'mocha';
 import { assert, expect } from 'chai';
 import { Settings } from '../output';
-import { computeExpression, filterElements } from '../propertyDatabaseFunctions';
+import { filterElements } from '../propertyDatabaseFunctions';
 import { pdb } from './mocks/propertyDatabaseMock';
 import { doubleRootPdb } from './mocks/doubleRootPropertyDatabaseMock';
 import { isAlmostEqual } from '../src/numbersComparison';
@@ -161,63 +161,5 @@ describe('Query functions tests', () => {
         assert.equal(results.rows[1].values.max, 50.8);
         assert.equal(results.rows[1].values.avg, 50.8);
         assert.equal(results.rows[1].values.cnt, 1);
-    })
-
-    it("must query property value", () => {
-        const elementPropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4,
-            propertyQuery: "*.[element property]",
-            options: {
-                attributesCaseSensitive: true,
-                displayUnits: "",
-                displayUnitsPrecision: ""
-            }
-        });
-
-        assert.isNull(elementPropertiesQueryResults.error);
-        assert.equal(elementPropertiesQueryResults.result, 5.7);
-
-        const elementTypePropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4,
-            propertyQuery: "*.[element type property]",
-            options: {
-                attributesCaseSensitive: true,
-                displayUnits: "",
-                displayUnitsPrecision: ""
-            }
-        });
-
-        assert.isNull(elementTypePropertiesQueryResults.error);
-        assert.equal(elementTypePropertiesQueryResults.result, 1.3);
-    });
-
-    it("must query property value according to specified display units", () => {
-        const elementPropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4,
-            propertyQuery: "*.Length",
-            options: {
-                attributesCaseSensitive: true,
-                displayUnits: "in",
-                displayUnitsPrecision: ""
-            }
-        });
-
-        assert.isNull(elementPropertiesQueryResults.error);
-        assert.equal(elementPropertiesQueryResults.result, 1);
-    });
-
-    it("must query deepest node property value on wildcarded query if several elements have equally-named properties", () => {
-        const elementPropertiesQueryResults = computeExpression(pdb, {
-            nodeId: 4,
-            propertyQuery: "*.name",
-            options: {
-                attributesCaseSensitive: true,
-                displayUnits: "",
-                displayUnitsPrecision: ""
-            }
-        });
-
-        assert.isNull(elementPropertiesQueryResults.error);
-        assert.equal(elementPropertiesQueryResults.result, "Element");
     });
 });

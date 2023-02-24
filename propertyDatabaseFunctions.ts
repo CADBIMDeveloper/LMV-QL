@@ -1,5 +1,4 @@
-import { UserComputeOptions, UserQueryOptions } from "./output";
-import { ElementPropertyValueQueryFactory } from "./src/elementPropertyValueQueryFactory";
+import { UserQueryOptions } from "./output";
 import { QueryFactory } from "./src/queryFactory";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
@@ -51,33 +50,6 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
             error: error,
             rows: [],
             columns: []
-        }
-    }
-}
-
-export const computeExpression = (pdb: PropertyDatabase, tag: UserComputeOptions) => {
-    try {
-        const { nodeId, propertyQuery, options } = tag!;
-
-        const factory = new ElementPropertyValueQueryFactory(options);
-
-        const query = factory.createPropertyQuery(propertyQuery);
-
-        const attributesCollection = new PropertyDatabaseAttributesCollection(pdb, options.attributesCaseSensitive);
-
-        const roots = findRootNodes(pdb, attributesCollection);
-
-        const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, roots);
-
-        const element = new PropertyDatabaseFilterableElement(nodeId, propertyValuesQueryFactory);
-
-        const result = query(element);
-
-        return { result, error: null };
-    } catch (error: any) {
-        return {
-            result: undefined,
-            error
         }
     }
 }

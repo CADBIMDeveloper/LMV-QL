@@ -1,5 +1,4 @@
 import * as ohm from "ohm-js";
-import { ComputeExpressionSettings } from "./computeExpressionSettings";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IFilterableElement, PropertyValue } from "./filterableElement";
@@ -18,8 +17,6 @@ export type ElementQuery = {
     aggregateProperties: AggregatedValueQuery[];
 }
 
-export type PropertyValueQuery = (settings: ComputeExpressionSettings | FilterSettings, element: IFilterableElement) => number | string | undefined;
-
 export type SelectValueQuery = {
     fun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
     name?: string;
@@ -32,8 +29,6 @@ export type AggregatedValueQuery = {
     elemValueFun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
     name?: string;
 }
-
-export type ElementPropertyValueQuery = (element: IFilterableElement) => number | string | undefined;
 
 export type Category = {
     type: "exact-category";
@@ -389,25 +384,6 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
     textValue: (valueNode) => createSimpleValue(valueNode, value => value.replaceAll('\\"', '"')),
 
     likeTextValue: (valueNode) => createSimpleValue(valueNode, value => value.replaceAll('\\"', '"').replaceAll("\\%", "%"))
-}
-
-export const getPropertyValue: FilterActionDict<PropertyValueQuery> = {
-    propertySequence: (node) => {
-        const propertyDefinition = convertToPropertiesNode(node) as Property;
-
-        return (settings, element) => {
-            if (!compareCategories(element.categoriesList, propertyDefinition.categories))
-                return undefined;
-
-            const categoryTemplates = expandTemplateCategoriesForValue(propertyDefinition.categories, element.categoriesList.length);
-
-            return categoryTemplates
-                .map(x => element.getPropertyValue(propertyDefinition.propertyName, x))
-                .filter(x => x.value !== undefined)
-                .map(x => isNumberProperty(x) ? getNumberPropertyValue(x, settings) : x.value)
-                .find(x => x);
-        };
-    }
 }
 
 const createPropertyValueGetterFunction = (node: ohm.NonterminalNode) => {
