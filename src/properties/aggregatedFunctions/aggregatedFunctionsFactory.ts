@@ -1,6 +1,7 @@
 import { Settings } from "../../../output";
 import { IFilterableElement } from "../../filterableElement";
 import { AggregatedValueQuery } from "../../filterOperations";
+import { AvgFunction } from "./avgFunction";
 import { CountFunction } from "./countFunction";
 import { MaxFunction } from "./maxFunction";
 import { MinFunction } from "./minFunction";
@@ -29,6 +30,9 @@ export const createAggregatedFunction = (aggregatedValueQuery: Required<Aggregat
 
         case "max":
             return new MaxFunction(aggregatedValueQuery, settings);
+
+        case "avg":
+            return new AvgFunction(aggregatedValueQuery, settings);
     
         default:
             throw new Error(`${aggregatedValueQuery.type} is not supported yet`)
