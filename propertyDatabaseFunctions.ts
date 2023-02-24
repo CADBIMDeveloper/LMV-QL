@@ -48,7 +48,9 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
     } catch (error: any) {
         return {
             dbIds: [],
-            error: error
+            error: error,
+            rows: [],
+            columns: []
         }
     }
 }
