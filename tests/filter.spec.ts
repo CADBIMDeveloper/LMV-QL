@@ -243,6 +243,12 @@ describe("Filter tests", () => {
         assert.isFalse(complexFilter(new SimpleFilterableElement({ p1: 1, p2: 5 }, ["Category"])));
     });
 
+    it("must support not operator", () => {
+        assert.isTrue(filterFactory.createQuery("not(Category.property = 5.7)").filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])))
+        assert.isFalse(filterFactory.createQuery("not(Category.property = 5.7)").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("not(Category.property > 1 and Category.property < 6)").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+    });
+
     it("must filter with top wildcard", () => {
         const filter = filterFactory.createQuery("*.property = 5.7").filter;
 

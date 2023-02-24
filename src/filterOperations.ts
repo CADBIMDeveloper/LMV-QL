@@ -151,6 +151,8 @@ export const compileFilter: FilterActionDict<Filter> = {
         return (settings, element) => !equalityCheck(settings, element);
     },
 
+    NotExpr: (_1, _2, filterExpr, _3) => (filterSettings, element) => !filterExpr.compileFilter()(filterSettings, element),
+
     StartsWithExpr: createComparisonExpression(
         (_elementPropertyValue, _constraint, _filterSettings) => false,
         (elementPropertyValue, constraint) => elementPropertyValue.startsWith(constraint)),
