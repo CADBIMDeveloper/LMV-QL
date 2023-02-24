@@ -88,7 +88,30 @@ describe('Query functions tests', () => {
 
         assert.isNull(results.error);
         expect(results.dbIds).to.eql([4]);
-    })
+    });
+
+    it("must return results for queries with select clause", () => {
+        const results = filterElements(pdb, {
+            lmvQuery: "*.name = \"Element\" -> *.name as name, *.Level, *.Length as length",
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4]
+        });
+
+        assert.isNull(results.error);
+
+        assert.equal(results.rows.length, 1);
+        assert.equal(results.columns.length, 3);
+
+        assert.equal(results.columns[0], "name");
+        assert.equal(results.columns[1], "$col_2");
+        assert.equal(results.columns[2], "length");
+
+        const values = results.rows[0].values;
+
+        assert.equal(values.name, "Element");
+        assert.equal(values.length, 25.4);
+        assert.equal(values["$col_2"], "Level 1");
+    });
 
     it("must query property value", () => {
         const elementPropertiesQueryResults = computeExpression(pdb, {
