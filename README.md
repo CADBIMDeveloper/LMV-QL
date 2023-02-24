@@ -194,6 +194,7 @@ Valid `and` filters samples:
 && *.[Type Name] = "64 x 128 rectangular"`
 
 #### OR operator
+
 LMV-QL allows to define `OR` filter as:
 - `or` (case insensitive)
 - `||`
@@ -204,7 +205,14 @@ Valid `or` filters samples:
 - `*.Level = "Level 1" || *.Level = "Level 1 Living Rm."`
 
 #### NOT operator
-Currently not supported. Upcoming...
+
+LMV-QL allows to define `NOT` filter with
+- `not` word (case-insensitive), e.g. `not(some_valid_filter)`
+- `!` sign, e.g. `!(some_valid_filter)`
+
+Examples:
+- `!(Walls! or Floors!)` - all elements matches except those in `Walls` or `Floors` top model tree categorires
+- all floors, except those which areas is less than 50 or more than 100: `Floors! and not(*.Floor.Area >= 50 and *.Floor.Area <= 100)`
 
 #### Brackets
 
