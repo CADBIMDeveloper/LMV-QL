@@ -2,12 +2,12 @@ import 'mocha';
 import { assert } from 'chai';
 import { QueryFactory } from '../src/queryFactory';
 import { ComplexFilterableElements } from './mocks/complexFilterableElements';
-import { FilterSettings } from '../src/filterSettings';
+import { QuerySettings } from '../src/querySettings';
 
 describe("Select clause of LMV-QL tests", () => {
     const queryFactory = new QueryFactory();
     const complexElement = new ComplexFilterableElements({ name: "Top", props: {} }, { name: "Sub", props: { typeProperty: 1.3 } }, { name: "Element", props: { property: 5.7, name: "test", prop2: 1.3 } });
-    const settings: FilterSettings = { displayUnits: "", displayUnitsPrecision: "", stringCaseSensitive: true, tolerance: 1e-3 };
+    const settings: QuerySettings = { displayUnits: "", displayUnitsPrecision: "", stringCaseSensitive: true, tolerance: 1e-3 };
 
     it("must get simple single unnamed properties from the query string", () => {
         const query = queryFactory.createQuery("*.property");

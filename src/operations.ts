@@ -3,11 +3,11 @@ import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
 import { IQueryableElement, PropertyValue } from "./queryableElement";
 import { FilterActionDict } from "./grammar.ohm-bundle";
-import { FilterSettings } from "./filterSettings";
+import { QuerySettings } from "./querySettings";
 import { getNumberPropertyValue, NumberPropertyValue } from "./numberPropertyValue";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
-export type Filter = (settings: FilterSettings, element: IQueryableElement) => boolean;
+export type Filter = (settings: QuerySettings, element: IQueryableElement) => boolean;
 
 export type ElementFilter = (element: IQueryableElement) => boolean;
 
@@ -18,7 +18,7 @@ export type ElementQuery = {
 }
 
 export type SelectValueQuery = {
-    fun: (settings: FilterSettings, element: IQueryableElement) => number | string | undefined;
+    fun: (settings: QuerySettings, element: IQueryableElement) => number | string | undefined;
     name?: string;
 }
 
@@ -26,7 +26,7 @@ export type AggregatedValueFunctionType = "count" | "sum" | "min" | "max" | "avg
 
 export type AggregatedValueQuery = {
     type: AggregatedValueFunctionType;
-    elemValueFun: (settings: FilterSettings, element: IQueryableElement) => number | string | undefined;
+    elemValueFun: (settings: QuerySettings, element: IQueryableElement) => number | string | undefined;
     name?: string;
 }
 
@@ -68,7 +68,7 @@ const isString = (value: number | string | undefined): value is string => typeof
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
 
 const createComparisonExpression = (
-    numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: FilterSettings) => boolean,
+    numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
     textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
 
     return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
@@ -403,7 +403,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 const createPropertyValueGetterFunction = (node: ohm.NonterminalNode) => {
     const propertyDefinition = convertToPropertiesNode(node) as Property;
 
-    return (settings: FilterSettings, element: IQueryableElement) => {
+    return (settings: QuerySettings, element: IQueryableElement) => {
         if (!compareCategories(element.categoriesList, propertyDefinition.categories))
             return undefined;
 

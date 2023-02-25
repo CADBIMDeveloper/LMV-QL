@@ -1,4 +1,4 @@
-export type FilterSettings = {
+export type QuerySettings = {
     tolerance: number;
     stringCaseSensitive: boolean;
     displayUnits: string;

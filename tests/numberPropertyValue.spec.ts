@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert } from 'chai';
-import { FilterSettings } from '../src/filterSettings';
+import { QuerySettings } from '../src/querySettings';
 import { AttributeDefinition } from '../propertyDatabase';
 import { getNumberPropertyValue } from '../src/numberPropertyValue';
 
@@ -15,7 +15,7 @@ describe("Number conversions tests", () => {
     }
 
     it("must get original property if units are not specified in filter settings", () => {
-        const filterSettings: FilterSettings = {
+        const filterSettings: QuerySettings = {
             displayUnits: "",
             displayUnitsPrecision: "",
             stringCaseSensitive: true,
@@ -28,7 +28,7 @@ describe("Number conversions tests", () => {
     });
 
     it("must convert to display units", () => {
-        const filterSettings: FilterSettings = {
+        const filterSettings: QuerySettings = {
             displayUnits: "ft",
             displayUnitsPrecision: "",
             stringCaseSensitive: true,
@@ -41,7 +41,7 @@ describe("Number conversions tests", () => {
     });
 
     it("must apply display units precision", () => {
-        const filterSettings: FilterSettings = {
+        const filterSettings: QuerySettings = {
             displayUnits: "",
             displayUnitsPrecision: 1,
             stringCaseSensitive: true,

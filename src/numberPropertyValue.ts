@@ -1,5 +1,5 @@
 import { AttributeDefinition } from "../propertyDatabase";
-import { FilterSettings } from "./filterSettings";
+import { QuerySettings } from "./querySettings";
 import { convertUnits, ModelUnits, ModelUnitTypes } from "./units";
 
 export type NumberPropertyValue = {
@@ -7,7 +7,7 @@ export type NumberPropertyValue = {
     attribute?: AttributeDefinition;
 };
 
-export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: FilterSettings) => {
+export const getNumberPropertyValue = (property: NumberPropertyValue, filterSettings: QuerySettings) => {
     const propertyAttribute = property.attribute;
 
     if (!propertyAttribute)
@@ -27,7 +27,7 @@ export const getNumberPropertyValue = (property: NumberPropertyValue, filterSett
     return applyPrecision(convertedValue, filterSettings, propertyAttribute.precision);
 }
 
-const applyPrecision = (value: number, filterSettings: FilterSettings, attrubutePrecision: number): number => {
+const applyPrecision = (value: number, filterSettings: QuerySettings, attrubutePrecision: number): number => {
     // webpack://LMV/src/measurement/UnitFormatter.js formatNumber function uses toFixed(precision)
     // and it has some kind of financial style rounding, e.g
     // 1.675.toFixed(2) === "1.68" but
@@ -38,11 +38,11 @@ const applyPrecision = (value: number, filterSettings: FilterSettings, attrubute
     return new Number(value.toFixed(precision)).valueOf();
 }
 
-const getPrecision = (filterSettings: FilterSettings, attrubutePrecision: number) => {
+const getPrecision = (filterSettings: QuerySettings, attrubutePrecision: number) => {
     return typeof filterSettings.displayUnitsPrecision === "number" ? filterSettings.displayUnitsPrecision : attrubutePrecision;
 }
 
-const propertyMustBeConverted = (property: NumberPropertyValue, filterSettings: FilterSettings) => {
+const propertyMustBeConverted = (property: NumberPropertyValue, filterSettings: QuerySettings) => {
     return !!property.attribute
         && (property.attribute.dataType === 2 || property.attribute.dataType === 3) // int or double
         && !!property.attribute.dataTypeContext

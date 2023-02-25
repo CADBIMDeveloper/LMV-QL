@@ -1,13 +1,13 @@
 import grammar from "./grammar.ohm-bundle";
 import { AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./operations";
-import { FilterSettings } from "./filterSettings";
+import { QuerySettings } from "./querySettings";
 import { ParsingError } from "../parsingError";
 
 export class QueryFactory {
     private readonly semantics = grammar.createSemantics();
-    private readonly settings: FilterSettings;
+    private readonly settings: QuerySettings;
 
-    constructor(settings?: FilterSettings) {
+    constructor(settings?: QuerySettings) {
         this.settings = settings || { tolerance: 1e-5, stringCaseSensitive: true, displayUnits: "", displayUnitsPrecision: "" };
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
         this.semantics.addOperation<Filter>("compileFilter", compileFilter);
