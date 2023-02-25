@@ -53,7 +53,7 @@ export type SimpleNumberValue = {
 
 export type ArrayValue = {
     type: "array",
-    value: "string";
+    value: (string | number)[];
 }
 
 export type PropertyDefinition = Category | Property | SimpleValue | SimpleNumberValue | ArrayValue;
@@ -67,14 +67,12 @@ const isString = (value: number | string | undefined): value is string => typeof
 
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
 
-const createComparisonExpression = (
+type DefinedComparisonExpression = (propertyDefinition: Property, valueDefinition: (SimpleValue | SimpleNumberValue)) => Filter;
+
+const createDefinedComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
-    textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
-
-    return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
-        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
-        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
-
+    textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): DefinedComparisonExpression => {
+    return (propertyDefinition: Property, valueDefinition: (SimpleValue | SimpleNumberValue)) => {
         if (isNumberValueDefinition(valueDefinition))
             return (filterSettings, element) => {
                 if (!compareCategories(element.categoriesList, propertyDefinition.categories))
@@ -103,6 +101,20 @@ const createComparisonExpression = (
                 .map(x => filterSettings.stringCaseSensitive ? x : x.toLocaleLowerCase())
                 .reduce((acc, elem) => acc || textComparisonRule(elem, constraintTestValue), false);
         };
+    }
+}
+
+const createComparisonExpression = (
+    numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
+    textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
+
+    const definedComparisonExpression = createDefinedComparisonExpression(numberComparisonRule, textComparisonRule);
+
+    return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+
+        return definedComparisonExpression(propertyDefinition, valueDefinition);
     }
 }
 
@@ -152,6 +164,27 @@ export const compileFilter: FilterActionDict<Filter> = {
     },
 
     NotExpr: (_1, _2, filterExpr, _3) => (filterSettings, element) => !filterExpr.compileFilter()(filterSettings, element),
+
+    InExpr: (propertyNode: ohm.NonterminalNode, _1, _2, constantsListNode, _3) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+
+        const valuesDefinition: ArrayValue = constantsListNode.getPropertyDefinition();
+
+        const valueComparionExpression = createDefinedComparisonExpression(
+            (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
+            (elementPropertyValue, constraint) => elementPropertyValue === constraint);
+
+        const filters = valuesDefinition
+            .value
+            .map(x => {
+                return typeof (x) === "number"
+                    ? { type: "number", value: x } satisfies SimpleNumberValue
+                    : { type: "simple", value: x } satisfies SimpleValue
+            })
+        .map(x => valueComparionExpression(propertyDefinition, x));
+
+        return (filterSettings, element) => filters.reduce((acc, elem) => acc || elem(filterSettings, element), false);
+    },
 
     StartsWithExpr: createComparisonExpression(
         (_elementPropertyValue, _constraint, _filterSettings) => false,
@@ -316,6 +349,16 @@ const createSimpleValue = (valueNode: ohm.NonterminalNode, transform?: (sourceSt
 }
 
 export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
+    ConstantsListExpr: (firstConstNode, _, sequence) => {
+        const firstValue: number | string = firstConstNode.getPropertyDefinition().value;
+
+        const value: (number | string)[] = sequence.children.map(x => x.getPropertyDefinition().value);
+
+        value.push(firstValue);
+
+        return { type: "array", value };
+    },
+
     exactElement_ofCategory: (parentNode, _) => {
         const category: SimpleValue = parentNode.getPropertyDefinition();
 

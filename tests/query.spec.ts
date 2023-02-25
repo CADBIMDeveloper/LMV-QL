@@ -249,6 +249,19 @@ describe("Filter tests", () => {
         assert.isFalse(filterFactory.createQuery("not(Category.property > 1 and Category.property < 6)").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
     });
 
+    it("must support IN operator", () => {
+        const filter = filterFactory.createQuery("Category.property in [5.7, 1.3, 3.9]").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
+
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])))
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])))
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])))
+        assert.isTrue(filterFactory.createQuery("Category.property in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])))
+    });
+
     it("must filter with top wildcard", () => {
         const filter = filterFactory.createQuery("*.property = 5.7").filter;
 
