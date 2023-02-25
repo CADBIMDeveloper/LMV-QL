@@ -30,7 +30,7 @@ Filter {
         | NotExpr
 
     ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr 
-        | StartsWithExpr | EndsWithExpr | InExpr | exactElement
+        | StartsWithExpr | EndsWithExpr | InExpr | NotInExpr | exactElement
 
     NotExpr = notOperation "(" FilterExpr ")"
 
@@ -51,6 +51,8 @@ Filter {
     EndsWithExpr = propertySequence likeWord endsWithConst
 
     InExpr = propertySequence inWord "[" ConstantsListExpr "]"
+
+    NotInExpr = propertySequence notWord inWord "[" ConstantsListExpr "]"
 
     AggregatedSelectionWithGroups = AggregatedSelectionClause groupedBy PropertiesSelectExpr
 

@@ -153,6 +153,14 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("cat.prop in [\"test\", \"other test\", 5, 7]");
     });
 
+    it ("must support NOT IN expression", () => {
+        assertIsValidFilterString("cat.prop not in [1]");
+        assertIsValidFilterString("cat.prop not in [1, 2, 5, 7]");
+        assertIsValidFilterString("cat.prop not in [\"test\"]");
+        assertIsValidFilterString("cat.prop not in [\"test\", \"other test\"]");
+        assertIsValidFilterString("cat.prop not in [\"test\", \"other test\", 5, 7]");
+    });
+
     it("must support property expressions", () => {
         assertIsValidFilterString("*.property");
     });
