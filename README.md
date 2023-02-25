@@ -177,7 +177,20 @@ If you want to include `%` sign into `like` expression you also need to escape i
 `category.element.property like "%some \% of something"`
 
 #### IN / NOT IN
-Currently not supported. Upcoming...
+LMV-QL can check if the model element property is in some list of string or numerical values.
+
+Example:
+```
+*.Mark in ["204", "207"]
+```
+
+LMV-QL also allows to check if the model element proerty is not in the list.
+
+Example:
+```
+Doors! && *.Mark not in ["204", "207"]
+```
+> This query selects all doors, , excluding those which Mark property is equal to `204` or `207`
 
 ### Logical filters
 
