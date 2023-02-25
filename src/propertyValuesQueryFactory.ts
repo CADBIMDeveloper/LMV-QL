@@ -7,8 +7,21 @@ export class PropertyValuesQueryFactory {
 
     constructor(private readonly propertyDatabase: PropertyDatabase,
         readonly attributes: PropertyDatabaseAttributesCollection,
-        private readonly rootNodes: number[], private readonly modelBrowserExcludeRoot: boolean = true) {
+        private readonly rootNodes: number[], private readonly modelBrowserExcludeRoot: boolean = true, modelName = "Model") {
 
+        if (!modelBrowserExcludeRoot) {
+            for (const rootNode of rootNodes) {
+                const propertyValue: PropertyValue = {
+                    value: modelName,
+                    attribute: attributes.findAttribute(attributes.nameAttributeId)
+                }
+
+                const rootAttributes = new Map<number, PropertyValue>();
+                rootAttributes.set(attributes.nameAttributeId, propertyValue);
+
+                this.propertiesValuesCache.set(rootNode, rootAttributes);
+            }
+        }
     }
 
     getNodePropertyValue(dbId: number, attributeId: number): PropertyValue {

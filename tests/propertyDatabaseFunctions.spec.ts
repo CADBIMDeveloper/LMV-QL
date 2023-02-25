@@ -15,7 +15,8 @@ describe('Query functions tests', () => {
         displayUnits: "",
         displayUnitsPrecision: "",
         dbIds: [],
-        modelBrowserExcludeRoot: true
+        modelBrowserExcludeRoot: true,
+        modelName: "root"
     }
 
     const allElementsSetttings: Settings = {
@@ -26,7 +27,8 @@ describe('Query functions tests', () => {
         displayUnits: "",
         displayUnitsPrecision: "",
         dbIds: [],
-        modelBrowserExcludeRoot: true
+        modelBrowserExcludeRoot: true,
+        modelName: "root"
     }
 
     it("must query leaf elements", () => {
@@ -195,10 +197,10 @@ describe('Query functions tests', () => {
     });
 
     it("filter must contain root category if modelBrowserExcludeRoot is equal to false", () => {
-        const lmvQueryOptions: Settings = { ...leafNodesOnlySettings, modelBrowserExcludeRoot: false };
+        const lmvQueryOptions: Settings = { ...leafNodesOnlySettings, modelBrowserExcludeRoot: false, modelName: "file.rvt" };
 
         const results = filterElements(pdb, {
-            lmvQuery: "root.Category!",
+            lmvQuery: "[file.rvt].Category!",
             lmvQueryOptions,
             nodes: [1, 2, 3, 4]
         });

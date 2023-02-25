@@ -21,7 +21,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
 
         const roots = findRootNodes(pdb, attributesCollection);
 
-        const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, roots, lmvQueryOptions.modelBrowserExcludeRoot);
+        const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, roots, lmvQueryOptions.modelBrowserExcludeRoot, lmvQueryOptions.modelName);
 
         const propertiesExtractor = createPropertiesExtractor(elementQuery, lmvQueryOptions);
 

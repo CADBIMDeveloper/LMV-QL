@@ -48,7 +48,8 @@ const createFilterSettings = (options?: Partial<Settings>): Settings => {
     displayUnits: "",
     displayUnitsPrecision: "",
     dbIds: [],
-    modelBrowserExcludeRoot: true
+    modelBrowserExcludeRoot: true,
+    modelName: "Model"
   }
 
   if (!options)
@@ -62,6 +63,7 @@ const createFilterSettings = (options?: Partial<Settings>): Settings => {
     displayUnits: options.displayUnits !== undefined ? options.displayUnits : defaultSettings.displayUnits,
     displayUnitsPrecision: options.displayUnitsPrecision !== undefined ? options.displayUnitsPrecision : defaultSettings.displayUnitsPrecision,
     dbIds: options.dbIds !== undefined ? options.dbIds : defaultSettings.dbIds,
-    modelBrowserExcludeRoot: options.modelBrowserExcludeRoot !== undefined ? options.modelBrowserExcludeRoot : defaultSettings.modelBrowserExcludeRoot
+    modelBrowserExcludeRoot: options.modelBrowserExcludeRoot !== undefined ? options.modelBrowserExcludeRoot : defaultSettings.modelBrowserExcludeRoot,
+    modelName: options.modelName !== undefined ? options.modelName : defaultSettings.modelName
   }
 }
