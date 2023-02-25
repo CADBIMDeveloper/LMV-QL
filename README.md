@@ -304,6 +304,8 @@ Queries settings are defined by:
   displayUnits: string;
   displayUnitsPrecision: number | string;
   dbIds: number[];
+  modelBrowserExcludeRoot: boolean;
+  modelName: string;
 }
 ```
 
@@ -319,3 +321,7 @@ Autodesk.Viewing.Private.displayUnitsEnum
 Autodesk.Viewing.Private.displayUnitsPrecisionEnum
 ```
 - `dbIds` forces LMV-QL to perform query only on the ids were provided by user. Default value is `[]` - perform the query on the entire model
+
+- `modelBrowserExcludeRoot`. Default value is `true`. Set `false` to force users to add model name to queries. Value can be taken from `viewer.config.modelBrowserExcludeRoot`. See also [Root object not visible in Model browser](https://aps.autodesk.com/blog/root-object-not-visible-model-browser) 
+
+- `modelName`. Taken into account only if `modelBrowserExcludeRoot` is `false`. The value could be taken from `model.getDocumentNode().getModelName()` or, probably model config.
