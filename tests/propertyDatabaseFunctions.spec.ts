@@ -14,7 +14,8 @@ describe('Query functions tests', () => {
         tolerance: 1e-5,
         displayUnits: "",
         displayUnitsPrecision: "",
-        dbIds: []
+        dbIds: [],
+        modelBrowserExcludeRoot: true
     }
 
     const allElementsSetttings: Settings = {
@@ -24,7 +25,8 @@ describe('Query functions tests', () => {
         tolerance: 1e-5,
         displayUnits: "",
         displayUnitsPrecision: "",
-        dbIds: []
+        dbIds: [],
+        modelBrowserExcludeRoot: true
     }
 
     it("must query leaf elements", () => {

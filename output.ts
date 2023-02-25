@@ -8,6 +8,7 @@ export type Settings = {
     displayUnits: string;
     displayUnitsPrecision: number | string;
     dbIds: number[];
+    modelBrowserExcludeRoot: boolean;
 }
 
 export type ComputeSettings = {
