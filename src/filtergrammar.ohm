@@ -29,7 +29,8 @@ Filter {
         | ComparisonExp
         | NotExpr
 
-    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr | StartsWithExpr | EndsWithExpr | exactElement
+    ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr 
+        | StartsWithExpr | EndsWithExpr | InExpr | exactElement
 
     NotExpr = notOperation "(" FilterExpr ")"
 
@@ -48,6 +49,8 @@ Filter {
     StartsWithExpr = propertySequence likeWord startsWithConst
 
     EndsWithExpr = propertySequence likeWord endsWithConst
+
+    InExpr = propertySequence inWord "[" ConstantsListExpr "]"
 
     AggregatedSelectionWithGroups = AggregatedSelectionClause groupedBy PropertiesSelectExpr
 
@@ -74,6 +77,8 @@ Filter {
     PropertiesSelectExpr = PropertiesExpr | PropertyIdentifierExpr
 
     PropertiesExpr = PropertyIdentifierExpr ("," PropertyIdentifierExpr)*
+
+    ConstantsListExpr = expressionConst ("," expressionConst)*
 
     PropertyIdentifierExpr
         = NamedPropertyExpr
@@ -136,6 +141,8 @@ Filter {
     notOperation = notWord | "!"
 
     notWord = caseInsensitive<"not">
+
+    inWord = caseInsensitive<"in">
     
     anyProperty = "*"
     

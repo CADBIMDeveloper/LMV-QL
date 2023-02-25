@@ -33,6 +33,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   StartsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   EndsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  InExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: TerminalNode) => T;
   AggregatedSelectionWithGroups?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   AggregatedSelectionClause?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   AggregatedFuncsExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
@@ -46,6 +47,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   AggregatedAvgExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode, arg3: TerminalNode) => T;
   PropertiesSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   PropertiesExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
+  ConstantsListExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: IterationNode, arg2: IterationNode) => T;
   PropertyIdentifierExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   NamedPropertyExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   propertyNameIdentifier?: (this: NonterminalNode, arg0: IterationNode) => T;
@@ -83,6 +85,7 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   likeWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   notOperation?: (this: NonterminalNode, arg0: NonterminalNode | TerminalNode) => T;
   notWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  inWord?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   anyProperty?: (this: NonterminalNode, arg0: TerminalNode) => T;
   identificator?: (this: NonterminalNode, arg0: IterationNode) => T;
   expressionConst?: (this: NonterminalNode, arg0: NonterminalNode) => T;

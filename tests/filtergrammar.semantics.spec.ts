@@ -145,6 +145,14 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("not(cat.prop = 5.7 or cat.prop2 = 1.3)");
     });
 
+    it("must support IN expression", () => {
+        assertIsValidFilterString("cat.prop in [1]");
+        assertIsValidFilterString("cat.prop in [1, 2, 5, 7]");
+        assertIsValidFilterString("cat.prop in [\"test\"]");
+        assertIsValidFilterString("cat.prop in [\"test\", \"other test\"]");
+        assertIsValidFilterString("cat.prop in [\"test\", \"other test\", 5, 7]");
+    });
+
     it("must support property expressions", () => {
         assertIsValidFilterString("*.property");
     });
