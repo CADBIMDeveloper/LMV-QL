@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert } from 'chai';
-import grammar from "../src/filtergrammar.ohm-bundle";
+import grammar from "../src/grammar.ohm-bundle";
 
 describe("Filter grammar semantics tests", () => {
     const assertIsValidFilterString = (filterString: string) => assert.isTrue(grammar.match(filterString).succeeded());

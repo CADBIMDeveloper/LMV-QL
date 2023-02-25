@@ -1,7 +1,7 @@
 import 'mocha';
 import { assert } from 'chai';
-import grammar from "../src/filtergrammar.ohm-bundle";
-import { PropertyDefinition, getPropertyDefinition, Category, SimpleNumberValue, SimpleValue } from '../src/filterOperations';
+import grammar from "../src/grammar.ohm-bundle";
+import { PropertyDefinition, getPropertyDefinition, Category, SimpleNumberValue, SimpleValue } from '../src/operations';
 
 describe("Filter properties definitions", () => {
     const semantics = grammar.createSemantics();

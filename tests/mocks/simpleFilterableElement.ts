@@ -1,10 +1,10 @@
-import { IFilterableElement, PropertyValue } from "../../src/filterableElement";
+import { IQueryableElement, PropertyValue } from "../../src/queryableElement";
 
 type Props = {
     [key: string]: number | string;
 }
 
-export class SimpleFilterableElement implements IFilterableElement {
+export class SimpleFilterableElement implements IQueryableElement {
     constructor(private readonly values: Props, public readonly categoriesList: string[]) {
 
     }

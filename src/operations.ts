@@ -1,15 +1,15 @@
 import * as ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
-import { IFilterableElement, PropertyValue } from "./filterableElement";
-import { FilterActionDict } from "./filtergrammar.ohm-bundle";
+import { IQueryableElement, PropertyValue } from "./queryableElement";
+import { FilterActionDict } from "./grammar.ohm-bundle";
 import { FilterSettings } from "./filterSettings";
 import { getNumberPropertyValue, NumberPropertyValue } from "./numberPropertyValue";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
-export type Filter = (settings: FilterSettings, element: IFilterableElement) => boolean;
+export type Filter = (settings: FilterSettings, element: IQueryableElement) => boolean;
 
-export type ElementFilter = (element: IFilterableElement) => boolean;
+export type ElementFilter = (element: IQueryableElement) => boolean;
 
 export type ElementQuery = {
     filter: ElementFilter;
@@ -18,7 +18,7 @@ export type ElementQuery = {
 }
 
 export type SelectValueQuery = {
-    fun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
+    fun: (settings: FilterSettings, element: IQueryableElement) => number | string | undefined;
     name?: string;
 }
 
@@ -26,7 +26,7 @@ export type AggregatedValueFunctionType = "count" | "sum" | "min" | "max" | "avg
 
 export type AggregatedValueQuery = {
     type: AggregatedValueFunctionType;
-    elemValueFun: (settings: FilterSettings, element: IFilterableElement) => number | string | undefined;
+    elemValueFun: (settings: FilterSettings, element: IQueryableElement) => number | string | undefined;
     name?: string;
 }
 
@@ -403,7 +403,7 @@ export const getPropertyDefinition: FilterActionDict<PropertyDefinition> = {
 const createPropertyValueGetterFunction = (node: ohm.NonterminalNode) => {
     const propertyDefinition = convertToPropertiesNode(node) as Property;
 
-    return (settings: FilterSettings, element: IFilterableElement) => {
+    return (settings: FilterSettings, element: IQueryableElement) => {
         if (!compareCategories(element.categoriesList, propertyDefinition.categories))
             return undefined;
 

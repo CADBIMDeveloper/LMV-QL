@@ -1,6 +1,6 @@
 import 'mocha';
 import { assert, expect } from 'chai';
-import { PropertyDatabaseFilterableElement } from '../src/propertyDatabaseFilterableElement';
+import { PropertyDatabaseQueryableElement } from '../src/propertyDatabaseQueryableElement';
 import { PropertyDatabaseAttributesCollection } from '../src/propertyDatabaseAttributesCollection';
 import { pdb } from './mocks/propertyDatabaseMock';
 import { doubleRootPdb } from './mocks/doubleRootPropertyDatabaseMock';
@@ -15,25 +15,25 @@ describe("Property database filterable element tests", () => {
     const propertyValuesQueryFactory = new PropertyValuesQueryFactory(pdb, attributesCollection, rootNodes);
 
     it("must get element categories", () => {
-        const element = new PropertyDatabaseFilterableElement(4, propertyValuesQueryFactory);
+        const element = new PropertyDatabaseQueryableElement(4, propertyValuesQueryFactory);
 
         expect(element.categoriesList).to.eql(["Category", "SubCategory", "Element"]);
 
-        const type = new PropertyDatabaseFilterableElement(3, propertyValuesQueryFactory);
+        const type = new PropertyDatabaseQueryableElement(3, propertyValuesQueryFactory);
 
         expect(type.categoriesList).to.eql(["Category", "SubCategory"]);
 
-        const cat = new PropertyDatabaseFilterableElement(2, propertyValuesQueryFactory);
+        const cat = new PropertyDatabaseQueryableElement(2, propertyValuesQueryFactory);
 
         expect(cat.categoriesList).to.eql(["Category"]);
 
-        const root = new PropertyDatabaseFilterableElement(1, propertyValuesQueryFactory);
+        const root = new PropertyDatabaseQueryableElement(1, propertyValuesQueryFactory);
 
         expect(root.categoriesList).to.eql([]);
     });
 
     it("must get property values", () => {
-        const element = new PropertyDatabaseFilterableElement(4, propertyValuesQueryFactory);
+        const element = new PropertyDatabaseQueryableElement(4, propertyValuesQueryFactory);
 
         const elementPropertyValue = element.getPropertyValue("element property", ["Category", "SubCategory", "Element"]).value;
 
@@ -45,7 +45,7 @@ describe("Property database filterable element tests", () => {
     });
 
     it("must get instances property values", () => {
-        const element = new PropertyDatabaseFilterableElement(4, propertyValuesQueryFactory);
+        const element = new PropertyDatabaseQueryableElement(4, propertyValuesQueryFactory);
 
         const elementPropertyValue = element.getPropertyValue("instance property", ["Category", "SubCategory", "Element"]).value;
 
@@ -53,7 +53,7 @@ describe("Property database filterable element tests", () => {
     });
 
     it("must get internal ref property value", () => {
-        const element = new PropertyDatabaseFilterableElement(4, propertyValuesQueryFactory);
+        const element = new PropertyDatabaseQueryableElement(4, propertyValuesQueryFactory);
 
         const levelPropertyValue = element.getPropertyValue("Level", ["Category", "SubCategory", "Element"]).value;
 
@@ -67,7 +67,7 @@ describe("Property database filterable element tests", () => {
 
         const doubleRootedPropertyValuesQueryFactory = new PropertyValuesQueryFactory(doubleRootPdb, doubleRootedModelAttributeCollection, roots);
 
-        const element = new PropertyDatabaseFilterableElement(3, doubleRootedPropertyValuesQueryFactory);
+        const element = new PropertyDatabaseQueryableElement(3, doubleRootedPropertyValuesQueryFactory);
 
         const propertyValue = element.getPropertyValue("element property", ["Element"]).value;
 

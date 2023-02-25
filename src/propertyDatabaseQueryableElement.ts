@@ -1,7 +1,7 @@
-import { IFilterableElement, PropertyValue } from "./filterableElement";
+import { IQueryableElement, PropertyValue } from "./queryableElement";
 import { PropertyValuesQueryFactory } from "./propertyValuesQueryFactory";
 
-export class PropertyDatabaseFilterableElement implements IFilterableElement {
+export class PropertyDatabaseQueryableElement implements IQueryableElement {
     private readonly categoryNodesDbIds: number[];
 
     constructor(dbId: number, private readonly propertyValuesQueryFactory: PropertyValuesQueryFactory) {

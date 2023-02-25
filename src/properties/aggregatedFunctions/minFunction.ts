@@ -1,6 +1,6 @@
 import { Settings } from "../../../output";
-import { IFilterableElement } from "../../filterableElement";
-import { AggregatedValueQuery } from "../../filterOperations";
+import { IQueryableElement } from "../../queryableElement";
+import { AggregatedValueQuery } from "../../operations";
 import { IAggregatedFunction } from "./aggregatedFunctionsFactory";
 
 export class MinFunction implements IAggregatedFunction {
@@ -16,7 +16,7 @@ export class MinFunction implements IAggregatedFunction {
         return this.aggregatedValueQuery.name;
     }
 
-    push(dbId: number, element: IFilterableElement): void {
+    push(dbId: number, element: IQueryableElement): void {
         const value = this.aggregatedValueQuery.elemValueFun(this.settings, element);
 
         if (typeof value !== "number")

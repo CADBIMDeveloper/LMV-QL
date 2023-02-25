@@ -1,5 +1,5 @@
-import grammar from "./filtergrammar.ohm-bundle";
-import { AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./filterOperations";
+import grammar from "./grammar.ohm-bundle";
+import { AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./operations";
 import { FilterSettings } from "./filterSettings";
 import { ParsingError } from "../parsingError";
 

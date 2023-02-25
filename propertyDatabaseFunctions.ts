@@ -2,7 +2,7 @@ import { UserQueryOptions } from "./output";
 import { QueryFactory } from "./src/queryFactory";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
-import { PropertyDatabaseFilterableElement } from "./src/propertyDatabaseFilterableElement";
+import { PropertyDatabaseQueryableElement } from "./src/propertyDatabaseQueryableElement";
 import { findRootNodes } from "./src/rootsNodesFactory";
 import { PropertyValuesQueryFactory } from "./src/propertyValuesQueryFactory";
 import { createPropertiesExtractor } from "./src/properties/queryPropertiesExtractorsFactory";
@@ -29,7 +29,7 @@ export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => 
             if (lmvQueryOptions.leafNodesOnly && pdb.getNodeNameAndChildren({ dbId }) !== undefined)
                 continue;
 
-            const element = new PropertyDatabaseFilterableElement(dbId, propertyValuesQueryFactory);
+            const element = new PropertyDatabaseQueryableElement(dbId, propertyValuesQueryFactory);
 
             if (elementQuery.filter(element)) {
                 dbIds.push(dbId);

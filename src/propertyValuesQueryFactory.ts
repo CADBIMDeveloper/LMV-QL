@@ -1,5 +1,5 @@
 import { PropertyDatabase } from "../propertyDatabase";
-import { PropertyValue } from "./filterableElement";
+import { PropertyValue } from "./queryableElement";
 import { PropertyDatabaseAttributesCollection } from "./propertyDatabaseAttributesCollection";
 
 export class PropertyValuesQueryFactory {

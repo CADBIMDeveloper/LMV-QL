@@ -1,6 +1,6 @@
 import { Settings } from "../../output";
-import { IFilterableElement } from "../filterableElement";
-import { SelectValueQuery } from "../filterOperations";
+import { IQueryableElement } from "../queryableElement";
+import { SelectValueQuery } from "../operations";
 import { IQueryPropertiesExtractor, QuryResultRow } from "./queryPropertiesExtractorsFactory";
 
 export class QueryPropertiesExtractor implements IQueryPropertiesExtractor {
@@ -11,7 +11,7 @@ export class QueryPropertiesExtractor implements IQueryPropertiesExtractor {
         this.properties = properties.map((x, i) => { return { ...x, name: x.name || `$col_${i + 1}` }; })
     }
 
-    push(dbId: number, element: IFilterableElement): void {
+    push(dbId: number, element: IQueryableElement): void {
         const rowValue: QuryResultRow = {
             dbIds: [dbId],
             values: {}

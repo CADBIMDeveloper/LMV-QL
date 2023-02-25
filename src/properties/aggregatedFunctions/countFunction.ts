@@ -1,4 +1,4 @@
-import { IFilterableElement } from "../../filterableElement";
+import { IQueryableElement } from "../../queryableElement";
 import { IAggregatedFunction } from "./aggregatedFunctionsFactory";
 
 export class CountFunction implements IAggregatedFunction {
@@ -10,7 +10,7 @@ export class CountFunction implements IAggregatedFunction {
 
     public dbIds: number[] = [];
     
-    push(dbId: number, _element: IFilterableElement): void {
+    push(dbId: number, _element: IQueryableElement): void {
         this.dbIds.push(dbId);
 
         ++this.totalCount;

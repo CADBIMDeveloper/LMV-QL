@@ -5,7 +5,7 @@ export type PropertyValue = {
     attribute?: AttributeDefinition;
 }
 
-export interface IFilterableElement {
+export interface IQueryableElement {
     get categoriesList(): string[];
     
     getPropertyValue(propertyName: string, categories: string[]): PropertyValue;

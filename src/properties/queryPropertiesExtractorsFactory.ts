@@ -1,11 +1,11 @@
 import { Settings } from "../../output";
-import { IFilterableElement } from "../filterableElement";
-import { ElementQuery } from "../filterOperations";
+import { IQueryableElement } from "../queryableElement";
+import { ElementQuery } from "../operations";
 import { AggregatedQueryPropertiesExtractor } from "./aggregatedQueryPropertiesExtractor";
 import { QueryPropertiesExtractor } from "./queryPropertiesExtractor";
 
 export interface IQueryPropertiesExtractor {
-    push(dbId: number, element: IFilterableElement): void;
+    push(dbId: number, element: IQueryableElement): void;
 
     compile(): QuryResultRow[];
 

@@ -1,4 +1,4 @@
-import { IFilterableElement, PropertyValue } from "../../src/filterableElement";
+import { IQueryableElement, PropertyValue } from "../../src/queryableElement";
 
 type Props = {
     [key: string]: number | string;
@@ -9,7 +9,7 @@ type Category = {
     props: Props;
 }
 
-export class ComplexFilterableElements implements IFilterableElement {
+export class ComplexFilterableElements implements IQueryableElement {
     private readonly categories: Category[];
     private readonly categoryNames: string[];
 

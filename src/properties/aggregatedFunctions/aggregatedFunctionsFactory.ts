@@ -1,6 +1,6 @@
 import { Settings } from "../../../output";
-import { IFilterableElement } from "../../filterableElement";
-import { AggregatedValueQuery } from "../../filterOperations";
+import { IQueryableElement } from "../../queryableElement";
+import { AggregatedValueQuery } from "../../operations";
 import { AvgFunction } from "./avgFunction";
 import { CountFunction } from "./countFunction";
 import { MaxFunction } from "./maxFunction";
@@ -12,7 +12,7 @@ export interface IAggregatedFunction {
 
     get dbIds(): number[];
 
-    push(dbId: number, element: IFilterableElement): void
+    push(dbId: number, element: IQueryableElement): void
 
     compile(): number;
 }

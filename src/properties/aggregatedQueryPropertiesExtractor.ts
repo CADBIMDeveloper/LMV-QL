@@ -1,6 +1,6 @@
 import { Settings } from "../../output";
-import { IFilterableElement } from "../filterableElement";
-import { AggregatedValueQuery, SelectValueQuery } from "../filterOperations";
+import { IQueryableElement } from "../queryableElement";
+import { AggregatedValueQuery, SelectValueQuery } from "../operations";
 import { createAggregatedFunction, IAggregatedFunction } from "./aggregatedFunctions/aggregatedFunctionsFactory";
 import { IQueryPropertiesExtractor, QuryResultRow } from "./queryPropertiesExtractorsFactory";
 
@@ -15,7 +15,7 @@ export class AggregatedQueryPropertiesExtractor implements IQueryPropertiesExtra
         this.aggregatedProperties = aggregatedProperties.map((x, i) => { return { ...x, name: x.name || `$col_${i + 1}` }; });
     }
 
-    push(dbId: number, element: IFilterableElement): void {
+    push(dbId: number, element: IQueryableElement): void {
         const key = this.getGroupKey(element);
 
         let elementGroup: AggregateGroup;
@@ -70,7 +70,7 @@ export class AggregatedQueryPropertiesExtractor implements IQueryPropertiesExtra
         return columns;
     }
 
-    private getGroupKey(element: IFilterableElement) {
+    private getGroupKey(element: IQueryableElement) {
         return this.groupProperties
             .map(x => `name=${x.name},value=${x.fun(this.settings, element)}`)
             .join("#")
