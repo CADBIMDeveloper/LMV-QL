@@ -193,4 +193,26 @@ describe('Query functions tests', () => {
         assert.equal(results.rows[1].values.avg, 50.8);
         assert.equal(results.rows[1].values.cnt, 1);
     });
+
+    it("filter must contain root category if modelBrowserExcludeRoot is equal to false", () => {
+        const lmvQueryOptions: Settings = { ...leafNodesOnlySettings, modelBrowserExcludeRoot: false };
+
+        const results = filterElements(pdb, {
+            lmvQuery: "root.Category!",
+            lmvQueryOptions,
+            nodes: [1, 2, 3, 4]
+        });
+
+        assert.isNull(results.error);
+        expect(results.dbIds).to.eql([4]);
+
+        const emptyResults = filterElements(pdb, {
+            lmvQuery: "Category!",
+            lmvQueryOptions,
+            nodes: [1, 2, 3, 4]
+        });
+
+        assert.isNull(emptyResults.error);
+        assert.equal(emptyResults.dbIds.length, 0);
+    });
 });

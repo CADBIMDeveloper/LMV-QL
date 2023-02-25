@@ -7,7 +7,7 @@ export class PropertyValuesQueryFactory {
 
     constructor(private readonly propertyDatabase: PropertyDatabase,
         readonly attributes: PropertyDatabaseAttributesCollection,
-        private readonly rootNodes: number[]) {
+        private readonly rootNodes: number[], private readonly modelBrowserExcludeRoot: boolean = true) {
 
     }
 
@@ -78,6 +78,9 @@ export class PropertyValuesQueryFactory {
 
             currentNodeDbId = parentDbId;
         }
+
+        if (!this.modelBrowserExcludeRoot)
+            categories.splice(categories.length, 0, ...this.rootNodes);
 
         return categories.reverse();
     }
