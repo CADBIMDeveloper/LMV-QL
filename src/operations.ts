@@ -165,7 +165,7 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     NotExpr: (_1, _2, filterExpr, _3) => (filterSettings, element) => !filterExpr.compileFilter()(filterSettings, element),
 
-    InExpr: (propertyNode: ohm.NonterminalNode, _1, _2, constantsListNode, _3) => {
+    InExpr: (propertyNode, _1, _2, constantsListNode, _3) => {
         const propertyDefinition: Property = propertyNode.getPropertyDefinition();
 
         const valuesDefinition: ArrayValue = constantsListNode.getPropertyDefinition();
@@ -184,6 +184,27 @@ export const compileFilter: FilterActionDict<Filter> = {
         .map(x => valueComparionExpression(propertyDefinition, x));
 
         return (filterSettings, element) => filters.reduce((acc, elem) => acc || elem(filterSettings, element), false);
+    },
+
+    NotInExpr: (propertyNode, _1, _2, _3, constantsListNode, _4) => {
+        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
+
+        const valuesDefinition: ArrayValue = constantsListNode.getPropertyDefinition();
+
+        const valueComparionExpression = createDefinedComparisonExpression(
+            (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
+            (elementPropertyValue, constraint) => elementPropertyValue === constraint);
+
+        const filters = valuesDefinition
+            .value
+            .map(x => {
+                return typeof (x) === "number"
+                    ? { type: "number", value: x } satisfies SimpleNumberValue
+                    : { type: "simple", value: x } satisfies SimpleValue
+            })
+        .map(x => valueComparionExpression(propertyDefinition, x));
+
+        return (filterSettings, element) => filters.reduce((acc, elem) => acc && !elem(filterSettings, element), true);
     },
 
     StartsWithExpr: createComparisonExpression(

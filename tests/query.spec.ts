@@ -256,11 +256,27 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
 
-        assert.isTrue(filterFactory.createQuery("Category.property in [5.7]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])))
-        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])))
-        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])))
-        assert.isTrue(filterFactory.createQuery("Category.property in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])))
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
     });
+
+    it("must support NOT IN operator", () => {
+        const filter = filterFactory.createQuery("Category.property not in [5.7, 1.3, 3.9]").filter;
+
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 0 }, ["Category"])));
+
+        assert.isFalse(filterFactory.createQuery("Category.property not in [5.7]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property not in [5.7]").filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "abc"}, ["Category"])));
+    })
 
     it("must filter with top wildcard", () => {
         const filter = filterFactory.createQuery("*.property = 5.7").filter;
