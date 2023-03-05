@@ -72,6 +72,8 @@ type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalN
 
 type DefinedComparisonExpression = (propertyDefinition: Property, valueDefinition: (SimpleValue | SimpleNumberValue)) => Filter;
 
+type PropertiesComparisonExpression = (firstPropertyDefinition: Property, secondPropertyDefinition: Property) => Filter;
+
 const createDefinedComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
     textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): DefinedComparisonExpression => {
@@ -107,20 +109,37 @@ const createDefinedComparisonExpression = (
     }
 }
 
+const createPropertiesComparisonExpression = (
+    numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
+    textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): PropertiesComparisonExpression => {
+    return (firstPropertyDefinition, secondPropertyDefinition) => {
+        throw new Error("Property to property comparison feature is under development");
+    }
+}
+
 const createComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
     textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): ComparisonExpression => {
-
-    const definedComparisonExpression = createDefinedComparisonExpression(numberComparisonRule, textComparisonRule);
 
     return (leftNode: ohm.NonterminalNode, _: ohm.TerminalNode, rightNode: ohm.NonterminalNode) => {
         const leftNodeDefinion = leftNode.getPropertyDefinition();
         const rightNodeDefinition = rightNode.getPropertyDefinition();
 
-        const propertyDefinition: Property = isPropertyValueDefinition(leftNodeDefinion) ? leftNodeDefinion : rightNodeDefinition;
-        const valueDefinition: (SimpleValue | SimpleNumberValue) = isValueDefinition(rightNodeDefinition) ? rightNodeDefinition : leftNodeDefinion;
+        // at least one of nodes is a property definition according to OHM grammar
+        const propertyDefinition = [leftNodeDefinion, rightNodeDefinition].find(x => isPropertyValueDefinition(x)) as Property;
+        const valueDefinition = [leftNodeDefinion, rightNodeDefinition].find(x => isValueDefinition(x)) as SimpleValue | SimpleNumberValue | undefined;
 
-        return definedComparisonExpression(propertyDefinition, valueDefinition);
+        if (valueDefinition !== undefined) {
+            const definedComparisonExpression = createDefinedComparisonExpression(numberComparisonRule, textComparisonRule);
+
+            return definedComparisonExpression(propertyDefinition, valueDefinition);
+        }
+
+        const otherPropertyDefinion: Property = propertyDefinition === leftNodeDefinion ? rightNodeDefinition : leftNodeDefinion;
+
+        const propertiesComparisonExpression = createPropertiesComparisonExpression(numberComparisonRule, textComparisonRule);
+
+        return propertiesComparisonExpression(propertyDefinition, otherPropertyDefinion);
     }
 }
 
