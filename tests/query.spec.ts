@@ -167,6 +167,16 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
+    it("must filter for number property non-equality (reversed order)", () => {
+        const filter = filterFactory.createQuery("5.7 != Category.property").filter;
+
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 1.3 }, ["Other Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({}, ["Category"])));
+    });
+
     it("must filter for string property equality", () => {
         const filter = filterFactory.createQuery("Category.property = \"test\"").filter;
 

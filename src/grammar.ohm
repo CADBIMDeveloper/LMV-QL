@@ -44,7 +44,7 @@ Filter {
     
     MoreThanOrEqualExpr = propertySequence ">=" expressionConst | expressionConst "<=" propertySequence
 
-    NonEqualityExpr = propertySequence nonEqualSign expressionConst
+    NonEqualityExpr = propertySequence nonEqualSign expressionConst | expressionConst nonEqualSign propertySequence
 
     StartsWithExpr = propertySequence likeWord startsWithConst
 
