@@ -113,7 +113,44 @@ const createPropertiesComparisonExpression = (
     numberComparisonRule: (elementPropertyValue: number, constraint: number, filterSettings: QuerySettings) => boolean,
     textComparisonRule: (elementPropertyValue: string, constraint: string) => boolean): PropertiesComparisonExpression => {
     return (firstPropertyDefinition, secondPropertyDefinition) => {
-        throw new Error("Property to property comparison feature is under development");
+        return (filterSettings, element) => {
+            if (!(compareCategories(element.categoriesList, firstPropertyDefinition.categories)
+                && compareCategories(element.categoriesList, secondPropertyDefinition.categories)))
+                return false;
+
+            const firstPropertyValues = expandTemplateCategoriesForValue(firstPropertyDefinition.categories, element.categoriesList.length)
+                .map(x => element.getPropertyValue(firstPropertyDefinition.propertyName, x));
+
+            const secondPropertyValues = expandTemplateCategoriesForValue(secondPropertyDefinition.categories, element.categoriesList.length)
+                .map(x => element.getPropertyValue(secondPropertyDefinition.propertyName, x));
+
+
+            for (const firstPropertyValue of firstPropertyValues)
+                for (const secondPropertyValue of secondPropertyValues) {
+                    if (isNumberProperty(firstPropertyValue) && isNumberProperty(secondPropertyValue)) {
+                        const firstNumberValue = getNumberPropertyValue(firstPropertyValue, filterSettings);
+                        const secondNumberValue = getNumberPropertyValue(secondPropertyValue, filterSettings);
+
+                        if (numberComparisonRule(firstNumberValue, secondNumberValue, filterSettings))
+                            return true;
+                    }
+
+                    if (isString(firstPropertyValue.value) && isString(secondPropertyValue.value)) {
+                        const firstStringValue = filterSettings.stringCaseSensitive
+                            ? firstPropertyValue.value
+                            : firstPropertyValue.value.toLocaleLowerCase();
+
+                        const secondStringValue = filterSettings.stringCaseSensitive
+                            ? secondPropertyValue.value
+                            : secondPropertyValue.value.toLocaleLowerCase();
+
+                        if (textComparisonRule(firstStringValue, secondStringValue))
+                            return true;
+                    }
+                }
+
+            return false;
+        }
     }
 }
 

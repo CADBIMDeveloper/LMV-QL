@@ -258,6 +258,74 @@ describe("Filter tests", () => {
         assert.isTrue(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
+    it("must filter for 2 element properties equality", () => {
+        const filter = filterFactory.createQuery("Category.property1 = Category.property2").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Other Category"])));
+    });
+
+    it("must filter for 2 element properties > comparison", () => {
+        const filter = filterFactory.createQuery("Category.property1 > Category.property2").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "abd", property2: "abc" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Other Category"])));
+    });
+
+    it("must filter for 2 element properties >= comparison", () => {
+        const filter = filterFactory.createQuery("Category.property1 >= Category.property2").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "abd", property2: "abc" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Other Category"])));
+    });
+
+    it("must filter for 2 element properties < comparison", () => {
+        const filter = filterFactory.createQuery("Category.property1 < Category.property2").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "abc", property2: "abd" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Other Category"])));
+    });
+
+    it("must filter for 2 element properties <= comparison", () => {
+        const filter = filterFactory.createQuery("Category.property1 <= Category.property2").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: "abc", property2: "abd" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 1.3, property2: 5.7 }, ["Other Category"])));
+    });
+
+    it("must filter for 2 element properties non-equality", () => {
+        const filter = filterFactory.createQuery("Category.property1 != Category.property2").filter;
+
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property1: "test", property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 1.3 }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: "test" }, ["Category"])));
+        assert.isTrue(filter(new SimpleFilterableElement({ property1: 5.7, property2: 5.7 }, ["Other Category"])));
+    });
+
     it("must support logical and filter", () => {
         const filter = filterFactory.createQuery("Category.property >= 1.3 && Category.property <= 5.7").filter;
 
@@ -328,8 +396,8 @@ describe("Filter tests", () => {
 
         assert.isTrue(filterFactory.createQuery("Category.property in [5.7]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
-        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
-        assert.isTrue(filterFactory.createQuery("Category.property in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property in [\"test\"]").filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
     });
 
     it("must support NOT IN operator", () => {
@@ -343,9 +411,9 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createQuery("Category.property not in [5.7]").filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
         assert.isFalse(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
         assert.isTrue(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: 1.3 }, ["Category"])));
-        assert.isFalse(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
-        assert.isFalse(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "test"}, ["Category"])));
-        assert.isTrue(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "abc"}, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("Category.property not in [5.7, \"test\"]").filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isFalse(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isTrue(filterFactory.createQuery("Category.property not in [\"test\"]").filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
     })
 
     it("must filter with top wildcard", () => {
