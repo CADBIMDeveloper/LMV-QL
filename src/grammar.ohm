@@ -36,13 +36,13 @@ Filter {
 
     EqualityExpr = propertySequence "=" expressionConst | expressionConst "=" propertySequence
     
-    LessThanExpr = propertySequence "<" expressionConst
+    LessThanExpr = propertySequence "<" expressionConst | expressionConst ">" propertySequence
     
-    MoreThanExpr = propertySequence ">" expressionConst
+    MoreThanExpr = propertySequence ">" expressionConst | expressionConst "<" propertySequence
     
-    LessThanOrEqualExpr = propertySequence "<=" expressionConst
+    LessThanOrEqualExpr = propertySequence "<=" expressionConst | expressionConst ">=" propertySequence
     
-    MoreThanOrEqualExpr = propertySequence ">=" expressionConst
+    MoreThanOrEqualExpr = propertySequence ">=" expressionConst | expressionConst "<=" propertySequence
 
     NonEqualityExpr = propertySequence nonEqualSign expressionConst
 
