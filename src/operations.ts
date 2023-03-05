@@ -187,7 +187,7 @@ export const compileFilter: FilterActionDict<Filter> = {
                     ? { type: "number", value: x } satisfies SimpleNumberValue
                     : { type: "simple", value: x } satisfies SimpleValue
             })
-        .map(x => valueComparionExpression(propertyDefinition, x));
+            .map(x => valueComparionExpression(propertyDefinition, x));
 
         return (filterSettings, element) => filters.reduce((acc, elem) => acc || elem(filterSettings, element), false);
     },
@@ -208,7 +208,7 @@ export const compileFilter: FilterActionDict<Filter> = {
                     ? { type: "number", value: x } satisfies SimpleNumberValue
                     : { type: "simple", value: x } satisfies SimpleValue
             })
-        .map(x => valueComparionExpression(propertyDefinition, x));
+            .map(x => valueComparionExpression(propertyDefinition, x));
 
         return (filterSettings, element) => filters.reduce((acc, elem) => acc && !elem(filterSettings, element), true);
     },
