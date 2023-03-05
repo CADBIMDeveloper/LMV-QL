@@ -143,6 +143,36 @@ const createComparisonExpression = (
     }
 }
 
+const equalityExpression = createComparisonExpression(
+    (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
+    (elementPropertyValue, constraint) => elementPropertyValue === constraint);
+
+const lessThanExpression = createComparisonExpression(
+    (elementPropertyValue, constraint, filterSettings) => isLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
+    (elementPropertyValue, constraint) => elementPropertyValue < constraint);
+
+const lessThanOrEqualExpression = createComparisonExpression(
+    (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
+    (elementPropertyValue, constraint) => elementPropertyValue <= constraint);
+
+const moreThanExpression = createComparisonExpression(
+    (elementPropertyValue, constraint, filterSettings) => isMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
+    (elementPropertyValue, constraint) => elementPropertyValue > constraint);
+
+const moreThanOrEqualExpression = createComparisonExpression(
+    (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
+    (elementPropertyValue, constraint) => elementPropertyValue >= constraint);
+
+const nonEqualityExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode): Filter => {
+    const equalityExpression = createComparisonExpression(
+        (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
+        (elementPropertyValue, constraint) => elementPropertyValue === constraint)
+
+    const equalityCheck = equalityExpression(propertyNode, _, valueNode);
+
+    return (settings, element) => !equalityCheck(settings, element);
+}
+
 export const compileFilter: FilterActionDict<Filter> = {
     exactElement: (node) => {
         const propertyDefinition: Category = node.getPropertyDefinition();
@@ -150,25 +180,25 @@ export const compileFilter: FilterActionDict<Filter> = {
         return (_, element) => compareCategories(element.categoriesList, propertyDefinition.categories);
     },
 
-    EqualityExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue === constraint),
+    EqualityExpr: equalityExpression,
 
-    LessThanExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue < constraint),
+    PropertiesEqualityExpr: equalityExpression,
 
-    LessThanOrEqualExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrLessThan(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue <= constraint),
+    LessThanExpr: lessThanExpression,
 
-    MoreThanExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue > constraint),
+    PropertiesLessThanExpr: lessThanExpression,
 
-    MoreThanOrEqualExpr: createComparisonExpression(
-        (elementPropertyValue, constraint, filterSettings) => isAlmostEqualOrMoreThan(elementPropertyValue, constraint, filterSettings.tolerance),
-        (elementPropertyValue, constraint) => elementPropertyValue >= constraint),
+    LessThanOrEqualExpr: lessThanOrEqualExpression,
+
+    PropertiesLessThanOrEqualExpr: lessThanOrEqualExpression,
+
+    MoreThanExpr: moreThanExpression,
+
+    PropertiesMoreThanExpr: moreThanExpression,
+
+    MoreThanOrEqualExpr: moreThanOrEqualExpression,
+
+    PropertiesMoreThanOrEqualExpr: moreThanOrEqualExpression,
 
     BoolAnd_and: (leftNode, _, rightNode) => (filterSettings, element) =>
         leftNode.compileFilter()(filterSettings, element) && rightNode.compileFilter()(filterSettings, element),
@@ -178,15 +208,9 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     PriExp_paren: (_1, node, _2) => (filterSettings, element) => node.compileFilter()(filterSettings, element),
 
-    NonEqualityExpr: (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
-        const equalityExpression = createComparisonExpression(
-            (elementPropertyValue, constraint, filterSettings) => isAlmostEqual(elementPropertyValue, constraint, filterSettings.tolerance),
-            (elementPropertyValue, constraint) => elementPropertyValue === constraint)
+    NonEqualityExpr: nonEqualityExpression,
 
-        const equalityCheck = equalityExpression(propertyNode, _, valueNode);
-
-        return (settings, element) => !equalityCheck(settings, element);
-    },
+    PropertiesNonEqualityExpr: nonEqualityExpression,
 
     NotExpr: (_1, _2, filterExpr, _3) => (filterSettings, element) => !filterExpr.compileFilter()(filterSettings, element),
 
