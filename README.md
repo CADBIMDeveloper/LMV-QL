@@ -176,6 +176,10 @@ If you want to include a text with quotes like `some "value" of something` then 
 If you want to include `%` sign into `like` expression you also need to escape it with `\` sign:
 `category.element.property like "%some \% of something"`
 
+>LMV-QL also supports reversed order of aruments, e.g. you can write something like `5 <= *.property and property <= 7`
+
+>LMV-QL also can compare two properties values: `*.Mark = *.[Type Mark]`
+
 #### IN / NOT IN
 LMV-QL can check if the model element property is in some list of string or numerical values.
 
