@@ -63,6 +63,9 @@ const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): proper
 }
 
 const isNumberProperty = (value: PropertyValue): value is NumberPropertyValue => typeof value.value === "number";
+const isPropertyValueDefinition = (value: PropertyDefinition): value is Property => value.type === "property-value";
+const isValueDefinition = (value: PropertyDefinition): value is SimpleValue | SimpleNumberValue => value.type === "simple" || value.type === "number";
+
 const isString = (value: number | string | undefined): value is string => typeof value === "string";
 
 type ComparisonExpression = (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => Filter;
@@ -110,9 +113,12 @@ const createComparisonExpression = (
 
     const definedComparisonExpression = createDefinedComparisonExpression(numberComparisonRule, textComparisonRule);
 
-    return (propertyNode: ohm.NonterminalNode, _: ohm.TerminalNode, valueNode: ohm.NonterminalNode) => {
-        const propertyDefinition: Property = propertyNode.getPropertyDefinition();
-        const valueDefinition: (SimpleValue | SimpleNumberValue) = valueNode.getPropertyDefinition();
+    return (leftNode: ohm.NonterminalNode, _: ohm.TerminalNode, rightNode: ohm.NonterminalNode) => {
+        const leftNodeDefinion = leftNode.getPropertyDefinition();
+        const rightNodeDefinition = rightNode.getPropertyDefinition();
+
+        const propertyDefinition: Property = isPropertyValueDefinition(leftNodeDefinion) ? leftNodeDefinion : rightNodeDefinition;
+        const valueDefinition: (SimpleValue | SimpleNumberValue) = isValueDefinition(rightNodeDefinition) ? rightNodeDefinition : leftNodeDefinion;
 
         return definedComparisonExpression(propertyDefinition, valueDefinition);
     }
