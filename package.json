@@ -1,6 +1,6 @@
 {
   "name": "lmv-ql",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Autodesk Platform Services (formerly Forge) viewer model query language and engine",
   "types": "./build/types/index.d.ts",
   "main": "./build/index.js",
