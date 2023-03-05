@@ -30,6 +30,8 @@ Filter {
         | NotExpr
 
     ComparisonExp = EqualityExpr | LessThanExpr | MoreThanExpr | LessThanOrEqualExpr | MoreThanOrEqualExpr | NonEqualityExpr 
+        | PropertiesEqualityExpr | PropertiesLessThanExpr | PropertiesMoreThanExpr | PropertiesLessThanOrEqualExpr 
+        | PropertiesMoreThanOrEqualExpr | PropertiesNonEqualityExpr 
         | StartsWithExpr | EndsWithExpr | InExpr | NotInExpr | exactElement
 
     NotExpr = notOperation "(" FilterExpr ")"
@@ -45,6 +47,18 @@ Filter {
     MoreThanOrEqualExpr = propertySequence ">=" expressionConst | expressionConst "<=" propertySequence
 
     NonEqualityExpr = propertySequence nonEqualSign expressionConst | expressionConst nonEqualSign propertySequence
+
+    PropertiesEqualityExpr = propertySequence "=" propertySequence
+
+    PropertiesLessThanExpr = propertySequence "<" propertySequence
+
+    PropertiesMoreThanExpr = propertySequence ">" propertySequence
+
+    PropertiesLessThanOrEqualExpr = propertySequence "<=" propertySequence
+
+    PropertiesMoreThanOrEqualExpr = propertySequence ">=" propertySequence
+
+    PropertiesNonEqualityExpr = propertySequence nonEqualSign propertySequence
 
     StartsWithExpr = propertySequence likeWord startsWithConst
 

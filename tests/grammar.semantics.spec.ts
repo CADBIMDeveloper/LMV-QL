@@ -129,6 +129,39 @@ describe("Filter grammar semantics tests", () => {
         assertIsInvalidFilterString("*.* = 5.7");
     });
 
+    it("two properties are equal comparison filter", () => {
+        assertIsValidFilterString("c1.e1.prop1 = c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 = *.prop2");
+    });
+
+    it ("one object property is less than other", () => {
+        assertIsValidFilterString("c1.e1.prop1 < c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 < *.prop2");
+    });
+
+    it ("one object property is greater than other", () => {
+        assertIsValidFilterString("c1.e1.prop1 > c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 > *.prop2");
+    });
+
+    it ("one object property is less or equal than other", () => {
+        assertIsValidFilterString("c1.e1.prop1 <= c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 <= *.prop2");
+    });
+
+    it ("one object property is greater or equal than other", () => {
+        assertIsValidFilterString("c1.e1.prop1 >= c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 >= *.prop2");
+    });
+
+    it("two properties are not equal equal comparison filter", () => {
+        assertIsValidFilterString("c1.e1.prop1 != c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 != *.prop2");
+
+        assertIsValidFilterString("c1.e1.prop1 <> c1.e1.prop2");
+        assertIsValidFilterString("*.prop1 <> *.prop2");
+    });
+
     it("grouped single expression filter", () => assertIsValidFilterString("(c1.sc1.v >= -57)"));
 
     it("simple logical and filter", () => {

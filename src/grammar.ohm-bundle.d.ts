@@ -2,7 +2,7 @@
 // This file was generated from grammar.ohm by `ohm generateBundles`.
 
 import {
-  ActionDict,
+  BaseActionDict,
   Grammar,
   IterationNode,
   Node,
@@ -11,7 +11,7 @@ import {
   TerminalNode
 } from 'ohm-js';
 
-export interface FilterActionDict<T> extends ActionDict<T> {
+export interface FilterActionDict<T> extends BaseActionDict<T> {
   Expr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FilterWithSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   FilterWithAggregatedSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
@@ -31,6 +31,12 @@ export interface FilterActionDict<T> extends ActionDict<T> {
   LessThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   MoreThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   NonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
+  PropertiesEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  PropertiesLessThanExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  PropertiesMoreThanExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  PropertiesLessThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  PropertiesMoreThanOrEqualExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
+  PropertiesNonEqualityExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   StartsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   EndsWithExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: NonterminalNode) => T;
   InExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: NonterminalNode, arg2: TerminalNode, arg3: NonterminalNode, arg4: TerminalNode) => T;
