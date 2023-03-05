@@ -34,7 +34,7 @@ Filter {
 
     NotExpr = notOperation "(" FilterExpr ")"
 
-    EqualityExpr = propertySequence "=" expressionConst
+    EqualityExpr = propertySequence "=" expressionConst | expressionConst "=" propertySequence
     
     LessThanExpr = propertySequence "<" expressionConst
     

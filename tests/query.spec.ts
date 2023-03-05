@@ -67,6 +67,16 @@ describe("Filter tests", () => {
         assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
     });
 
+    it("must filter for number property equality (reversed order)", () => {
+        const filter = filterFactory.createQuery("5.7 = Category.property").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Other Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 0.3 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+    });
+
     it("must filter for number property which is less than specified value", () => {
         const filter = filterFactory.createQuery("Category.property < 5.7").filter;
 
@@ -119,6 +129,16 @@ describe("Filter tests", () => {
 
     it("must filter for string property equality", () => {
         const filter = filterFactory.createQuery("Category.property = \"test\"").filter;
+
+        assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: "abc" }, ["Other Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({ property: 5.7 }, ["Category"])));
+        assert.isFalse(filter(new SimpleFilterableElement({}, ["Category"])));
+    });
+
+    it("must filter for string property equality (reversed order)", () => {
+        const filter = filterFactory.createQuery("\"test\" = Category.property").filter;
 
         assert.isTrue(filter(new SimpleFilterableElement({ property: "test" }, ["Category"])));
         assert.isFalse(filter(new SimpleFilterableElement({ property: "Test" }, ["Category"])));
