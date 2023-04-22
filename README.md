@@ -29,6 +29,7 @@ LMV-QL is a query language for filtering model elements in [Autodesk Platform Se
     - [Filtered properties selection](#filtered-properties-selection)
     - [Aggregation functions](#aggregation-functions)
     - [Aggregation functions with grouping](#aggregation-functions-with-grouping)
+    - [All node properties selector](#all-node-properties-selector)
 - [Query settings](#query-settings)
 
 ## Quick tour
@@ -246,6 +247,8 @@ LMV-QL can contain:
   - without filter expression
   - with aggregation functions (sum, min, max, avg, count)
   - with an ability to group by single or multiple fields
+  - `*` - no filter and returns all property values
+  - with filter, returning all property values
 
 #### Simple properties selection
 
@@ -296,6 +299,13 @@ Walls! -> sum(*.Area) as total_area, max(*.Area) as max_area, min(*.Area) as min
 > You can omit filter part `Walls! ->` to perform calculation on all element in the model
 
 ![grouping-aggregated-query](./assets/grouping-aggregated-query.png)
+
+#### All node properties selector
+You can tell LMV_QL to return all property values with `*` sign like:
+```
+Walls! -> *
+```
+Or even simpler `*` expression is also valid to get all node properties values
 
 ## Query settings
 
