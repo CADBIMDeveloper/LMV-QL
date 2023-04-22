@@ -98,6 +98,27 @@ export class PropertyValuesQueryFactory {
         return categories.reverse();
     }
 
+    getAllAttributeIds(dbId: number): number[] {
+        const attributeIds: number[] = [];
+
+        let instanceDbId: number | string | undefined = undefined;
+
+        this.propertyDatabase.enumObjectProperties(dbId, (attrId, attrValueId) => {
+            if (attrId === this.attributes.instanceOfAttributeId)
+                instanceDbId = this.propertyDatabase.getAttrValue(attrId, attrValueId);
+            else
+                attributeIds.push(attrId);
+        });
+
+        if (typeof instanceDbId === "number") {
+            const instanceAttributeIds = this.getAllAttributeIds(instanceDbId);
+
+            attributeIds.splice(attributeIds.length, 0, ...instanceAttributeIds);
+        }
+
+        return attributeIds;
+    }
+
     private findCachedPropertyValue(dbId: number, attributeId: number): PropertyValue | undefined {
         const nodeCache = this.propertiesValuesCache.get(dbId);
 
