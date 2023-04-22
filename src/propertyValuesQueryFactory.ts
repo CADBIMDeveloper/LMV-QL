@@ -98,6 +98,10 @@ export class PropertyValuesQueryFactory {
         return categories.reverse();
     }
 
+    getObjectProperties(dbId: number): PropertyValue[] {
+        return this.getAllAttributeIds(dbId).map(x => this.getNodePropertyValue(dbId, x));
+    }
+
     private getAllAttributeIds(dbId: number): number[] {
         const attributeIds: number[] = [];
 
