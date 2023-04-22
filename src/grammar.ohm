@@ -1,12 +1,15 @@
 Filter {
     Expr 
         = FilterWithSelectExpr
+        | FilterWithSelectAllExpr
         | FilterWithGroupedAggregedSelectExpr
         | FilterWithAggregatedSelectExpr
         | AggregatedSelectionWithGroups
         | AggregatedSelectionClause
         | FilterExpr
         | PropertiesSelectExpr
+
+    FilterWithSelectAllExpr = FilterExpr "->" anyProperty
     
     FilterWithSelectExpr = FilterExpr "->" PropertiesSelectExpr
 
