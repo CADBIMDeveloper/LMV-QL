@@ -98,7 +98,7 @@ export class PropertyValuesQueryFactory {
         return categories.reverse();
     }
 
-    getAllAttributeIds(dbId: number): number[] {
+    private getAllAttributeIds(dbId: number): number[] {
         const attributeIds: number[] = [];
 
         let instanceDbId: number | string | undefined = undefined;
