@@ -4,7 +4,7 @@ import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactor
 import { IQueryableElement, PropertyValue } from "./queryableElement";
 import { FilterActionDict } from "./grammar.ohm-bundle";
 import { QuerySettings } from "./querySettings";
-import { getNumberPropertyValue, NumberPropertyValue } from "./numberPropertyValue";
+import { getNumberPropertyValue, isNumberProperty, NumberPropertyValue } from "./numberPropertyValue";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
 export type Filter = (settings: QuerySettings, element: IQueryableElement) => boolean;
@@ -63,7 +63,6 @@ const isNumberValueDefinition = (propertyDefinition: PropertyDefinition): proper
     return propertyDefinition.type === "number";
 }
 
-const isNumberProperty = (value: PropertyValue): value is NumberPropertyValue => typeof value.value === "number";
 const isPropertyValueDefinition = (value: PropertyDefinition): value is Property => value.type === "property-value";
 const isValueDefinition = (value: PropertyDefinition): value is SimpleValue | SimpleNumberValue => value.type === "simple" || value.type === "number";
 

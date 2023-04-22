@@ -1,5 +1,6 @@
 import { AttributeDefinition } from "../propertyDatabase";
 import { QuerySettings } from "./querySettings";
+import { PropertyValue } from "./queryableElement";
 import { convertUnits, ModelUnits, ModelUnitTypes } from "./units";
 
 export type NumberPropertyValue = {
@@ -26,6 +27,8 @@ export const getNumberPropertyValue = (property: NumberPropertyValue, filterSett
 
     return applyPrecision(convertedValue, filterSettings, propertyAttribute.precision);
 }
+
+export const isNumberProperty = (value: PropertyValue): value is NumberPropertyValue => typeof value.value === "number";
 
 const applyPrecision = (value: number, filterSettings: QuerySettings, attrubutePrecision: number): number => {
     // webpack://LMV/src/measurement/UnitFormatter.js formatNumber function uses toFixed(precision)
