@@ -13,6 +13,7 @@ import {
 
 export interface FilterActionDict<T> extends BaseActionDict<T> {
   Expr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
+  SelectAllExpr?: (this: NonterminalNode, arg0: NonterminalNode) => T;
   FilterWithSelectAllExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   FilterWithSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;
   FilterWithAggregatedSelectExpr?: (this: NonterminalNode, arg0: NonterminalNode, arg1: TerminalNode, arg2: NonterminalNode) => T;

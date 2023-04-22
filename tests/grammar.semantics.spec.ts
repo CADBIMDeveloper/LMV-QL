@@ -311,5 +311,7 @@ describe("Filter grammar semantics tests", () => {
         assertIsValidFilterString("category! -> *");
         assertIsValidFilterString("category.Element.property = 5.7 -> *");
         assertIsValidFilterString("x.c = 1 or ((a.b = 5 or a.c = 7) and (b.a = 1 or b.c = 3)) -> *");
-    })
+    });
+
+    it("must support select all expression", () => assertIsValidFilterString("*"));
 });

@@ -8,6 +8,9 @@ Filter {
         | AggregatedSelectionClause
         | FilterExpr
         | PropertiesSelectExpr
+        | SelectAllExpr
+
+    SelectAllExpr = anyProperty
 
     FilterWithSelectAllExpr = FilterExpr "->" anyProperty
     
