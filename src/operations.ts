@@ -15,6 +15,7 @@ export type ElementQuery = {
     filter: ElementFilter;
     selectProperties: SelectValueQuery[];
     aggregateProperties: AggregatedValueQuery[];
+    selectAll: boolean;
 }
 
 export type SelectValueQuery = {
@@ -307,11 +308,15 @@ export const compileFilter: FilterActionDict<Filter> = {
 
     AggregatedSelectionWithGroups: (_1, _2, _3) => (_settings, _element) => true,
 
+    SelectAllExpr: (_) => (_settings, _element) => true,
+
     FilterWithSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
 
     FilterWithAggregatedSelectExpr: (filterNode, _1, _2) => filterNode.compileFilter(),
 
-    FilterWithGroupedAggregedSelectExpr: (filterNode, _1, _2, _3, _4) => filterNode.compileFilter()
+    FilterWithGroupedAggregedSelectExpr: (filterNode, _1, _2, _3, _4) => filterNode.compileFilter(),
+
+    FilterWithSelectAllExpr: (filterNode, _1, _2) => filterNode.compileFilter()
 }
 
 export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
@@ -320,6 +325,10 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     AggregatedSelectionClause: (_) => [],
 
     FilterWithAggregatedSelectExpr: (_1, _2, _3) => [],
+
+    SelectAllExpr: (_) => [],
+
+    FilterWithSelectAllExpr: (_1, _2, _3) => [],
 
     FilterWithGroupedAggregedSelectExpr: (_1, _2, _3, _4, groupPropertiesNode) => groupPropertiesNode.compileSelect(),
 
@@ -342,12 +351,36 @@ export const compileSelect: FilterActionDict<SelectValueQuery[]> = {
     propertySequence: (node) => [{ fun: createPropertyValueGetterFunction(node) }]
 }
 
+export const compileSelectAll: FilterActionDict<boolean> = {
+    SelectAllExpr: (_) => true,
+
+    FilterWithSelectAllExpr: (_1, _2, _3) => true,
+
+    FilterWithSelectExpr: (_1, _2, _3) => false,
+
+    FilterWithGroupedAggregedSelectExpr: (_1, _2, _3, _4, _5) => false,
+
+    FilterWithAggregatedSelectExpr: (_1, _2, _3) => false,
+
+    AggregatedSelectionWithGroups: (_1, _2, _3) => false,
+
+    AggregatedSelectionClause: (_) => false,
+
+    FilterExpr: (_) => false,
+
+    PropertiesSelectExpr: (_) => false
+}
+
 export const compileAggregate: FilterActionDict<AggregatedValueQuery[]> = {
     FilterWithSelectExpr: (_1, _2, _3) => [],
 
     FilterExpr: (_) => [],
 
     PropertiesSelectExpr: (_) => [],
+
+    SelectAllExpr: (_) => [],
+
+    FilterWithSelectAllExpr: (_1, _2, _3) => [],
 
     FilterWithAggregatedSelectExpr: (_1, _2, aggregateSelectNode) => aggregateSelectNode.compileAggregate(),
 

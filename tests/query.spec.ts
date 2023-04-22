@@ -463,4 +463,14 @@ describe("Filter tests", () => {
         assert.isTrue(filterFactory.createQuery("Top.*.property = 5.7 -> sum(*.property), min(*.property) group by *.name, *.otherProp").filter(complexElement));
         assert.isFalse(filterFactory.createQuery("Top.*.property = 5.8 -> sum(*.property), min(*.property) group by *.name, *.otherProp").filter(complexElement));
     });
+
+    it("must get correct selectAll flag for the queries with asterics", () => {
+        assert.isTrue(filterFactory.createQuery("*").selectAll);
+        assert.isTrue(filterFactory.createQuery("cat.*.prop = 5.7 -> *").selectAll);
+
+        assert.isFalse(filterFactory.createQuery("Category.property >= 1.3 && Category.property <= 5.7").selectAll);
+        assert.isFalse(filterFactory.createQuery("Category!").selectAll);
+        assert.isFalse(filterFactory.createQuery("Category.property <= 5.7 -> *.property").selectAll);
+        assert.isFalse(filterFactory.createQuery("Category.property <= 5.7 -> sum(*.property)").selectAll);
+    });
 });

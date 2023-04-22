@@ -1,5 +1,8 @@
 import grammar from "./grammar.ohm-bundle";
-import { AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery } from "./operations";
+import {
+    AggregatedValueQuery, compileAggregate, compileFilter, compileSelect, compileSelectAll,
+    ElementQuery, Filter, getPropertyDefinition, PropertyDefinition, SelectValueQuery
+} from "./operations";
 import { QuerySettings } from "./querySettings";
 import { ParsingError } from "../parsingError";
 
@@ -12,7 +15,8 @@ export class QueryFactory {
         this.semantics.addOperation<PropertyDefinition>("getPropertyDefinition", getPropertyDefinition);
         this.semantics.addOperation<Filter>("compileFilter", compileFilter);
         this.semantics.addOperation<SelectValueQuery[]>("compileSelect", compileSelect);
-        this.semantics.addOperation<AggregatedValueQuery[]>("compileAggregate", compileAggregate);
+        this.semantics.addOperation<AggregatedValueQuery[]>("compileAggregate", compileAggregate)
+        this.semantics.addOperation<boolean>("compileSelectAll", compileSelectAll);
     }
 
     createQuery(filterString: string): ElementQuery {
@@ -26,7 +30,8 @@ export class QueryFactory {
         return {
             filter: node.compileFilter().bind(null, this.settings),
             selectProperties: node.compileSelect(),
-            aggregateProperties: node.compileAggregate()
+            aggregateProperties: node.compileAggregate(),
+            selectAll: node.compileSelectAll()
         };
     }
 }
