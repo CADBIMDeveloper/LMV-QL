@@ -24,6 +24,29 @@ export class PropertyDatabaseQueryableElement implements IQueryableElement {
         return { value: value?.value, attribute: value?.attribute }
     }
 
+    getObjectProperties(): PropertyValue[] {
+        const objectProperties: PropertyValue[] = [];
+
+        const attributeNames = new Set<string>();
+
+        for (let i = this.categoryNodesDbIds.length - 1; i >=0; --i) {
+            const nodeProperties = this.propertyValuesQueryFactory.getObjectProperties(this.categoryNodesDbIds[i]);
+
+            for (const propertyValue of nodeProperties) {
+                const propertyName = propertyValue.attribute?.name;
+
+                if (!propertyName || attributeNames.has(propertyName))
+                    continue;
+
+                objectProperties.push(propertyValue);
+
+                attributeNames.add(propertyName)
+            }
+        }
+
+        return objectProperties;
+    }
+
     private compareCategories(categories: string[]) {
         for (let i = 0; i < categories.length; i++) {
             if (categories[i] !== "*" && this.categoriesList[i] !== categories[i])

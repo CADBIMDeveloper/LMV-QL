@@ -9,4 +9,6 @@ export interface IQueryableElement {
     get categoriesList(): string[];
     
     getPropertyValue(propertyName: string, categories: string[]): PropertyValue;
+
+    getObjectProperties(): PropertyValue[];
 }
