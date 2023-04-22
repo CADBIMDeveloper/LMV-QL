@@ -23,7 +23,11 @@ export class AllPropertiesExtractor implements IQueryPropertiesExtractor {
             if (!property.attribute)
                 continue;
 
-            rowValue.values[property.attribute.name] = isNumberProperty(property) ? getNumberPropertyValue(property, this.settings) : property.value;
+            const propertyName = property.attribute.name;
+
+            rowValue.values[propertyName] = isNumberProperty(property) ? getNumberPropertyValue(property, this.settings) : property.value;
+
+            this.columns.add(propertyName);
         }
 
         this.results.push(rowValue);
