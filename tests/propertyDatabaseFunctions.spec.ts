@@ -246,4 +246,33 @@ describe('Query functions tests', () => {
         assert.equal(values[0].values["element type property"], 1.3);
         assert.equal(values[0].values["instance property"], "instance property value");
     });
+
+    it("must return results for queries with filter + select all", () => {
+        const results = filterElements(pdb, {
+            lmvQuery: "*.Length = 25.4 -> *",
+            lmvQueryOptions: leafNodesOnlySettings,
+            nodes: [1, 2, 3, 4, 7]
+        });
+
+        assert.equal(results.columns.length, 6);
+        assert.isTrue(results.columns.includes("name"));
+        assert.isTrue(results.columns.includes("element property"));
+        assert.isTrue(results.columns.includes("Length"));
+        assert.isTrue(results.columns.includes("element type property"));
+        assert.isTrue(results.columns.includes("instance property"));
+        assert.isTrue(results.columns.includes("Level"));
+
+        assert.equal(results.dbIds.length, 1);
+        assert.equal(results.dbIds[0], 4);
+
+        const values = results.rows;
+
+        assert.equal(values.length, 1);
+        assert.equal(values[0].values.name, "Element");
+        assert.equal(values[0].values.Level, "Level 1");
+        assert.equal(values[0].values.Length, 25.4);
+        assert.equal(values[0].values["element property"], 5.7);
+        assert.equal(values[0].values["element type property"], 1.3);
+        assert.equal(values[0].values["instance property"], "instance property value");
+    });
 });
