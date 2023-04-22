@@ -1,4 +1,4 @@
-import { UserQueryOptions } from "./output";
+import { QueryResults, UserQueryOptions } from "./output";
 import { QueryFactory } from "./src/queryFactory";
 import { PropertyDatabase } from "./propertyDatabase";
 import { PropertyDatabaseAttributesCollection } from "./src/propertyDatabaseAttributesCollection";
@@ -7,7 +7,7 @@ import { findRootNodes } from "./src/rootsNodesFactory";
 import { PropertyValuesQueryFactory } from "./src/propertyValuesQueryFactory";
 import { createPropertiesExtractor } from "./src/properties/queryPropertiesExtractorsFactory";
 
-export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions) => {
+export const filterElements = (pdb: PropertyDatabase, tag: UserQueryOptions): QueryResults => {
     try {
         const dbIds: number[] = [];
 
