@@ -1,10 +1,10 @@
 import * as ohm from "ohm-js";
 import { compareCategories } from "./elementCategoriesComparer";
 import { expandTemplateCategoriesForValue } from "./expandedWildcategoriesFactory";
-import { IQueryableElement, PropertyValue } from "./queryableElement";
+import { IQueryableElement } from "./queryableElement";
 import { FilterActionDict } from "./grammar.ohm-bundle";
 import { QuerySettings } from "./querySettings";
-import { getNumberPropertyValue, isNumberProperty, NumberPropertyValue } from "./numberPropertyValue";
+import { getNumberPropertyValue, isNumberProperty } from "./numberPropertyValue";
 import { isAlmostEqual, isAlmostEqualOrLessThan, isAlmostEqualOrMoreThan, isLessThan, isMoreThan } from "./numbersComparison";
 
 export type Filter = (settings: QuerySettings, element: IQueryableElement) => boolean;
