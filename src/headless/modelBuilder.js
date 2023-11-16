@@ -21,7 +21,7 @@ export const createModel = async (doc, bubbleNode) => {
         })
     }
 
-    propLoader = await loadProperties();
+    const propLoader = await loadProperties();
 
     modelData.propDbLoader = propLoader;
 

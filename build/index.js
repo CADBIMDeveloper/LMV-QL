@@ -273,7 +273,7 @@ var init_modelBuilder = __esm({
           propLoader2.load();
         });
       };
-      propLoader = await loadProperties();
+      const propLoader = await loadProperties();
       modelData.propDbLoader = propLoader;
       return model;
     };
