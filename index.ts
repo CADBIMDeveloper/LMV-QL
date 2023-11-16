@@ -1,5 +1,5 @@
 import { ComputeSettings, ExpressionComputeResults, QueryResults, Settings, UserQueryOptions } from "./output";
-import { IModel, IPropertyDatabase } from "./model";
+import { IBubbleNode, IDocumentNode, IModel, IPropertyDatabase } from "./model";
 import { engine } from "./engine";
 
 export async function query(model: IModel, query: string, options?: Partial<Settings>): Promise<QueryResults> {
@@ -10,6 +10,10 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
   const nodes = lmvQueryOptions.dbIds.length === 0 ? getModelNodesForSearch(model) : lmvQueryOptions.dbIds;
 
   return await queryPropertyDatabase(propertyDatabase, query, nodes, lmvQueryOptions);
+}
+
+export async function headlessQuery(viewerDocument: IDocumentNode, bubbleNode: IBubbleNode, query: string, options?: Partial<Settings>): Promise<QueryResults> {
+  throw new Error("This feature is under development");  
 }
 
 export async function computeExpressionValue(model: IModel, dbId: number, queryString: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {
