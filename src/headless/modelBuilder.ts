@@ -1,4 +1,4 @@
-import { IBubbleNode, IDocumentNode, IInstanceTree, IModel, IPropertyDatabase } from "../../model";
+import { IBubbleNode, IDocumentNode } from "../../model";
 import { loadSVF1Fragments, loadSVF2Fragments } from "./svfFragments";
 
 export const createModel = async (doc: IDocumentNode, bubbleNode: IBubbleNode) => {
