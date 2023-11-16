@@ -218,7 +218,7 @@ var init_svfFragments = __esm({
       });
     };
     loadSVF1Fragments = (doc, bubbleNode) => {
-      const propertyDbPath2 = bubbleNode.findPropertyDbPath();
+      const propertyDbPath = bubbleNode.findPropertyDbPath();
       const modelRootUrl = doc.getFullPath(doc.getViewableUrn(bubbleNode));
       function getBasePath(path) {
         var basePath = "";
@@ -233,7 +233,7 @@ var init_svfFragments = __esm({
         basePath: getBasePath(modelRootUrl),
         queryParams: "acmsession=" + acmSessionId,
         loadInstanceTree: true,
-        sharedPropertyDbPath: doc.getFullPath(propertyDbPath2),
+        sharedPropertyDbPath: doc.getFullPath(propertyDbPath),
         bubbleNode
       };
       const loadContext = Autodesk.Viewing.endpoint.initLoadContext(loadOptions);
@@ -264,6 +264,7 @@ var init_modelBuilder = __esm({
       const fragId2dbId = bubbleNode.isSVF2() ? await loadSVF2Fragments(doc, bubbleNode) : await loadSVF1Fragments(doc, bubbleNode);
       const modelData = { loadOptions: { bubbleNode }, fragments: { fragId2dbId } };
       const model = new Autodesk.Viewing.Model(modelData);
+      const propertyDbPath = bubbleNode.findPropertyDbPath();
       const loadProperties = () => {
         return new Promise((resolve) => {
           const eventDispatcher = new Autodesk.Viewing.EventDispatcher();
