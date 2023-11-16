@@ -1,5 +1,5 @@
 import { ComputeSettings, ExpressionComputeResults, QueryResults, Settings, UserQueryOptions } from "./output";
-import { IModel } from "./model";
+import { IModel, IPropertyDatabase } from "./model";
 import { engine } from "./engine";
 
 export async function query(model: IModel, query: string, options?: Partial<Settings>): Promise<QueryResults> {
@@ -9,9 +9,7 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
 
   const nodes = lmvQueryOptions.dbIds.length === 0 ? getModelNodesForSearch(model) : lmvQueryOptions.dbIds;
 
-  const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
-
-  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions, nodes });
+  return await queryPropertyDatabase(propertyDatabase, query, nodes, lmvQueryOptions);
 }
 
 export async function computeExpressionValue(model: IModel, dbId: number, queryString: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {
@@ -27,6 +25,12 @@ export async function computeExpressionValue(model: IModel, dbId: number, queryS
   const value = results.rows[0].values[results.columns[0]];
 
   return { result: value, error: null };
+}
+
+async function queryPropertyDatabase(propertyDatabase: IPropertyDatabase, query: string, nodes: number[], lmvQueryOptions: Settings): Promise<QueryResults> {
+  const code = `function userFunction(pdb, tag) { const engine = ${engine}; return engine().filterElements(pdb, tag); }`;
+
+  return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions, nodes });
 }
 
 const getModelNodesForSearch = (model: IModel) => {
