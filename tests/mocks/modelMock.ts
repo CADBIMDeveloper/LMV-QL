@@ -1,8 +1,7 @@
-import { IInstanceTree, IModel, IPropertyDatabase } from "../../model";
 import { PropertyDatabase } from "../../propertyDatabase";
 import { pdb } from "./propertyDatabaseMock";
 
-const propertyDatabase: IPropertyDatabase = {
+const propertyDatabase: Autodesk.Viewing.Private.PropDbLoader = {
     executeUserFunction: function <TResult, TOptions>(code: ((pdb: PropertyDatabase, tag?: TOptions | undefined) => TResult) | string, tag?: TOptions | undefined): Promise<TResult> {
         return new Promise<TResult>((resolve) => {
             const userFunction = typeof code === "function"
@@ -13,10 +12,11 @@ const propertyDatabase: IPropertyDatabase = {
 
             resolve(result);
         })
-    }
+    },
+    load() { }
 }
 
-const instanceTree: IInstanceTree = {
+const instanceTree: Autodesk.Viewing.InstanceTree = {
     getRootId: function (): number {
         return pdb.findRootNodes()[0];
     },
@@ -35,7 +35,7 @@ const instanceTree: IInstanceTree = {
     }
 }
 
-export const model: IModel = {
+export const model: Autodesk.Viewing.Model = {
     getPropertyDb: () => {
         return propertyDatabase;
     },

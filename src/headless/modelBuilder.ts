@@ -1,7 +1,6 @@
-import { IBubbleNode, IDocumentNode } from "../../model";
 import { loadSVF1Fragments, loadSVF2Fragments } from "./svfFragments";
 
-export const createModel = async (doc: IDocumentNode, bubbleNode: IBubbleNode) => {
+export const createModel = async (doc: Autodesk.Viewing.Document, bubbleNode: Autodesk.Viewing.BubbleNode) => {
     const fragId2dbId = bubbleNode.isSVF2() ? await loadSVF2Fragments(doc, bubbleNode) : await loadSVF1Fragments(doc, bubbleNode);
 
     const modelData: ModelData = { loadOptions: { bubbleNode }, fragments: { fragId2dbId } };
