@@ -2,7 +2,7 @@ declare namespace Autodesk {
     namespace Viewing {
         const OBJECT_TREE_CREATED_EVENT = 'objectTreeCreated';
 
-        class Model implements IModel {
+        class Model {
             constructor(data: object);
             getInstanceTree(): InstanceTree;
             getPropertyDb(): Private.PropDbLoader;
@@ -34,7 +34,7 @@ declare namespace Autodesk {
 
                 load(): void;
 
-                executeUserFunction<TResult, TOptions>(code: ((pdb: PropertyDatabase, tag?: TOptions) => TResult) | string, tag?: TOptions): Promise<TResult>;
+                executeUserFunction<TResult, TOptions>(code: ((pdb: any, tag?: TOptions) => TResult) | string, tag?: TOptions): Promise<TResult>;
             }
         }
     }
