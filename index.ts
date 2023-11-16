@@ -14,8 +14,12 @@ export async function query(model: IModel, query: string, options?: Partial<Sett
   return propertyDatabase.executeUserFunction<QueryResults, UserQueryOptions>(code, { lmvQuery: query, lmvQueryOptions, nodes });
 }
 
-export async function headlessQuery(viewerDocument: IDocumentNode, bubbleNode: IBubbleNode, query: string, options?: Partial<Settings>): Promise<QueryResults> {
-  throw new Error("This feature is under development");  
+export async function headlessQuery(viewerDocument: IDocumentNode, bubbleNode: IBubbleNode, queryString: string, options?: Partial<Settings>): Promise<QueryResults> {
+  const module = await import("./src/headless/modelBuilder");
+
+  const model = await module.createModel(viewerDocument, bubbleNode);
+  
+  return query(model, queryString, options);
 }
 
 export async function computeExpressionValue(model: IModel, dbId: number, queryString: string, options?: Partial<ComputeSettings>): Promise<ExpressionComputeResults> {
