@@ -1,20 +1,25 @@
+import { IBubbleNode, IDocumentNode } from "../../model";
 import { loadSVF1Fragments, loadSVF2Fragments } from "./svfFragments";
 
-export const createModel = async (doc, bubbleNode) => {
+export const createModel = async (doc: IDocumentNode, bubbleNode: IBubbleNode) => {
     const fragId2dbId = bubbleNode.isSVF2() ? await loadSVF2Fragments(doc, bubbleNode) : await loadSVF1Fragments(doc, bubbleNode);
 
     const modelData = { loadOptions: { bubbleNode }, fragments: { fragId2dbId } };
 
+    // @ts-ignore
     const model = new Autodesk.Viewing.Model(modelData);
 
     const propertyDbPath = bubbleNode.findPropertyDbPath();
 
     const loadProperties = () => {
         return new Promise(resolve => {
+            // @ts-ignore
             const eventDispatcher = new Autodesk.Viewing.EventDispatcher();
 
+            // @ts-ignore
             const propLoader = new Autodesk.Viewing.Private.PropDbLoader(propertyDbPath, model, eventDispatcher);
 
+            // @ts-ignore
             eventDispatcher.addEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT, () => resolve(propLoader));
 
             propLoader.load();
@@ -23,6 +28,7 @@ export const createModel = async (doc, bubbleNode) => {
 
     const propLoader = await loadProperties();
 
+    // @ts-ignore
     modelData.propDbLoader = propLoader;
 
     return model;
