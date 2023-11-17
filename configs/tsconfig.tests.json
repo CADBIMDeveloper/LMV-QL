@@ -1,0 +1,23 @@
+{
+    "extends": "../tsconfig.json",
+    "files": [
+        "../tests/aggregate.spec.ts",
+        "../tests/categoriesComparer.spec.ts",
+        "../tests/expandedWildcategoriesFactory.spec.ts",
+        "../tests/grammar.semantics.spec.ts",
+        "../tests/index.spec.ts",
+        "../tests/numberPropertyValue.spec.ts",
+        "../tests/propertyDatabaseAttributesCollection.spec.ts",
+        "../tests/propertyDatabaseFilterableElement.spec.ts",
+        "../tests/propertyDatabaseFunctions.spec.ts",
+        "../tests/query.spec.ts",
+        "../tests/queryPropertiesDefinition.spec.ts",
+        "../tests/rootsNodesFactory.spec.ts",
+        "../tests/select.spec.ts",
+        "../decs.d.ts"
+    ],
+    "compilerOptions": {
+        "outDir": "../tests/build",
+        "declarationDir": "../tests/build/types"
+    }
+}
