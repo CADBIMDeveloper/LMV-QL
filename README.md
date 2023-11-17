@@ -312,6 +312,20 @@ Or even simpler `*` expression is also valid to get all nodes properties values
 > [!IMPORTANT]
 > This is an experimental feature.
 
+You can run LMV-QL queries without adding an entire APS Viewer application, e.g. without `Autodesk.Viewer.GuiViewer3D` (but you still need to reference viewer library and initialize the environment with `Autodesk.Viewing.Initializer`).
+
+A code snippet:
+```ts
+Autodesk.Viewing.Document.load(urn, async doc => {
+  const root = doc.getRoot();
+  const bubbleNode = root.getDefaultGeometry(); // or whatever you want
+
+  const queryResults = await headlessQuery(doc, bubbleNode, filterExpression, options);
+
+  /* Do whatever you want with query results */
+});
+```
+
 ## Query settings
 
 Queries settings are defined by:
