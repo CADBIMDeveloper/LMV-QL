@@ -23,10 +23,7 @@
     "bundle:engine": "esbuild ./build/obj/propertyDatabaseFunctions.js --bundle --outfile=./build/obj/engine.js --platform=browser --format=iife --global-name=engine --minify",
     "bundle:index": "esbuild ./build/obj/index.js --bundle --outfile=./build/index.js --platform=browser --format=esm",
     "prepack": "npm run build",
-    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && mocha",
-    "test:build": "npm run compile:grammar && npm run test:compile && npm run test:copy-missing-js",
-    "test:compile": "tsc -p ./configs/tsconfig.tests.json",
-    "test:copy-missing-js": "copyfiles ./src/*.js ./tests/build"
+    "test": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && set TS_NODE_PROJECT=./configs/tsconfig.tests.json&& mocha --input-type=module"    
   },
   "repository": {
     "type": "git",
