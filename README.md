@@ -306,7 +306,7 @@ You can tell LMV_QL to return all property values with `*` sign like:
 ```
 Walls! -> *
 ```
-Or even simpler `*` expression is also valid to get all node properties values
+Or even simpler `*` expression is also valid to get all nodes properties values
 
 ## Headless LMV-QL: query model without viewer
 > [!IMPORTANT]
