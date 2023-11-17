@@ -19,5 +19,8 @@
     "compilerOptions": {
         "outDir": "../tests/build",
         "declarationDir": "../tests/build/types"
+    },
+    "ts-node": {
+        "files": true
     }
 }
