@@ -23,7 +23,7 @@
     "bundle:engine": "esbuild ./build/obj/propertyDatabaseFunctions.js --bundle --outfile=./build/obj/engine.js --platform=browser --format=iife --global-name=engine --minify",
     "bundle:index": "esbuild ./build/obj/index.js --bundle --outfile=./build/index.js --platform=browser --format=esm",
     "prepack": "npm run build",
-    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' TS_NODE_PROJECT=./configs/tsconfig.tests.json mocha --input-type=module",
+    "test": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' TS_NODE_PROJECT='./configs/tsconfig.tests.json' mocha",
     "test:windows": "set TS_NODE_COMPILER_OPTIONS={\"module\":\"commonjs\"} && set TS_NODE_PROJECT=./configs/tsconfig.tests.json&& mocha --input-type=module"
   },
   "repository": {

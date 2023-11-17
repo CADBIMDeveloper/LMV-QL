@@ -9,5 +9,4 @@ jobs:
       - name: Run tests
         run: |
           npm install
-          rm ./tsconfig.json
           npm test
